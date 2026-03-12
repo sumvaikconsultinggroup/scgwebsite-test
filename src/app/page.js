@@ -1,6 +1,7 @@
 import Hero from '@/components/home/Hero';
 import ClientLogos from '@/components/home/ClientLogos';
 import Marquee from '@/components/ui/Marquee';
+import SectionDivider from '@/components/ui/SectionDivider';
 import TextRevealSection from '@/components/home/TextRevealSection';
 import ServicesPreview from '@/components/home/ServicesPreview';
 import VideoShowreel from '@/components/home/VideoShowreel';
@@ -22,17 +23,22 @@ export default function Home() {
       <ClientLogos />
       <Marquee variant="gradient" />
       <TextRevealSection />
+      <SectionDivider variant="diamond" />
       <ServicesPreview />
       <Marquee variant="outline" text="RESULTS • IMPACT • GROWTH • INNOVATION • STRATEGY • CREATIVE • " speed={25} />
       <VideoShowreel />
+      <SectionDivider variant="gradient" />
       <WhyChooseUs />
       <StatsSection />
+      <SectionDivider variant="diamond" />
       <ResultsShowcase />
       <BrandTransform />
+      <SectionDivider variant="gradient" />
       <FeaturedWork />
       <InfiniteTextWall />
       <AwardsBanner />
       <Testimonials />
+      <SectionDivider variant="diamond" />
       <ProcessSection />
       <CTASection />
     </>

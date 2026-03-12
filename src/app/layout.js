@@ -3,6 +3,9 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
+import Preloader from "@/components/ui/Preloader";
+import MouseGradient from "@/components/ui/MouseGradient";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 export const metadata = {
   title: "Sumvaik Consulting Group | Futuristic Digital Marketing Agency",
@@ -15,7 +18,10 @@ export default function RootLayout({ children }) {
     <html lang="en" className="dark">
       <body className="antialiased bg-background text-foreground">
         <SmoothScroll>
+          <Preloader />
+          <ScrollProgress />
           <CustomCursor />
+          <MouseGradient />
           <Navbar />
           <main className="relative z-10 min-h-screen">
             {children}
