@@ -1,6 +1,4 @@
-'use client';
 import Link from 'next/link';
-import { FaInstagram, FaTwitter, FaLinkedinIn, FaTiktok, FaYoutube } from 'react-icons/fa';
 
 const footerLinks = {
   'Quick Links': [
@@ -23,52 +21,35 @@ const footerLinks = {
 };
 
 const socials = [
-  { icon: FaInstagram, href: '#', label: 'Instagram' },
-  { icon: FaTwitter, href: '#', label: 'Twitter' },
-  { icon: FaLinkedinIn, href: '#', label: 'LinkedIn' },
-  { icon: FaTiktok, href: '#', label: 'TikTok' },
-  { icon: FaYoutube, href: '#', label: 'YouTube' },
+  { label: 'Instagram', href: '#' },
+  { label: 'Twitter/X', href: '#' },
+  { label: 'LinkedIn', href: '#' },
+  { label: 'TikTok', href: '#' },
+  { label: 'YouTube', href: '#' },
 ];
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-cyan/10 bg-background">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan/30 to-transparent" />
+    <footer className="relative bg-[#050510]">
+      {/* Top gradient line */}
+      <div className="h-px animated-gradient-line" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan to-purple flex items-center justify-center text-background font-bold text-sm">
-                S
-              </div>
-              <span className="text-xl font-bold font-[family-name:var(--font-heading)] gradient-text-cyan">
-                SCG Digital
-              </span>
-            </Link>
-            <p className="text-gray-500 text-sm leading-relaxed mb-6 max-w-sm">
-              Empowering brands with cutting-edge digital marketing, creative branding,
-              and strategic influencer partnerships. Your growth is our mission.
-            </p>
-            <div className="flex gap-3">
-              {socials.map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-10 h-10 rounded-lg border border-gray-700 flex items-center justify-center text-gray-500 hover:text-cyan hover:border-cyan/30 hover:bg-cyan/5 transition-all duration-300"
-                >
-                  <Icon size={16} />
-                </a>
-              ))}
-            </div>
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Large brand heading */}
+        <div className="py-16 md:py-24 text-center">
+          <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-bold font-[family-name:var(--font-heading)] gradient-text leading-none tracking-tighter select-none">
+            SCG Digital
+          </h2>
+        </div>
 
-          {/* Links */}
+        {/* Gradient separator */}
+        <div className="section-divider" />
+
+        {/* Grid: Links + Newsletter */}
+        <div className="py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
+              <h4 className="text-sm font-semibold text-foreground mb-5 uppercase tracking-wider">
                 {title}
               </h4>
               <ul className="space-y-3">
@@ -85,12 +66,52 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Newsletter */}
+          <div>
+            <h4 className="text-sm font-semibold text-foreground mb-5 uppercase tracking-wider">
+              Newsletter
+            </h4>
+            <p className="text-sm text-gray-500 mb-4">
+              Get the latest digital marketing insights delivered weekly.
+            </p>
+            <form action="#" className="flex gap-2">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                className="flex-1 px-4 py-2.5 bg-surface border border-gray-800 rounded-lg text-sm text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 transition-colors"
+              />
+              <button
+                type="submit"
+                className="px-4 py-2.5 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-shadow"
+              >
+                Join
+              </button>
+            </form>
+          </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
+        {/* Social links - text style */}
+        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 pb-12">
+          {socials.map((social) => (
+            <a
+              key={social.label}
+              href={social.href}
+              className="text-sm text-gray-500 hover:text-cyan transition-colors duration-300"
+              data-cursor-hover
+            >
+              {social.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Gradient separator */}
+        <div className="section-divider" />
+
+        {/* Bottom bar */}
+        <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-600">
-            &copy; {new Date().getFullYear()} SCG Digital. All rights reserved.
+            &copy; 2024 SCG Digital. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm text-gray-600 hover:text-gray-400 transition-colors">

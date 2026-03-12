@@ -9,8 +9,7 @@ const steps = [
   {
     number: '01',
     title: 'Discovery',
-    description:
-      'We dive deep into your brand, market, and audience. Through comprehensive research and stakeholder interviews, we uncover the insights that drive strategy.',
+    description: 'We dive deep into your brand, market, and audience through comprehensive research and stakeholder interviews.',
     color: '#00f0ff',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -22,8 +21,7 @@ const steps = [
   {
     number: '02',
     title: 'Strategy',
-    description:
-      'Armed with data, we craft a tailored roadmap. Every tactic is chosen for maximum impact, with clear KPIs and milestones defined upfront.',
+    description: 'Armed with data, we craft a tailored roadmap with clear KPIs and milestones defined upfront.',
     color: '#8b5cf6',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -35,8 +33,7 @@ const steps = [
   {
     number: '03',
     title: 'Execute',
-    description:
-      'Our creative team brings the strategy to life. From content creation to campaign launches, we execute with precision and creative excellence.',
+    description: 'Our creative team brings strategy to life with precision and creative excellence.',
     color: '#ff006e',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -47,8 +44,7 @@ const steps = [
   {
     number: '04',
     title: 'Scale',
-    description:
-      'We analyze, optimize, and amplify what works. Continuous iteration ensures your growth compounds over time, turning wins into lasting momentum.',
+    description: 'We analyze, optimize, and amplify what works. Continuous iteration ensures compounding growth.',
     color: '#39ff14',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -65,7 +61,6 @@ export default function ProcessSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate the connecting line
       gsap.fromTo(
         lineRef.current,
         { scaleX: 0 },
@@ -81,7 +76,6 @@ export default function ProcessSection() {
         }
       );
 
-      // Animate each step with stagger
       stepsRef.current.filter(Boolean).forEach((step, i) => {
         gsap.fromTo(
           step,
@@ -107,13 +101,17 @@ export default function ProcessSection() {
 
   return (
     <section ref={sectionRef} className="relative py-32 md:py-48 px-4 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+      {/* Background */}
+      <div className="absolute inset-0 grid-bg opacity-20" />
+      <div className="gradient-orb w-[600px] h-[600px] bg-purple/5 top-[30%] right-[-15%]" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-20">
-          <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-3">
+        <div className="text-center mb-24">
+          <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
             How We Work
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
             Our <span className="gradient-text">Process</span>
           </h2>
         </div>
@@ -121,14 +119,13 @@ export default function ProcessSection() {
         {/* Timeline */}
         <div className="relative">
           {/* Connecting line */}
-          <div className="hidden md:block absolute top-[60px] left-[10%] right-[10%] h-px z-0">
+          <div className="hidden md:block absolute top-[70px] left-[10%] right-[10%] h-[2px] z-0">
             <div
               ref={lineRef}
               className="w-full h-full origin-left"
               style={{
-                background:
-                  'linear-gradient(90deg, #00f0ff, #8b5cf6, #ff006e, #39ff14)',
-                opacity: 0.3,
+                background: 'linear-gradient(90deg, #00f0ff, #8b5cf6, #ff006e, #39ff14)',
+                opacity: 0.4,
               }}
             />
           </div>
@@ -139,12 +136,12 @@ export default function ProcessSection() {
               <div
                 key={step.number}
                 ref={(el) => (stepsRef.current[i] = el)}
-                className="relative text-center opacity-0"
+                className="relative text-center opacity-0 group"
               >
-                {/* Dot on timeline */}
+                {/* Icon box */}
                 <div className="relative z-10 mx-auto mb-8">
                   <div
-                    className="w-[120px] h-[120px] mx-auto rounded-2xl border flex items-center justify-center transition-all duration-500 hover:scale-105"
+                    className="w-[120px] h-[120px] mx-auto rounded-2xl border flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]"
                     style={{
                       borderColor: `${step.color}33`,
                       background: `${step.color}08`,
@@ -153,12 +150,12 @@ export default function ProcessSection() {
                   >
                     {step.icon}
                   </div>
-                  {/* Glowing dot */}
+                  {/* Glowing dot on timeline */}
                   <div
-                    className="hidden md:block absolute -top-[19px] left-1/2 -translate-x-1/2 w-3 h-3 rounded-full"
+                    className="hidden md:block absolute -top-[19px] left-1/2 -translate-x-1/2 w-4 h-4 rounded-full"
                     style={{
                       background: step.color,
-                      boxShadow: `0 0 12px ${step.color}66`,
+                      boxShadow: `0 0 20px ${step.color}66`,
                     }}
                   />
                 </div>
@@ -180,6 +177,12 @@ export default function ProcessSection() {
                 <p className="text-sm text-gray-400 leading-relaxed max-w-[280px] mx-auto">
                   {step.description}
                 </p>
+
+                {/* Bottom color line on hover */}
+                <div
+                  className="h-[2px] w-0 group-hover:w-full mx-auto mt-6 transition-all duration-500"
+                  style={{ background: `linear-gradient(90deg, transparent, ${step.color}, transparent)` }}
+                />
               </div>
             ))}
           </div>

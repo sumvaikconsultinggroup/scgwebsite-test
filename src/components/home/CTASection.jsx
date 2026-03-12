@@ -45,7 +45,6 @@ export default function CTASection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Stroke fill animation
       const spans = textRef.current?.querySelectorAll('.stroke-fill');
       if (spans) {
         spans.forEach((span) => {
@@ -74,9 +73,16 @@ export default function CTASection() {
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <ParticleCloud />
 
+      {/* Extra gradient orbs */}
+      <div className="gradient-orb w-[600px] h-[600px] bg-cyan/5 top-[10%] left-[-10%]" />
+      <div className="gradient-orb w-[500px] h-[500px] bg-pink/5 bottom-[10%] right-[-10%]" style={{ animationDelay: '-3s' }} />
+
+      {/* Top gradient line */}
+      <div className="absolute top-0 left-0 right-0 h-px animated-gradient-line" />
+
       <div className="relative z-10 text-center px-4 max-w-[90vw]">
         <div ref={textRef}>
-          <h2 className="text-4xl md:text-6xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] leading-[0.95] tracking-tight mb-12">
+          <h2 className="text-5xl md:text-7xl lg:text-[9rem] font-bold font-[family-name:var(--font-heading)] leading-[0.9] tracking-tighter mb-16">
             <span
               className="stroke-fill block"
               style={{
@@ -123,13 +129,13 @@ export default function CTASection() {
         </div>
 
         <MagneticButton href="/contact" className="group" strength={0.4}>
-          <span className="px-10 py-5 text-sm font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-cyan to-purple text-background rounded-full group-hover:shadow-[0_0_40px_rgba(0,240,255,0.4)] transition-shadow duration-300">
+          <span className="px-12 py-6 text-sm font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-cyan via-purple to-cyan bg-[length:200%_100%] text-background rounded-full group-hover:bg-right group-hover:shadow-[0_0_60px_rgba(0,240,255,0.4)] transition-all duration-700">
             Start a Project
           </span>
         </MagneticButton>
 
         {/* Benefits row */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
+        <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
           {benefits.map((benefit) => (
             <div key={benefit.text} className="flex items-center gap-2 text-gray-400">
               <span className="text-cyan">{benefit.icon}</span>
@@ -139,7 +145,7 @@ export default function CTASection() {
         </div>
 
         {/* Trust indicator */}
-        <p className="mt-8 text-xs text-gray-500 tracking-wide">
+        <p className="mt-8 text-xs text-gray-600 tracking-wide">
           Join 500+ brands who chose SCG Digital
         </p>
       </div>

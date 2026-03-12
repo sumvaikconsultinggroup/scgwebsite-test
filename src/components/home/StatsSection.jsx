@@ -8,20 +8,28 @@ import { useCountUp } from '@/hooks/useCountUp';
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { value: 500, suffix: '+', label: 'Brands Served' },
-  { value: 2000, suffix: '+', label: 'Campaigns' },
-  { value: 50, suffix: 'M+', label: 'Total Reach' },
-  { value: 98, suffix: '%', label: 'Success Rate' },
+  { value: 500, suffix: '+', label: 'Brands Served', color: '#00f0ff' },
+  { value: 2000, suffix: '+', label: 'Campaigns Launched', color: '#8b5cf6' },
+  { value: 50, suffix: 'M+', label: 'Total Reach', color: '#ff006e' },
+  { value: 98, suffix: '%', label: 'Success Rate', color: '#39ff14' },
 ];
 
 function StatCounter({ stat, inView }) {
   const count = useCountUp(stat.value, 2000, inView);
   return (
-    <div className="text-center">
-      <div className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-heading)] text-cyan mb-2">
+    <div className="text-center group">
+      <div
+        className="text-5xl md:text-7xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] mb-3 leading-none"
+        style={{ color: stat.color }}
+      >
         {count.toLocaleString()}{stat.suffix}
       </div>
       <div className="text-xs uppercase tracking-[0.2em] text-gray-500">{stat.label}</div>
+      {/* Underline */}
+      <div
+        className="h-px w-0 group-hover:w-full mx-auto mt-4 transition-all duration-500"
+        style={{ background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)` }}
+      />
     </div>
   );
 }
@@ -55,14 +63,18 @@ export default function StatsSection() {
 
   return (
     <section ref={sectionRef} className="relative py-32 md:py-48 px-4 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+      {/* Background */}
+      <div className="absolute inset-0 grid-bg opacity-30" />
+      <div className="gradient-orb w-[600px] h-[600px] bg-cyan/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Scaling text */}
-        <div className="mb-20 text-center">
+        <div className="mb-24 text-center">
           <h2
             ref={textRef}
-            className="text-4xl md:text-6xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] text-foreground leading-[0.9] tracking-tight"
+            className="text-5xl md:text-7xl lg:text-[8rem] font-bold font-[family-name:var(--font-heading)] leading-[0.85] tracking-tight"
           >
-            <span className="text-gray-500">500+ Brands</span>
+            <span className="stroke-text">500+ Brands</span>
             <br />
             <span className="gradient-text">Trust Us</span>
           </h2>

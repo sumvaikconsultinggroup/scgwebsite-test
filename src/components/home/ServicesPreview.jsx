@@ -11,6 +11,7 @@ const services = [
   {
     number: '01',
     title: 'Branding',
+    subtitle: 'Identity That Demands Attention',
     description: 'We build brands that are impossible to ignore. From visual identity to brand strategy, we create systems that resonate and endure.',
     color: '#00f0ff',
     features: ['Visual Identity', 'Brand Strategy', 'Guidelines'],
@@ -21,6 +22,7 @@ const services = [
   {
     number: '02',
     title: 'Social Media',
+    subtitle: 'Content That Stops The Scroll',
     description: 'Content that stops the scroll. Strategies that drive engagement. We turn your social presence into a growth engine.',
     color: '#8b5cf6',
     features: ['Content Creation', 'Community', 'Paid Ads'],
@@ -31,6 +33,7 @@ const services = [
   {
     number: '03',
     title: 'Influencer',
+    subtitle: 'Authentic Voices, Real Impact',
     description: 'Connect with the right voices. We match brands with creators who authentically amplify your message to millions.',
     color: '#ff006e',
     features: ['Creator Matching', 'Campaigns', 'ROI Tracking'],
@@ -77,28 +80,43 @@ export default function ServicesPreview() {
             key={service.title}
             className="flex-shrink-0 w-screen h-screen flex items-center px-8 md:px-16 lg:px-24 relative"
           >
-            {/* Background number */}
+            {/* Background number — massive */}
             <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] md:text-[25vw] font-bold font-[family-name:var(--font-heading)] leading-none select-none pointer-events-none"
-              style={{ color: service.color, opacity: 0.03 }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] md:text-[30vw] font-bold font-[family-name:var(--font-heading)] leading-none select-none pointer-events-none"
+              style={{
+                WebkitTextStroke: `1px ${service.color}08`,
+                WebkitTextFillColor: 'transparent',
+              }}
             >
               {service.number}
             </div>
+
+            {/* Gradient orb for this service */}
+            <div
+              className="gradient-orb w-[500px] h-[500px] top-[20%] right-[10%]"
+              style={{ background: `${service.color}08`, animationDelay: `${i * -2}s` }}
+            />
 
             {/* Content + Image layout */}
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-16 w-full max-w-7xl mx-auto">
               {/* Left: Content */}
               <div className="flex-1 max-w-xl">
-                {/* Number */}
-                <div
-                  className="text-7xl md:text-9xl font-bold font-[family-name:var(--font-heading)] leading-none mb-4"
-                  style={{ color: service.color, opacity: 0.3 }}
-                >
-                  {service.number}
+                {/* Number + subtitle */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div
+                    className="text-6xl md:text-8xl font-bold font-[family-name:var(--font-heading)] leading-none"
+                    style={{ color: `${service.color}30` }}
+                  >
+                    {service.number}
+                  </div>
+                  <div className="w-12 h-px" style={{ background: service.color }} />
+                  <span className="text-xs uppercase tracking-[0.2em]" style={{ color: service.color }}>
+                    {service.subtitle}
+                  </span>
                 </div>
 
                 {/* Title */}
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] text-foreground leading-[0.9] tracking-tight mb-6">
+                <h2 className="text-6xl md:text-8xl lg:text-9xl font-bold font-[family-name:var(--font-heading)] text-foreground leading-[0.85] tracking-tight mb-6">
                   {service.title}
                 </h2>
 
@@ -108,7 +126,7 @@ export default function ServicesPreview() {
                 </p>
 
                 {/* Features */}
-                <div className="flex flex-wrap gap-3 mb-6">
+                <div className="flex flex-wrap gap-3 mb-8">
                   {service.features.map((f) => (
                     <span
                       key={f}
@@ -123,7 +141,7 @@ export default function ServicesPreview() {
                 {/* Result stat */}
                 <div className="mb-8 flex items-baseline gap-3">
                   <span
-                    className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-heading)]"
+                    className="text-5xl md:text-6xl font-bold font-[family-name:var(--font-heading)]"
                     style={{ color: service.color }}
                   >
                     {service.stat}
@@ -135,21 +153,26 @@ export default function ServicesPreview() {
 
                 <Link
                   href="/services"
-                  className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.15em] font-medium transition-all duration-300 hover:gap-4"
+                  className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.15em] font-medium transition-all duration-300 hover:gap-5 group"
                   style={{ color: service.color }}
                   data-cursor-hover
                 >
                   Learn More
-                  <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
-                    <path d="M14 1L19 6M19 6L14 11M19 6H1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <div
+                    className="w-10 h-10 rounded-full border flex items-center justify-center group-hover:scale-110 transition-transform"
+                    style={{ borderColor: `${service.color}33` }}
+                  >
+                    <svg width="16" height="10" viewBox="0 0 20 12" fill="none">
+                      <path d="M14 1L19 6M19 6L14 11M19 6H1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
                 </Link>
               </div>
 
               {/* Right: Image */}
               <div className="hidden md:block flex-1 max-w-md lg:max-w-lg">
                 <div
-                  className="relative aspect-[4/5] rounded-2xl overflow-hidden border"
+                  className="relative aspect-[4/5] rounded-3xl overflow-hidden border"
                   style={{ borderColor: `${service.color}1a` }}
                 >
                   <Image
@@ -167,6 +190,12 @@ export default function ServicesPreview() {
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+
+                  {/* Animated border on bottom */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-[2px]"
+                    style={{ background: `linear-gradient(90deg, transparent, ${service.color}, transparent)` }}
+                  />
                 </div>
               </div>
             </div>
