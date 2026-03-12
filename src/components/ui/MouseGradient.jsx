@@ -7,7 +7,7 @@ export default function MouseGradient() {
   const current = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    if ('ontouchstart' in window) return;
+    if (typeof window === 'undefined' || 'ontouchstart' in window) return;
 
     const handleMouseMove = (e) => {
       mouse.current = { x: e.clientX, y: e.clientY + window.scrollY };

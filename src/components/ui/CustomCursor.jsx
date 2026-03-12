@@ -6,13 +6,17 @@ export default function CustomCursor() {
   const ringRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
   const mouse = useRef({ x: 0, y: 0 });
   const dot = useRef({ x: 0, y: 0 });
   const ring = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     // Hide on touch devices
-    if ('ontouchstart' in window) return;
+    if ('ontouchstart' in window) {
+      setIsTouch(true);
+      return;
+    }
 
     const handleMouseMove = (e) => {
       mouse.current = { x: e.clientX, y: e.clientY };
@@ -75,7 +79,7 @@ export default function CustomCursor() {
     };
   }, [isHovering, isVisible]);
 
-  if (typeof window !== 'undefined' && 'ontouchstart' in window) return null;
+  if (isTouch) return null;
 
   return (
     <>
