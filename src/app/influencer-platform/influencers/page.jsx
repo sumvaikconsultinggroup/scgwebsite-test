@@ -96,16 +96,25 @@ export default function BrowseInfluencersPage() {
               animate={{ opacity: 1, y: 0 }}
               className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-foreground mb-2"
             >
-              Browse <span className="gradient-text">Creators</span>
+              Browse <span className="bg-gradient-to-r from-cyan to-purple bg-clip-text text-transparent">Creators</span>
             </motion.h1>
-            <p className="text-gray-400 text-sm">{filtered.length} creators available</p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-gray-400 text-sm"
+            >
+              {filtered.length} creators available
+            </motion.p>
           </div>
-          <button
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-pink to-purple text-white rounded-lg hover:shadow-[0_0_20px_rgba(255,0,110,0.3)] transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-pink to-purple text-white rounded-xl hover:shadow-[0_0_20px_rgba(255,0,110,0.3)] transition-all"
           >
             <HiPlus /> List Yourself
-          </button>
+          </motion.button>
         </div>
 
         {/* Create Form */}
@@ -117,40 +126,40 @@ export default function BrowseInfluencersPage() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden mb-8"
             >
-              <form onSubmit={handleCreateListing} className="glass rounded-2xl p-8">
+              <form onSubmit={handleCreateListing} className="rounded-2xl p-8 border border-gray-800 bg-surface-light">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold font-[family-name:var(--font-heading)] text-foreground">Create Your Profile</h2>
-                  <button type="button" onClick={() => setShowCreateForm(false)} className="text-gray-500 hover:text-foreground">
+                  <button type="button" onClick={() => setShowCreateForm(false)} className="text-gray-500 hover:text-foreground transition-colors">
                     <HiX size={20} />
                   </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm text-gray-400 mb-1">Name *</label>
-                    <input required value={newName} onChange={(e) => setNewName(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-700 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50" placeholder="Your Name" />
+                    <input required value={newName} onChange={(e) => setNewName(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-800 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 transition-all" placeholder="Your Name" />
                   </div>
                   <div>
                     <label className="block text-sm text-gray-400 mb-1">Location</label>
-                    <input value={newLocation} onChange={(e) => setNewLocation(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-700 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50" placeholder="City, Country" />
+                    <input value={newLocation} onChange={(e) => setNewLocation(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-800 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 transition-all" placeholder="City, Country" />
                   </div>
                   <div>
                     <label className="block text-sm text-gray-400 mb-1">Followers *</label>
-                    <input required value={newFollowers} onChange={(e) => setNewFollowers(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-700 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50" placeholder="e.g. 50K, 1.2M" />
+                    <input required value={newFollowers} onChange={(e) => setNewFollowers(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-800 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 transition-all" placeholder="e.g. 50K, 1.2M" />
                   </div>
                   <div>
                     <label className="block text-sm text-gray-400 mb-1">Engagement Rate (%)</label>
-                    <input value={newEngagement} onChange={(e) => setNewEngagement(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-700 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50" placeholder="e.g. 4.5" />
+                    <input value={newEngagement} onChange={(e) => setNewEngagement(e.target.value)} className="w-full px-4 py-2.5 bg-surface border border-gray-800 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 transition-all" placeholder="e.g. 4.5" />
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm text-gray-400 mb-1">Bio *</label>
-                    <textarea required value={newBio} onChange={(e) => setNewBio(e.target.value)} rows={3} className="w-full px-4 py-2.5 bg-surface border border-gray-700 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 resize-none" placeholder="Tell brands about yourself..." />
+                    <textarea required value={newBio} onChange={(e) => setNewBio(e.target.value)} rows={3} className="w-full px-4 py-2.5 bg-surface border border-gray-800 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 transition-all resize-none" placeholder="Tell brands about yourself..." />
                   </div>
                   <div>
                     <label className="block text-sm text-gray-400 mb-2">Niches *</label>
                     <div className="flex flex-wrap gap-2">
                       {allNiches.map((n) => (
                         <button key={n} type="button" onClick={() => setNewNiche((p) => p.includes(n) ? p.filter(x => x !== n) : [...p, n])}
-                          className={`px-3 py-1 text-xs rounded-full border transition-all ${newNiche.includes(n) ? 'border-purple/50 bg-purple/10 text-purple' : 'border-gray-700 text-gray-500'}`}>
+                          className={`px-3 py-1 text-xs rounded-full border transition-all ${newNiche.includes(n) ? 'border-purple/50 bg-purple/10 text-purple' : 'border-gray-800 text-gray-500 hover:border-gray-600'}`}>
                           {n}
                         </button>
                       ))}
@@ -161,7 +170,7 @@ export default function BrowseInfluencersPage() {
                     <div className="flex flex-wrap gap-2">
                       {allPlatforms.map((p) => (
                         <button key={p} type="button" onClick={() => setNewPlatforms((prev) => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p])}
-                          className={`px-3 py-1 text-xs rounded-full border transition-all capitalize ${newPlatforms.includes(p) ? 'border-cyan/50 bg-cyan/10 text-cyan' : 'border-gray-700 text-gray-500'}`}>
+                          className={`px-3 py-1 text-xs rounded-full border transition-all capitalize ${newPlatforms.includes(p) ? 'border-cyan/50 bg-cyan/10 text-cyan' : 'border-gray-800 text-gray-500 hover:border-gray-600'}`}>
                           {p}
                         </button>
                       ))}
@@ -169,7 +178,7 @@ export default function BrowseInfluencersPage() {
                   </div>
                 </div>
                 <div className="mt-6 flex justify-end">
-                  <button type="submit" className="px-6 py-2.5 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all">
+                  <button type="submit" className="px-6 py-2.5 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-xl hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all">
                     Create Profile
                   </button>
                 </div>
@@ -181,7 +190,11 @@ export default function BrowseInfluencersPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="lg:w-64 flex-shrink-0">
-            <div className="glass rounded-2xl p-6 sticky top-24 space-y-6">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="rounded-2xl p-6 sticky top-24 space-y-6 border border-gray-800 bg-surface/50"
+            >
               {/* Search */}
               <div>
                 <div className="relative">
@@ -190,7 +203,7 @@ export default function BrowseInfluencersPage() {
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-surface border border-gray-700 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50"
+                    className="w-full pl-10 pr-4 py-2.5 bg-surface border border-gray-800 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 transition-all"
                     placeholder="Search creators..."
                   />
                 </div>
@@ -205,7 +218,7 @@ export default function BrowseInfluencersPage() {
                       key={n}
                       onClick={() => setSelectedNiches((p) => p.includes(n) ? p.filter(x => x !== n) : [...p, n])}
                       className={`px-2.5 py-1 text-[11px] rounded-full border transition-all ${
-                        selectedNiches.includes(n) ? 'border-purple/50 bg-purple/10 text-purple' : 'border-gray-700 text-gray-500 hover:border-gray-600'
+                        selectedNiches.includes(n) ? 'border-purple/50 bg-purple/10 text-purple' : 'border-gray-800 text-gray-500 hover:border-gray-600'
                       }`}
                     >
                       {n}
@@ -223,7 +236,7 @@ export default function BrowseInfluencersPage() {
                       key={p}
                       onClick={() => setSelectedPlatforms((prev) => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p])}
                       className={`px-2.5 py-1 text-[11px] rounded-full border transition-all capitalize ${
-                        selectedPlatforms.includes(p) ? 'border-cyan/50 bg-cyan/10 text-cyan' : 'border-gray-700 text-gray-500 hover:border-gray-600'
+                        selectedPlatforms.includes(p) ? 'border-cyan/50 bg-cyan/10 text-cyan' : 'border-gray-800 text-gray-500 hover:border-gray-600'
                       }`}
                     >
                       {p}
@@ -241,7 +254,7 @@ export default function BrowseInfluencersPage() {
                   Clear all filters
                 </button>
               )}
-            </div>
+            </motion.div>
           </div>
 
           {/* Grid */}
@@ -252,7 +265,7 @@ export default function BrowseInfluencersPage() {
               ))}
             </div>
             {filtered.length === 0 && (
-              <div className="text-center py-16 text-gray-500">
+              <div className="text-center py-16 text-gray-500 rounded-2xl border border-gray-800 bg-surface/30">
                 <p className="text-lg mb-2">No creators found</p>
                 <p className="text-sm">Try adjusting your filters or search terms</p>
               </div>
