@@ -1,13 +1,13 @@
 'use client';
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import { useSession, SessionProvider } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSession, signOut } from 'next-auth/react';
 import {
   HiArrowRight, HiArrowLeft, HiDownload, HiRefresh, HiTrash, HiPlus, HiCheck,
   HiChevronLeft, HiChevronRight, HiCalendar, HiViewList, HiViewGrid,
   HiX, HiClock, HiHashtag, HiSave, HiFolder, HiDocumentDownload,
-  HiLightningBolt, HiChartBar, HiPencil, HiUserGroup, HiLogout,
-  HiUser, HiPhotograph, HiUpload, HiShieldCheck, HiLink, HiChat,
+  HiLightningBolt, HiChartBar, HiPencil, HiUser, HiUserGroup, HiCloudUpload,
+  HiCloudDownload, HiEyeOff, HiPhotograph, HiAnnotation, HiLink,
 } from 'react-icons/hi';
 import {
   platforms, contentTypes, themes, contentTemplates, months, dayNames, dayNamesFull,
@@ -17,17 +17,20 @@ import AuthModal from './AuthModal';
 import TeamPanel from './TeamPanel';
 import AISuggestionPanel from './AISuggestionPanel';
 
-// ─── Step labels ───
+// --- Step labels ---
 const stepLabels = ['Brand Setup', 'Content Config', 'Review', 'Calendar'];
 
-// ─── Entry detail modal ───
-function EntryModal({ entry, day, month, year, onSave, onDelete, onClose, selectedPlatforms }) {
+// --- Entry detail modal (with comments) ---
+function EntryModal({ entry, day, month, year, onSave, onDelete, onClose, selectedPlatforms, session }) {
   const [caption, setCaption] = useState(entry.caption);
   const [type, setType] = useState(entry.type);
   const [platform, setPlatform] = useState(entry.platform);
   const [time, setTime] = useState(entry.time || '');
   const [hashtags, setHashtags] = useState(entry.hashtags?.join(' ') || '');
   const [notes, setNotes] = useState(entry.notes || '');
+  const [comments, setComments] = useState(entry.comments || []);
+  const [newComment, setNewComment] = useState('');
+  const [loadingComment, setLoadingComment] = useState(false);
 
   const pInfo = getPlatformInfo(platform);
   const PIcon = pInfo?.icon;
@@ -41,8 +44,34 @@ function EntryModal({ entry, day, month, year, onSave, onDelete, onClose, select
       time,
       hashtags: hashtags.split(/\s+/).filter(Boolean),
       notes,
+      comments,
     });
     onClose();
+  };
+
+  const addComment = async () => {
+    if (!newComment.trim() || !session?.user) return;
+    setLoadingComment(true);
+    const comment = {
+      id: `cmt-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      text: newComment.trim(),
+      userName: session.user.name || session.user.email || 'Anonymous',
+      userAvatar: session.user.image || null,
+      createdAt: new Date().toISOString(),
+    };
+    // Try posting to API if we have an entry ID that looks like a DB id
+    try {
+      if (entry.dbId) {
+        await fetch(`/api/calendar/${entry.calendarId}/entries/${entry.dbId}/comments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: newComment.trim() }),
+        });
+      }
+    } catch { /* falls back to local */ }
+    setComments((prev) => [...prev, comment]);
+    setNewComment('');
+    setLoadingComment(false);
   };
 
   return (
@@ -142,6 +171,50 @@ function EntryModal({ entry, day, month, year, onSave, onDelete, onClose, select
               className="w-full px-4 py-3 bg-surface border border-gray-800 rounded-xl text-foreground text-sm focus:outline-none focus:border-cyan/50 transition-all resize-none"
               placeholder="Internal notes, reminders..." />
           </div>
+
+          {/* Comments Section (logged-in only) */}
+          {session?.user && (
+            <div className="border-t border-gray-800 pt-4">
+              <label className="flex items-center gap-1.5 text-sm font-medium text-gray-400 mb-3">
+                <HiAnnotation size={14} /> Comments ({comments.length})
+              </label>
+              {comments.length > 0 && (
+                <div className="space-y-2 mb-3 max-h-40 overflow-y-auto">
+                  {comments.map((c) => (
+                    <div key={c.id} className="flex items-start gap-2 p-2.5 rounded-lg bg-surface/50 border border-gray-800/50">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan to-purple flex items-center justify-center text-[10px] font-bold text-background flex-shrink-0">
+                        {c.userName?.charAt(0).toUpperCase() || '?'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-semibold text-foreground">{c.userName}</span>
+                          <span className="text-[9px] text-gray-600">{new Date(c.createdAt).toLocaleString()}</span>
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">{c.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addComment()}
+                  placeholder="Add a comment..."
+                  className="flex-1 px-3 py-2 bg-surface border border-gray-800 rounded-lg text-foreground text-xs placeholder-gray-600 focus:outline-none focus:border-cyan/50 transition-all"
+                />
+                <button
+                  onClick={addComment}
+                  disabled={!newComment.trim() || loadingComment}
+                  className="px-3 py-2 text-xs font-medium text-cyan border border-cyan/30 rounded-lg hover:bg-cyan/10 transition-all disabled:opacity-40"
+                >
+                  {loadingComment ? '...' : 'Post'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Actions */}
@@ -160,7 +233,7 @@ function EntryModal({ entry, day, month, year, onSave, onDelete, onClose, select
   );
 }
 
-// ─── Stats dashboard ───
+// --- Stats dashboard ---
 function StatsDashboard({ entries, selectedPlatforms: selPlats }) {
   const stats = useMemo(() => {
     const allEntries = Object.values(entries).flat();
@@ -253,69 +326,47 @@ function StatsDashboard({ entries, selectedPlatforms: selPlats }) {
   );
 }
 
-// ─── ICS Generator ───
-function generateICSFile(entries, brandName, month, year) {
-  const lines = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//SCG//Content Calendar//EN',
-    'CALSCALE:GREGORIAN', `X-WR-CALNAME:${brandName} Content Calendar`,
-  ];
-  Object.entries(entries).forEach(([day, dayEntries]) => {
-    dayEntries.forEach((entry) => {
-      const dateStr = `${year}${String(month + 1).padStart(2, '0')}${String(day).padStart(2, '0')}`;
-      let startTime = '090000';
-      if (entry.time) {
-        const match = entry.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-        if (match) {
-          let h = parseInt(match[1]); const m = match[2]; const ap = match[3].toUpperCase();
-          if (ap === 'PM' && h !== 12) h += 12; if (ap === 'AM' && h === 12) h = 0;
-          startTime = `${String(h).padStart(2, '0')}${m}00`;
-        }
-      }
-      const hashtags = entry.hashtags || [];
-      lines.push('BEGIN:VEVENT');
-      lines.push(`DTSTART:${dateStr}T${startTime}`);
-      lines.push(`DTEND:${dateStr}T${startTime}`);
-      lines.push(`SUMMARY:[${(entry.type || 'post').toUpperCase()}] ${entry.platform} - ${(entry.caption || '').slice(0, 50)}`);
-      lines.push(`DESCRIPTION:${entry.caption || ''}${hashtags.length > 0 ? '\\n\\nHashtags: ' + hashtags.join(' ') : ''}${entry.notes ? '\\n\\nNotes: ' + entry.notes : ''}`);
-      lines.push(`UID:${entry.id || Date.now()}@scg-calendar`);
-      lines.push('END:VEVENT');
-    });
-  });
-  lines.push('END:VCALENDAR');
-  return lines.join('\r\n');
-}
-
-// ─── Main page ───
-export default function ContentCalendarPage() {
-  const { data: session, status: authStatus } = useSession();
+// --- Inner calendar page (uses useSession) ---
+function ContentCalendarInner() {
+  const { data: session, status } = useSession();
   const [step, setStep] = useState(1);
   const [brandName, setBrandName] = useState('');
   const [brandColor, setBrandColor] = useState('#00f0ff');
   const [brandColor2, setBrandColor2] = useState('#8b5cf6');
   const [logoText, setLogoText] = useState('');
-  const [logoUrl, setLogoUrl] = useState(''); // data URL for uploaded logo
+  const [logoUrl, setLogoUrl] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [selectedThemes, setSelectedThemes] = useState([]);
   const [calendarEntries, setCalendarEntries] = useState({});
-  const [editingEntry, setEditingEntry] = useState(null); // { day, entry }
-  const [view, setView] = useState('month'); // 'month' | 'week' | 'agenda'
+  const [editingEntry, setEditingEntry] = useState(null);
+  const [view, setView] = useState('month');
   const [currentWeek, setCurrentWeek] = useState(0);
-  const [dragEntry, setDragEntry] = useState(null); // { fromDay, entryId }
+  const [dragEntry, setDragEntry] = useState(null);
   const [savedCalendars, setSavedCalendars] = useState([]);
   const [showSavedList, setShowSavedList] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMessage, setAuthMessage] = useState('');
   const [showTeamPanel, setShowTeamPanel] = useState(false);
   const [showAIPanel, setShowAIPanel] = useState(false);
+  const [whitelabelEnabled, setWhitelabelEnabled] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
-  const [isWhitelabel, setIsWhitelabel] = useState(false);
-  const [cloudCalendars, setCloudCalendars] = useState([]);
-  const [showCloudList, setShowCloudList] = useState(false);
-  const [cloudSaveStatus, setCloudSaveStatus] = useState(''); // 'saving' | 'saved' | 'error'
-  const [aiSuggestionDay, setAiSuggestionDay] = useState(null); // day to add AI suggestion to
+  const [cloudSaving, setCloudSaving] = useState(false);
+  const [cloudLoading, setCloudLoading] = useState(false);
   const calendarRef = useRef(null);
-  const logoInputRef = useRef(null);
+
+  const isLoggedIn = status === 'authenticated' && !!session?.user;
+
+  // Require login helper
+  const requireLogin = (feature, callback) => {
+    if (isLoggedIn) {
+      callback();
+    } else {
+      setAuthMessage(`Sign in to access ${feature}`);
+      setShowAuthModal(true);
+    }
+  };
 
   // Load saved calendars from localStorage
   useEffect(() => {
@@ -325,129 +376,19 @@ export default function ContentCalendarPage() {
     } catch { /* empty */ }
   }, []);
 
-  // Load cloud calendars when logged in
-  useEffect(() => {
-    if (session?.user) {
-      fetch('/api/calendar').then((r) => r.json()).then((d) => setCloudCalendars(d.calendars || [])).catch(() => {});
-    }
-  }, [session]);
-
-  // ─── Logo upload ───
+  // --- Logo upload ---
   const handleLogoUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { alert('Logo must be under 5MB'); return; }
+    if (!file.type.startsWith('image/')) return;
     const reader = new FileReader();
-    reader.onload = (ev) => setLogoUrl(ev.target.result);
+    reader.onload = (ev) => {
+      setLogoUrl(ev.target.result);
+    };
     reader.readAsDataURL(file);
   };
 
-  // ─── Auth gate helper ───
-  const requireAuth = (callback) => {
-    if (!session?.user) { setShowAuthModal(true); return; }
-    callback();
-  };
-
-  // ─── Cloud save ───
-  const saveToCloud = async () => {
-    if (!session?.user) { setShowAuthModal(true); return; }
-    setCloudSaveStatus('saving');
-    try {
-      const allEntries = [];
-      Object.entries(calendarEntries).forEach(([day, dayEntries]) => {
-        dayEntries.forEach((e) => allEntries.push({ ...e, day: parseInt(day) }));
-      });
-      const res = await fetch('/api/calendar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: `${brandName} - ${months[selectedMonth]} ${selectedYear}`,
-          brandName, brandColor, brandColor2, logoText, logoUrl,
-          month: selectedMonth, year: selectedYear,
-          selectedPlatforms, selectedThemes,
-          teamId: selectedTeamId,
-          isWhitelabel,
-          entries: allEntries,
-        }),
-      });
-      if (res.ok) {
-        setCloudSaveStatus('saved');
-        const data = await res.json();
-        setCloudCalendars((prev) => [data.calendar, ...prev]);
-        setTimeout(() => setCloudSaveStatus(''), 3000);
-      } else {
-        setCloudSaveStatus('error');
-        setTimeout(() => setCloudSaveStatus(''), 3000);
-      }
-    } catch {
-      setCloudSaveStatus('error');
-      setTimeout(() => setCloudSaveStatus(''), 3000);
-    }
-  };
-
-  // ─── Load from cloud ───
-  const loadFromCloud = async (calId) => {
-    try {
-      const res = await fetch(`/api/calendar/${calId}`);
-      const { calendar } = await res.json();
-      if (!calendar) return;
-      setBrandName(calendar.brandName);
-      setBrandColor(calendar.brandColor);
-      setBrandColor2(calendar.brandColor2);
-      setLogoText(calendar.logoText || '');
-      setLogoUrl(calendar.logoUrl || '');
-      setSelectedMonth(calendar.month);
-      setSelectedYear(calendar.year);
-      setSelectedPlatforms(JSON.parse(calendar.selectedPlatforms || '[]'));
-      setSelectedThemes(JSON.parse(calendar.selectedThemes || '[]'));
-      setIsWhitelabel(calendar.isWhitelabel);
-      // Build entries by day
-      const entries = {};
-      (calendar.entries || []).forEach((e) => {
-        if (!entries[e.day]) entries[e.day] = [];
-        entries[e.day].push({
-          id: e.id, platform: e.platform, type: e.type,
-          caption: e.caption, hashtags: JSON.parse(e.hashtags || '[]'),
-          time: e.time, notes: e.notes, status: e.status,
-          comments: e.comments || [],
-        });
-      });
-      setCalendarEntries(entries);
-      setStep(4);
-      setShowCloudList(false);
-    } catch { /* empty */ }
-  };
-
-  // ─── ICS Export ───
-  const exportICS = () => {
-    const icsContent = generateICSFile(calendarEntries, brandName, selectedMonth, selectedYear);
-    const blob = new Blob([icsContent], { type: 'text/calendar' });
-    const link = document.createElement('a');
-    link.download = `${brandName || 'content'}-calendar-${months[selectedMonth]}-${selectedYear}.ics`;
-    link.href = URL.createObjectURL(blob);
-    link.click();
-  };
-
-  // ─── AI suggestion apply ───
-  const handleAISuggestionApply = (suggestion) => {
-    const targetDay = aiSuggestionDay || new Date().getDate();
-    const newEntry = {
-      id: `ai-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      platform: suggestion.platform,
-      type: suggestion.type || 'post',
-      caption: suggestion.caption,
-      hashtags: suggestion.hashtags || [],
-      time: suggestion.time || '',
-      notes: 'Generated by AI',
-    };
-    setCalendarEntries((prev) => ({
-      ...prev,
-      [targetDay]: [...(prev[targetDay] || []), newEntry],
-    }));
-    setAiSuggestionDay(null);
-  };
-
-  // ─── Calendar generation ───
+  // --- Calendar generation ---
   const generateCalendar = useCallback(() => {
     const days = getDaysInMonth(selectedMonth, selectedYear);
     const entries = {};
@@ -465,18 +406,16 @@ export default function ContentCalendarPage() {
 
     if (templatePool.length === 0) return;
 
-    // Track used templates to ensure variety
     const usedRecently = [];
 
     for (let day = 1; day <= days; day++) {
       const dayOfWeek = new Date(selectedYear, selectedMonth, day).getDay();
-      if (dayOfWeek === 0) continue; // skip Sundays
+      if (dayOfWeek === 0) continue;
 
       const numPosts = dayOfWeek === 6 ? 1 : Math.random() > 0.3 ? 2 : 1;
       entries[day] = [];
 
       for (let p = 0; p < numPosts; p++) {
-        // Pick template, avoiding recent repeats
         let available = templatePool.filter((t) => !usedRecently.includes(t.caption));
         if (available.length === 0) {
           available = templatePool;
@@ -495,6 +434,7 @@ export default function ContentCalendarPage() {
           hashtags: template.hashtags || [],
           time: getBestTimeForPlatform(platform),
           notes: '',
+          comments: [],
         });
       }
     }
@@ -504,7 +444,14 @@ export default function ContentCalendarPage() {
     setCurrentWeek(0);
   }, [selectedMonth, selectedYear, selectedPlatforms, selectedThemes]);
 
-  // ─── Entry CRUD ───
+  // --- Start from scratch ---
+  const startFromScratch = () => {
+    setCalendarEntries({});
+    setStep(4);
+    setCurrentWeek(0);
+  };
+
+  // --- Entry CRUD ---
   const deleteEntry = (day, entryId) => {
     setCalendarEntries((prev) => ({
       ...prev,
@@ -529,6 +476,7 @@ export default function ContentCalendarPage() {
       hashtags: [],
       time: getBestTimeForPlatform(platform),
       notes: '',
+      comments: [],
     };
     setCalendarEntries((prev) => ({
       ...prev,
@@ -537,7 +485,7 @@ export default function ContentCalendarPage() {
     setEditingEntry({ day, entry: newEntry });
   };
 
-  // ─── Drag and drop ───
+  // --- Drag and drop ---
   const handleDragStart = (day, entryId) => {
     setDragEntry({ fromDay: day, entryId });
   };
@@ -564,7 +512,7 @@ export default function ContentCalendarPage() {
     setDragEntry(null);
   };
 
-  // ─── Save / Load ───
+  // --- Save / Load (localStorage) ---
   const saveCalendar = () => {
     const cal = {
       id: Date.now().toString(),
@@ -572,6 +520,7 @@ export default function ContentCalendarPage() {
       brandName, brandColor, brandColor2, logoText, logoUrl,
       selectedMonth, selectedYear, selectedPlatforms, selectedThemes,
       entries: calendarEntries,
+      whitelabelEnabled,
       savedAt: new Date().toISOString(),
     };
     const updated = [cal, ...savedCalendars.filter((c) => c.id !== cal.id)].slice(0, 20);
@@ -583,13 +532,14 @@ export default function ContentCalendarPage() {
     setBrandName(cal.brandName);
     setBrandColor(cal.brandColor);
     setBrandColor2(cal.brandColor2);
-    setLogoText(cal.logoText);
+    setLogoText(cal.logoText || '');
     setLogoUrl(cal.logoUrl || '');
     setSelectedMonth(cal.selectedMonth);
     setSelectedYear(cal.selectedYear);
     setSelectedPlatforms(cal.selectedPlatforms);
     setSelectedThemes(cal.selectedThemes);
     setCalendarEntries(cal.entries);
+    setWhitelabelEnabled(cal.whitelabelEnabled || false);
     setStep(4);
     setShowSavedList(false);
   };
@@ -600,7 +550,57 @@ export default function ContentCalendarPage() {
     localStorage.setItem('scg_saved_calendars', JSON.stringify(updated));
   };
 
-  // ─── Export ───
+  // --- Cloud Save/Load ---
+  const saveToCloud = async () => {
+    if (!isLoggedIn) { requireLogin('Cloud Save', () => {}); return; }
+    setCloudSaving(true);
+    try {
+      await fetch('/api/calendar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: `${brandName} - ${months[selectedMonth]} ${selectedYear}`,
+          brandName, brandColor, brandColor2, logoText, logoUrl,
+          selectedMonth, selectedYear, selectedPlatforms, selectedThemes,
+          entries: calendarEntries,
+          whitelabelEnabled,
+          teamId: selectedTeamId,
+        }),
+      });
+    } catch (err) {
+      console.error('Cloud save failed:', err);
+    }
+    setCloudSaving(false);
+  };
+
+  const loadFromCloud = async () => {
+    if (!isLoggedIn) { requireLogin('Cloud Sync', () => {}); return; }
+    setCloudLoading(true);
+    try {
+      const res = await fetch('/api/calendar');
+      const data = await res.json();
+      if (data.calendars?.length > 0) {
+        const cal = data.calendars[0];
+        setBrandName(cal.brandName || '');
+        setBrandColor(cal.brandColor || '#00f0ff');
+        setBrandColor2(cal.brandColor2 || '#8b5cf6');
+        setLogoText(cal.logoText || '');
+        setLogoUrl(cal.logoUrl || '');
+        setSelectedMonth(cal.selectedMonth ?? new Date().getMonth());
+        setSelectedYear(cal.selectedYear ?? new Date().getFullYear());
+        setSelectedPlatforms(cal.selectedPlatforms || []);
+        setSelectedThemes(cal.selectedThemes || []);
+        setCalendarEntries(cal.entries || {});
+        setWhitelabelEnabled(cal.whitelabelEnabled || false);
+        setStep(4);
+      }
+    } catch (err) {
+      console.error('Cloud load failed:', err);
+    }
+    setCloudLoading(false);
+  };
+
+  // --- Export ---
   const exportPNG = async () => {
     if (!calendarRef.current) return;
     try {
@@ -642,7 +642,95 @@ export default function ContentCalendarPage() {
     link.click();
   };
 
-  // ─── Navigation ───
+  // --- ICS Export ---
+  const exportICS = () => {
+    const daysInM = getDaysInMonth(selectedMonth, selectedYear);
+    let icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//SCG Content Calendar//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      `X-WR-CALNAME:${brandName || 'Content'} Calendar - ${months[selectedMonth]} ${selectedYear}`,
+    ];
+
+    for (let day = 1; day <= daysInM; day++) {
+      const entries = calendarEntries[day] || [];
+      entries.forEach((e) => {
+        const pInfo = getPlatformInfo(e.platform);
+        const ctInfo = getContentTypeInfo(e.type);
+        // Parse time string to hours/minutes
+        let hour = 12, minute = 0;
+        if (e.time) {
+          const match = e.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+          if (match) {
+            hour = parseInt(match[1]);
+            minute = parseInt(match[2]);
+            const ampm = match[3]?.toUpperCase();
+            if (ampm === 'PM' && hour !== 12) hour += 12;
+            if (ampm === 'AM' && hour === 12) hour = 0;
+          }
+        }
+
+        const dtStart = `${selectedYear}${String(selectedMonth + 1).padStart(2, '0')}${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
+        const endHour = hour + 1 > 23 ? 23 : hour + 1;
+        const dtEnd = `${selectedYear}${String(selectedMonth + 1).padStart(2, '0')}${String(day).padStart(2, '0')}T${String(endHour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
+
+        const uid = `${e.id}@scg-calendar`;
+        const summary = `[${pInfo?.name || e.platform}] ${ctInfo?.label || e.type}: ${(e.caption || '').slice(0, 60)}`;
+        const description = [
+          e.caption || '',
+          '',
+          e.hashtags?.length > 0 ? `Hashtags: ${e.hashtags.join(' ')}` : '',
+          e.notes ? `Notes: ${e.notes}` : '',
+        ].filter(Boolean).join('\\n');
+
+        icsContent.push(
+          'BEGIN:VEVENT',
+          `UID:${uid}`,
+          `DTSTART:${dtStart}`,
+          `DTEND:${dtEnd}`,
+          `SUMMARY:${summary.replace(/[,;\\]/g, ' ')}`,
+          `DESCRIPTION:${description.replace(/[,;\\]/g, ' ').replace(/\n/g, '\\n')}`,
+          'END:VEVENT'
+        );
+      });
+    }
+
+    icsContent.push('END:VCALENDAR');
+
+    const blob = new Blob([icsContent.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.download = `${brandName || 'content'}-calendar-${months[selectedMonth]}-${selectedYear}.ics`;
+    link.href = URL.createObjectURL(blob);
+    link.click();
+  };
+
+  // --- AI Suggestion apply ---
+  const handleAISuggestionApply = (suggestion) => {
+    // Add to today or first day of month
+    const today = new Date();
+    let targetDay = 1;
+    if (today.getMonth() === selectedMonth && today.getFullYear() === selectedYear) {
+      targetDay = today.getDate();
+    }
+    const newEntry = {
+      id: `ai-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      platform: suggestion.platform || selectedPlatforms[0] || 'instagram',
+      type: suggestion.type || 'post',
+      caption: suggestion.caption || '',
+      hashtags: suggestion.hashtags || [],
+      time: suggestion.time || getBestTimeForPlatform(suggestion.platform || selectedPlatforms[0] || 'instagram'),
+      notes: 'Added via AI Suggestion',
+      comments: [],
+    };
+    setCalendarEntries((prev) => ({
+      ...prev,
+      [targetDay]: [...(prev[targetDay] || []), newEntry],
+    }));
+  };
+
+  // --- Navigation ---
   const navigateMonth = (dir) => {
     let m = selectedMonth + dir;
     let y = selectedYear;
@@ -653,13 +741,12 @@ export default function ContentCalendarPage() {
     setCurrentWeek(0);
   };
 
-  // ─── Computed ───
+  // --- Computed ---
   const daysInMonth = getDaysInMonth(selectedMonth, selectedYear);
   const firstDay = getFirstDayOfMonth(selectedMonth, selectedYear);
   const today = new Date();
   const isCurrentMonth = today.getMonth() === selectedMonth && today.getFullYear() === selectedYear;
 
-  // Week view helpers
   const weeks = useMemo(() => {
     const w = [];
     let week = [];
@@ -678,7 +765,7 @@ export default function ContentCalendarPage() {
   const togglePlatform = (id) => setSelectedPlatforms((prev) => prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]);
   const toggleTheme = (id) => setSelectedThemes((prev) => prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]);
 
-  // ─── Render entry chip (used in month/week views) ───
+  // --- Render entry chip ---
   const renderEntryChip = (entry, day, compact = false) => {
     const pInfo = getPlatformInfo(entry.platform);
     const PIcon = pInfo?.icon;
@@ -706,53 +793,28 @@ export default function ContentCalendarPage() {
   return (
     <div className="pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* User bar */}
-        <div className="flex items-center justify-end gap-3 mb-4">
-          {session?.user ? (
-            <div className="flex items-center gap-3">
-              {cloudCalendars.length > 0 && (
-                <button onClick={() => setShowCloudList(!showCloudList)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-gray-400 border border-gray-800 rounded-lg hover:border-gray-600 hover:text-foreground transition-all">
-                  <HiFolder size={14} /> My Calendars ({cloudCalendars.length})
-                </button>
-              )}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-800 bg-surface/30">
+        {/* Top bar with auth */}
+        <div className="flex items-center justify-end mb-4 gap-3">
+          {isLoggedIn ? (
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-800 bg-surface/30">
+              {session.user.image ? (
+                <img src={session.user.image} alt="" className="w-6 h-6 rounded-full" />
+              ) : (
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan to-purple flex items-center justify-center text-[10px] font-bold text-background">
-                  {session.user.name?.charAt(0).toUpperCase() || 'U'}
+                  {(session.user.name || session.user.email || '?').charAt(0).toUpperCase()}
                 </div>
-                <span className="text-xs text-foreground font-medium">{session.user.name}</span>
-              </div>
-              <button onClick={() => signOut()} className="p-2 text-gray-500 hover:text-pink rounded-lg transition-colors" title="Sign Out"><HiLogout size={16} /></button>
+              )}
+              <span className="text-xs text-gray-300 font-medium">{session.user.name || session.user.email}</span>
             </div>
           ) : (
-            <button onClick={() => setShowAuthModal(true)}
-              className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-cyan border border-cyan/30 rounded-lg hover:bg-cyan/5 transition-all">
-              <HiUser size={14} /> Sign In for Premium Features
+            <button
+              onClick={() => { setAuthMessage(''); setShowAuthModal(true); }}
+              className="flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-cyan border border-cyan/30 rounded-lg hover:bg-cyan/10 transition-all"
+            >
+              <HiUser size={14} /> Sign In
             </button>
           )}
         </div>
-
-        {/* Cloud calendars list */}
-        <AnimatePresence>
-          {showCloudList && cloudCalendars.length > 0 && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden mb-6">
-              <div className="rounded-2xl border border-gray-800 bg-surface/30 p-5 max-w-2xl mx-auto">
-                <h3 className="text-xs font-bold text-foreground mb-3 uppercase tracking-wider">Cloud Calendars</h3>
-                <div className="space-y-2 max-h-48 overflow-y-auto">
-                  {cloudCalendars.map((cal) => (
-                    <div key={cal.id} className="flex items-center justify-between gap-3 p-3 rounded-xl border border-gray-800 hover:border-gray-700 transition-all">
-                      <div className="min-w-0">
-                        <div className="text-sm font-medium text-foreground truncate">{cal.name}</div>
-                        <div className="text-[10px] text-gray-600">{cal._count?.entries || 0} entries &middot; {cal.team ? `Team: ${cal.team.name}` : 'Personal'}</div>
-                      </div>
-                      <button onClick={() => loadFromCloud(cal.id)} className="px-3 py-1.5 text-xs text-cyan border border-cyan/30 rounded-lg hover:bg-cyan/10 transition-all flex-shrink-0">Load</button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Header */}
         <div className="text-center mb-12">
@@ -844,42 +906,38 @@ export default function ContentCalendarPage() {
                   <input type="text" value={brandName} onChange={(e) => setBrandName(e.target.value)} placeholder="Your Brand Name"
                     className="w-full px-4 py-3 bg-surface border border-gray-800 rounded-xl text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 focus:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all" />
                 </div>
-                {/* Logo Upload */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Brand Logo</label>
-                  <div className="flex items-center gap-4">
-                    {logoUrl ? (
-                      <div className="relative group">
-                        <img src={logoUrl} alt="Logo" className="w-16 h-16 rounded-xl object-cover border border-gray-800" />
-                        <button onClick={() => setLogoUrl('')}
-                          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-pink text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <HiX size={10} />
-                        </button>
-                      </div>
-                    ) : (
-                      <button onClick={() => logoInputRef.current?.click()}
-                        className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-700 flex flex-col items-center justify-center text-gray-500 hover:border-cyan/30 hover:text-cyan transition-all cursor-pointer">
-                        <HiUpload size={18} />
-                        <span className="text-[8px] mt-0.5">Upload</span>
-                      </button>
-                    )}
-                    <input ref={logoInputRef} type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500">Upload your brand logo (PNG, JPG, SVG)</p>
-                      <p className="text-[10px] text-gray-600 mt-0.5">Max 5MB. Shows in calendar header.</p>
-                      {!logoUrl && (
-                        <button onClick={() => logoInputRef.current?.click()}
-                          className="mt-1.5 text-xs text-cyan hover:text-cyan/80 transition-colors">Choose file</button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-400 mb-2">Logo Text (displayed on calendar header)</label>
                   <input type="text" value={logoText} onChange={(e) => setLogoText(e.target.value)} placeholder={brandName || 'Logo Text'}
                     className="w-full px-4 py-3 bg-surface border border-gray-800 rounded-xl text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 focus:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all" />
                 </div>
+
+                {/* Logo Upload */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                    <HiPhotograph className="inline mr-1.5" size={14} />
+                    Upload Logo (optional)
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-2 px-4 py-3 bg-surface border border-dashed border-gray-700 rounded-xl cursor-pointer hover:border-cyan/50 transition-all flex-1">
+                      <HiCloudUpload size={18} className="text-gray-500" />
+                      <span className="text-sm text-gray-500">{logoUrl ? 'Change logo...' : 'Choose an image...'}</span>
+                      <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+                    </label>
+                    {logoUrl && (
+                      <div className="relative group">
+                        <img src={logoUrl} alt="Logo" className="w-14 h-14 rounded-xl object-cover border border-gray-800" />
+                        <button
+                          onClick={() => setLogoUrl('')}
+                          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-pink text-background flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <HiX size={10} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-400 mb-2">Primary Color</label>
@@ -985,7 +1043,7 @@ export default function ContentCalendarPage() {
             </motion.div>
           )}
 
-          {/* STEP 3: Review */}
+          {/* STEP 3: Review (with Start from Scratch) */}
           {step === 3 && (
             <motion.div key="step3" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }}
               className="max-w-2xl mx-auto rounded-2xl p-8 border border-gray-800 bg-surface/30 text-center">
@@ -1025,13 +1083,13 @@ export default function ContentCalendarPage() {
               <div className="flex justify-between items-center">
                 <button onClick={() => setStep(2)} className="flex items-center gap-2 text-gray-400 hover:text-foreground transition-colors"><HiArrowLeft /> Back</button>
                 <div className="flex items-center gap-3">
-                  <button onClick={() => { setCalendarEntries({}); setStep(4); }}
-                    className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium border border-gray-700 text-gray-300 rounded-xl hover:border-cyan/30 hover:text-cyan transition-all">
+                  <button onClick={startFromScratch}
+                    className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium border border-gray-700 text-gray-300 rounded-xl hover:border-gray-500 hover:text-foreground transition-all">
                     <HiPlus size={14} /> Start from Scratch
                   </button>
                   <button onClick={generateCalendar}
                     className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-xl hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all">
-                    <HiLightningBolt size={14} /> Auto-Generate <HiArrowRight />
+                    Auto-Generate <HiArrowRight />
                   </button>
                 </div>
               </div>
@@ -1044,13 +1102,45 @@ export default function ContentCalendarPage() {
               {/* Stats Dashboard */}
               <StatsDashboard entries={calendarEntries} selectedPlatforms={selectedPlatforms} />
 
-              {/* Toolbar Row 1 */}
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-                <div className="flex items-center gap-2">
+              {/* Toolbar */}
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div className="flex items-center gap-2 flex-wrap">
                   <button onClick={() => { setStep(2); setCalendarEntries({}); }} className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-foreground transition-colors"><HiArrowLeft size={14} /> Edit</button>
                   <div className="w-px h-5 bg-gray-800 mx-1" />
                   <button onClick={generateCalendar} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-cyan hover:border-cyan/30 transition-all"><HiRefresh size={14} /> Regenerate</button>
-                  <button onClick={saveCalendar} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-neon-green hover:border-neon-green/30 transition-all"><HiSave size={14} /> Local Save</button>
+                  <button onClick={saveCalendar} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-neon-green hover:border-neon-green/30 transition-all"><HiSave size={14} /> Save</button>
+                  {isLoggedIn && (
+                    <button onClick={saveToCloud} disabled={cloudSaving} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-purple hover:border-purple/30 transition-all disabled:opacity-50">
+                      <HiCloudUpload size={14} /> {cloudSaving ? 'Saving...' : 'Cloud Save'}
+                    </button>
+                  )}
+                  {isLoggedIn && (
+                    <button onClick={loadFromCloud} disabled={cloudLoading} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-purple hover:border-purple/30 transition-all disabled:opacity-50">
+                      <HiCloudDownload size={14} /> {cloudLoading ? 'Loading...' : 'Cloud Load'}
+                    </button>
+                  )}
+                  <div className="w-px h-5 bg-gray-800 mx-1" />
+                  {/* Whitelabel toggle */}
+                  <button
+                    onClick={() => requireLogin('Whitelabel features', () => setWhitelabelEnabled((prev) => !prev))}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs border rounded-lg transition-all ${whitelabelEnabled ? 'border-pink/40 bg-pink/10 text-pink' : 'border-gray-800 text-gray-400 hover:text-pink hover:border-pink/30'}`}
+                  >
+                    <HiEyeOff size={14} /> {whitelabelEnabled ? 'Whitelabel On' : 'Whitelabel'}
+                  </button>
+                  {/* Team button */}
+                  <button
+                    onClick={() => requireLogin('Team Collaboration', () => setShowTeamPanel(true))}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-purple hover:border-purple/30 transition-all"
+                  >
+                    <HiUserGroup size={14} /> Team
+                  </button>
+                  {/* AI Suggest button */}
+                  <button
+                    onClick={() => requireLogin('AI Suggestions', () => setShowAIPanel(true))}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-purple hover:border-purple/30 transition-all"
+                  >
+                    <HiLightningBolt size={14} /> AI Suggest
+                  </button>
                 </div>
 
                 {/* View toggle */}
@@ -1066,47 +1156,11 @@ export default function ContentCalendarPage() {
                     </button>
                   ))}
                 </div>
-              </div>
 
-              {/* Toolbar Row 2: Premium features + Export */}
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-                <div className="flex items-center gap-2">
-                  {/* Cloud Save */}
-                  <button onClick={saveToCloud}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs border rounded-lg transition-all ${
-                      cloudSaveStatus === 'saved' ? 'border-neon-green/50 text-neon-green bg-neon-green/5'
-                      : cloudSaveStatus === 'saving' ? 'border-cyan/30 text-cyan opacity-70'
-                      : cloudSaveStatus === 'error' ? 'border-pink/30 text-pink'
-                      : 'border-gray-800 text-gray-400 hover:text-cyan hover:border-cyan/30'
-                    }`}>
-                    {cloudSaveStatus === 'saving' ? <><div className="w-3 h-3 border border-cyan/50 border-t-cyan rounded-full animate-spin" /> Saving...</>
-                      : cloudSaveStatus === 'saved' ? <><HiCheck size={14} /> Saved to Cloud</>
-                      : cloudSaveStatus === 'error' ? <><HiX size={14} /> Failed</>
-                      : <><HiUpload size={14} /> Cloud Save</>
-                    }
-                  </button>
-                  {/* Team */}
-                  <button onClick={() => requireAuth(() => setShowTeamPanel(true))}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-purple hover:border-purple/30 transition-all">
-                    <HiUserGroup size={14} /> Team
-                  </button>
-                  {/* AI Suggest */}
-                  <button onClick={() => requireAuth(() => { setAiSuggestionDay(new Date().getDate()); setShowAIPanel(true); })}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-pink hover:border-pink/30 transition-all">
-                    <HiLightningBolt size={14} /> AI Suggest
-                  </button>
-                  {/* Whitelabel */}
-                  <button onClick={() => requireAuth(() => setIsWhitelabel(!isWhitelabel))}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs border rounded-lg transition-all ${
-                      isWhitelabel ? 'border-purple/50 bg-purple/10 text-purple' : 'border-gray-800 text-gray-400 hover:text-purple hover:border-purple/30'
-                    }`}>
-                    <HiShieldCheck size={14} /> Whitelabel {isWhitelabel ? 'ON' : ''}
-                  </button>
-                </div>
                 {/* Export */}
                 <div className="flex items-center gap-2">
-                  <button onClick={exportICS} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-foreground hover:border-gray-600 transition-all"><HiLink size={14} /> ICS</button>
                   <button onClick={exportCSV} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-foreground hover:border-gray-600 transition-all"><HiDocumentDownload size={14} /> CSV</button>
+                  <button onClick={exportICS} className="flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-800 rounded-lg text-gray-400 hover:text-foreground hover:border-gray-600 transition-all"><HiLink size={14} /> Sync to Calendar</button>
                   <button onClick={exportPNG} className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"><HiDownload size={14} /> PNG</button>
                 </div>
               </div>
@@ -1124,26 +1178,50 @@ export default function ContentCalendarPage() {
               {/* Calendar Views */}
               <div ref={calendarRef} className="rounded-2xl overflow-hidden border border-gray-800 bg-surface/30" style={{ padding: '16px' }}>
                 {/* Branded header */}
-                <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-800">
-                  <div className="flex items-center gap-2">
-                    {logoUrl ? (
-                      <img src={logoUrl} alt="Logo" className="w-8 h-8 rounded-lg object-cover" />
-                    ) : (
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-xs"
-                        style={{ background: `linear-gradient(135deg, ${brandColor}, ${brandColor2})` }}>
-                        {(logoText || brandName).charAt(0).toUpperCase()}
+                {!whitelabelEnabled && (
+                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-800">
+                    <div className="flex items-center gap-2">
+                      {logoUrl ? (
+                        <img src={logoUrl} alt="Logo" className="w-8 h-8 rounded-lg object-cover" />
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-xs"
+                          style={{ background: `linear-gradient(135deg, ${brandColor}, ${brandColor2})` }}>
+                          {(logoText || brandName).charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div>
+                        <div className="text-sm font-bold" style={{ color: brandColor }}>{logoText || brandName}</div>
+                        <div className="text-[10px] text-gray-600">Content Calendar</div>
                       </div>
-                    )}
-                    <div>
-                      <div className="text-sm font-bold" style={{ color: brandColor }}>{logoText || brandName}</div>
-                      <div className="text-[10px] text-gray-600">Content Calendar</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-bold font-[family-name:var(--font-heading)]" style={{ color: brandColor }}>{months[selectedMonth]}</div>
+                      <div className="text-[10px] text-gray-600">{selectedYear}</div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm font-bold font-[family-name:var(--font-heading)]" style={{ color: brandColor }}>{months[selectedMonth]}</div>
-                    <div className="text-[10px] text-gray-600">{selectedYear}</div>
+                )}
+                {whitelabelEnabled && (
+                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-800">
+                    <div className="flex items-center gap-2">
+                      {logoUrl ? (
+                        <img src={logoUrl} alt="Logo" className="w-8 h-8 rounded-lg object-cover" />
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-xs"
+                          style={{ background: `linear-gradient(135deg, ${brandColor}, ${brandColor2})` }}>
+                          {(logoText || brandName).charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div>
+                        <div className="text-sm font-bold" style={{ color: brandColor }}>{logoText || brandName}</div>
+                        <div className="text-[10px] text-gray-600">Content Calendar</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-bold font-[family-name:var(--font-heading)]" style={{ color: brandColor }}>{months[selectedMonth]}</div>
+                      <div className="text-[10px] text-gray-600">{selectedYear}</div>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* === MONTH VIEW === */}
                 {view === 'month' && (
@@ -1283,13 +1361,17 @@ export default function ContentCalendarPage() {
 
                 {/* Legend */}
                 <div className="flex flex-wrap items-center gap-3 mt-4 pt-3 border-t border-gray-800">
-                  <span className="text-[10px] text-gray-600 uppercase tracking-wider font-bold">Content types:</span>
+                  {!whitelabelEnabled && <span className="text-[10px] text-gray-600 uppercase tracking-wider font-bold">Content types:</span>}
+                  {whitelabelEnabled && <span className="text-[10px] text-gray-600 uppercase tracking-wider font-bold">Content types:</span>}
                   {contentTypes.filter((ct) => Object.values(calendarEntries).flat().some((e) => e.type === ct.id)).map((ct) => (
                     <div key={ct.id} className="flex items-center gap-1">
                       <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: ct.color }} />
                       <span className="text-[10px] text-gray-500">{ct.label}</span>
                     </div>
                   ))}
+                  {!whitelabelEnabled && (
+                    <span className="ml-auto text-[9px] text-gray-700">Powered by SCG Content Calendar</span>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -1308,6 +1390,7 @@ export default function ContentCalendarPage() {
               onSave={updateEntry}
               onDelete={deleteEntry}
               onClose={() => setEditingEntry(null)}
+              session={session}
             />
           )}
         </AnimatePresence>
@@ -1316,8 +1399,9 @@ export default function ContentCalendarPage() {
         <AnimatePresence>
           {showAuthModal && (
             <AuthModal
-              onClose={() => setShowAuthModal(false)}
-              onSuccess={() => { setShowAuthModal(false); }}
+              onClose={() => { setShowAuthModal(false); setAuthMessage(''); }}
+              onSuccess={() => { setShowAuthModal(false); setAuthMessage(''); }}
+              initialMode="login"
             />
           )}
         </AnimatePresence>
@@ -1328,7 +1412,7 @@ export default function ContentCalendarPage() {
             <TeamPanel
               onClose={() => setShowTeamPanel(false)}
               session={session}
-              onTeamSelect={(teamId) => setSelectedTeamId(teamId)}
+              onTeamSelect={(teamId) => { setSelectedTeamId(teamId); setShowTeamPanel(false); }}
             />
           )}
         </AnimatePresence>
@@ -1338,13 +1422,22 @@ export default function ContentCalendarPage() {
           {showAIPanel && (
             <AISuggestionPanel
               onClose={() => setShowAIPanel(false)}
+              onApply={handleAISuggestionApply}
               brandName={brandName}
               selectedPlatforms={selectedPlatforms}
-              onApply={handleAISuggestionApply}
             />
           )}
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+// --- Main page (wrapped with SessionProvider) ---
+export default function ContentCalendarPage() {
+  return (
+    <SessionProvider>
+      <ContentCalendarInner />
+    </SessionProvider>
   );
 }
