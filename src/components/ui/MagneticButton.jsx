@@ -19,7 +19,7 @@ export default function MagneticButton({ children, href, onClick, className = ''
     setPosition({ x: 0, y: 0 });
   };
 
-  const Component = href ? motion.create(Link) : motion.button;
+  const Component = href ? motion(Link) : motion.button;
 
   return (
     <Component

@@ -26,7 +26,7 @@ export default function GradientButton({
 
   const combined = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
 
-  const MotionComponent = href ? motion.create(Link) : motion.button;
+  const MotionComponent = href ? motion(Link) : motion.button;
 
   return (
     <MotionComponent
