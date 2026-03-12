@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/providers/SmoothScroll";
+import AuthProvider from "@/components/providers/AuthProvider";
 import CustomCursor from "@/components/ui/CustomCursor";
 import Preloader from "@/components/ui/Preloader";
 import MouseGradient from "@/components/ui/MouseGradient";
@@ -17,17 +18,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
       <body className="antialiased bg-background text-foreground">
-        <SmoothScroll>
-          <Preloader />
-          <ScrollProgress />
-          <CustomCursor />
-          <MouseGradient />
-          <Navbar />
-          <main className="relative z-10 min-h-screen">
-            {children}
-          </main>
-          <Footer />
-        </SmoothScroll>
+        <AuthProvider>
+          <SmoothScroll>
+            <Preloader />
+            <ScrollProgress />
+            <CustomCursor />
+            <MouseGradient />
+            <Navbar />
+            <main className="relative z-10 min-h-screen">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScroll>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(uuid())
+  name           String
+  email          String    @unique
+  password       String
+  avatar         String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  calendars      Calendar[]
+  teamMembers    TeamMember[]
+  ownedTeams     Team[]          @relation("TeamOwner")
+  comments       Comment[]
+  entries        CalendarEntry[] @relation("EntryCreator")
+
+  accounts       Account[]
+  sessions       Session[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Team {
+  id        String       @id @default(uuid())
+  name      String
+  ownerId   String
+  createdAt DateTime     @default(now())
+
+  owner     User         @relation("TeamOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members   TeamMember[]
+  calendars Calendar[]
+}
+
+model TeamMember {
+  id       String   @id @default(uuid())
+  teamId   String
+  userId   String
+  role     String   @default("editor")
+  joinedAt DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+}
+
+model Calendar {
+  id              String          @id @default(uuid())
+  name            String
+  brandName       String
+  brandColor      String          @default("#00f0ff")
+  brandColor2     String          @default("#8b5cf6")
+  logoText        String?
+  logoUrl         String?
+  month           Int
+  year            Int
+  isWhitelabel    Boolean         @default(false)
+  removeBranding  Boolean         @default(false)
+  customDomain    String?
+  userId          String
+  teamId          String?
+  selectedPlatforms String        @default("[]")
+  selectedThemes    String        @default("[]")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team            Team?           @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  entries         CalendarEntry[]
+}
+
+model CalendarEntry {
+  id          String    @id @default(uuid())
+  calendarId  String
+  day         Int
+  platform    String
+  type        String
+  caption     String
+  hashtags    String    @default("[]")
+  time        String?
+  notes       String?
+  status      String    @default("draft")
+  createdById String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  calendar    Calendar  @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  createdBy   User?     @relation("EntryCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  comments    Comment[]
+}
+
+model Comment {
+  id        String        @id @default(uuid())
+  text      String
+  entryId   String
+  userId    String
+  createdAt DateTime      @default(now())
+
+  entry     CalendarEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
