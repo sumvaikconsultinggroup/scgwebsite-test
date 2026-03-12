@@ -1,149 +1,226 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const deliverables = [
+  {
+    title: 'Brand Reels',
+    count: '2,400+',
+    description: 'Scroll-stopping short-form content',
+    gradient: 'from-cyan/20 via-cyan/5 to-transparent',
+    color: '#00f0ff',
+    span: 'col-span-2 row-span-2',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="23 7 16 12 23 17 23 7" />
+        <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Ad Creatives',
+    count: '5,000+',
+    description: 'Thumb-stopping performance creatives',
+    gradient: 'from-purple/20 via-purple/5 to-transparent',
+    color: '#8b5cf6',
+    span: 'col-span-1 row-span-1',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <polyline points="21 15 16 10 5 21" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Brand Identities',
+    count: '120+',
+    description: 'Complete visual systems',
+    gradient: 'from-pink/20 via-pink/5 to-transparent',
+    color: '#ff006e',
+    span: 'col-span-1 row-span-1',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+        <path d="M2 17l10 5 10-5" />
+        <path d="M2 12l10 5 10-5" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Influencer Campaigns',
+    count: '300+',
+    description: 'End-to-end creator collaborations',
+    gradient: 'from-neon-green/20 via-neon-green/5 to-transparent',
+    color: '#39ff14',
+    span: 'col-span-1 row-span-2',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 00-3-3.87" />
+        <path d="M16 3.13a4 4 0 010 7.75" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Performance Ads',
+    count: '₹12Cr+',
+    description: 'Ad spend managed profitably',
+    gradient: 'from-cyan/15 via-purple/10 to-transparent',
+    color: '#00f0ff',
+    span: 'col-span-1 row-span-1',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+  },
+  {
+    title: 'UGC Library',
+    count: '8,000+',
+    description: 'Authentic user-generated assets',
+    gradient: 'from-pink/15 via-cyan/10 to-transparent',
+    color: '#ff006e',
+    span: 'col-span-1 row-span-1',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+      </svg>
+    ),
+  },
+];
+
 export default function VideoShowreel() {
   const sectionRef = useRef(null);
-  const videoRef = useRef(null);
-  const textRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Scale video from small rounded to full bleed
-      gsap.fromTo(
-        videoRef.current,
-        { scale: 0.65, borderRadius: '48px', opacity: 0.8 },
-        {
-          scale: 1,
-          borderRadius: '0px',
-          opacity: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 85%',
-            end: 'top 5%',
-            scrub: 1,
-          },
-        }
-      );
-
-      // Parallax heading
-      gsap.fromTo(
-        textRef.current,
-        { y: 0, opacity: 1 },
-        {
-          y: -120,
-          opacity: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 30%',
-            end: 'top -15%',
-            scrub: 1,
-          },
-        }
-      );
+      const cards = gridRef.current?.querySelectorAll('.deliverable-card');
+      if (cards) {
+        cards.forEach((card, i) => {
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: 60, scale: 0.95 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                end: 'top 65%',
+                scrub: 1,
+              },
+            }
+          );
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 md:py-40 overflow-hidden">
-      {/* Heading */}
-      <div ref={textRef} className="text-center mb-16 relative z-10">
-        <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
-          Our Showreel
-        </span>
-        <h2 className="text-4xl md:text-6xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
-          See Us in <span className="gradient-text">Action</span>
-        </h2>
-      </div>
+    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 grid-bg opacity-20" />
+      <div className="gradient-orb w-[600px] h-[600px] bg-purple/5 top-[20%] left-[-10%]" />
+      <div className="gradient-orb w-[500px] h-[500px] bg-cyan/5 bottom-[10%] right-[-10%]" style={{ animationDelay: '-4s' }} />
 
-      {/* Video container */}
-      <div
-        ref={videoRef}
-        className="relative mx-auto overflow-hidden cursor-pointer group"
-        style={{ maxWidth: '100vw' }}
-        onClick={() => setIsPlaying(!isPlaying)}
-      >
-        <div className="relative aspect-video w-full overflow-hidden bg-surface">
-          {/* Animated multi-layer background */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan/15 via-background to-purple/15" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4"
+          >
+            What We Create
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] tracking-tight"
+          >
+            Our <span className="gradient-text">Output</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-400 mt-4 max-w-xl mx-auto text-lg"
+          >
+            Every asset we produce is designed to convert — not just look pretty.
+          </motion.p>
+        </div>
 
-            {/* Animated gradient orbs */}
-            <div className="absolute top-0 left-0 w-full h-full">
-              <div className="gradient-orb w-[700px] h-[700px] bg-cyan/20 top-[-20%] left-[-15%]" />
-              <div className="gradient-orb w-[600px] h-[600px] bg-purple/20 bottom-[-20%] right-[-15%]" style={{ animationDelay: '-3s' }} />
-              <div className="gradient-orb w-[500px] h-[500px] bg-pink/15 top-[20%] left-[30%]" style={{ animationDelay: '-5s' }} />
-              <div className="gradient-orb w-[400px] h-[400px] bg-neon-green/8 bottom-[10%] left-[60%]" style={{ animationDelay: '-7s' }} />
-            </div>
-
-            {/* Grid + scanlines */}
-            <div className="absolute inset-0 grid-bg opacity-40" />
-            <div className="absolute inset-0 scanlines" />
-          </div>
-
-          {/* Content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-            {/* Massive brand name */}
+        {/* Bento Grid */}
+        <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] md:auto-rows-[200px] gap-4">
+          {deliverables.map((item) => (
             <div
-              className="text-[18vw] md:text-[15vw] font-bold font-[family-name:var(--font-heading)] leading-none select-none mb-6"
-              style={{
-                WebkitTextStroke: '2px rgba(0, 240, 255, 0.12)',
-                WebkitTextFillColor: 'transparent',
-              }}
+              key={item.title}
+              className={`deliverable-card ${item.span} relative group rounded-2xl md:rounded-3xl border border-gray-800/40 overflow-hidden bg-surface/30 backdrop-blur-sm hover:border-gray-700/60 transition-all duration-700 cursor-default opacity-0`}
             >
-              SUMVAIK
-            </div>
+              {/* Gradient background */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-60 group-hover:opacity-100 transition-opacity duration-700`} />
 
-            {/* Play button with glow ring */}
-            <button
-              className="relative w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center group-hover:scale-110 transition-all duration-700"
-              data-cursor-hover
-            >
-              {/* Outer rotating ring */}
+              {/* Hover spotlight */}
               <div
-                className="absolute inset-0 rounded-full border border-cyan/20 group-hover:border-cyan/40 transition-colors duration-500"
-                style={{ animation: 'spin 20s linear infinite' }}
+                className="absolute -top-20 -right-20 w-[300px] h-[300px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle, ${item.color}15, transparent 70%)`,
+                }}
               />
-              {/* Dashed middle ring */}
-              <div
-                className="absolute inset-2 rounded-full border border-dashed border-white/10 group-hover:border-white/20 transition-colors duration-500"
-                style={{ animation: 'spin 15s linear infinite reverse' }}
-              />
-              {/* Inner glow */}
-              <div className="absolute inset-4 rounded-full bg-white/5 group-hover:bg-cyan/10 transition-colors duration-700 animate-breathe" />
 
-              {isPlaying ? (
-                <div className="flex gap-2 relative z-10">
-                  <div className="w-3 h-10 bg-white rounded-sm" />
-                  <div className="w-3 h-10 bg-white rounded-sm" />
+              {/* Content */}
+              <div className="relative z-10 h-full flex flex-col justify-between p-5 md:p-7">
+                <div className="flex items-start justify-between">
+                  <div
+                    className="w-12 h-12 md:w-14 md:h-14 rounded-xl border flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg"
+                    style={{
+                      borderColor: `${item.color}30`,
+                      color: item.color,
+                      background: `${item.color}08`,
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+                  <span
+                    className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] leading-none"
+                    style={{ color: item.color }}
+                  >
+                    {item.count}
+                  </span>
                 </div>
-              ) : (
-                <svg className="w-10 h-10 md:w-12 md:h-12 text-white relative z-10 ml-1.5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              )}
-            </button>
 
-            <p className="mt-8 text-sm text-gray-400 uppercase tracking-[0.3em] group-hover:text-cyan transition-colors duration-500">
-              {isPlaying ? 'Now Playing' : 'Play Showreel — 2024'}
-            </p>
-          </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight mb-1">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs md:text-sm text-gray-500">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
 
-          {/* Gradient lines */}
-          <div className="absolute top-0 left-0 right-0 h-px animated-gradient-line" />
-          <div className="absolute bottom-0 left-0 right-0 h-px animated-gradient-line" />
-
-          {/* Side accents */}
-          <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-cyan/10 to-transparent" />
-          <div className="absolute right-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-purple/10 to-transparent" />
+              {/* Bottom animated line on hover */}
+              <div
+                className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-700"
+                style={{ background: `linear-gradient(90deg, ${item.color}, transparent)` }}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

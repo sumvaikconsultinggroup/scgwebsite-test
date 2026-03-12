@@ -59,7 +59,7 @@ export default function FeaturedWork() {
   const scrollRef = useRef(null);
 
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative py-20 overflow-hidden">
       {/* Background */}
       <div className="gradient-orb w-[500px] h-[500px] bg-purple/5 top-[10%] right-[-5%]" />
 

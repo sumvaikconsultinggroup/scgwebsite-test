@@ -68,7 +68,7 @@ export default function ResultsShowcase() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 md:py-48 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <div className="gradient-orb w-[600px] h-[600px] bg-cyan/5 top-[10%] right-[-10%]" />
@@ -77,7 +77,7 @@ export default function ResultsShowcase() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-14">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}

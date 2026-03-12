@@ -9,7 +9,7 @@ const rows = [
 
 export default function InfiniteTextWall() {
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden">
+    <section className="relative py-8 md:py-12 overflow-hidden">
       {/* Top gradient fade */}
       <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none" />
       {/* Bottom gradient fade */}

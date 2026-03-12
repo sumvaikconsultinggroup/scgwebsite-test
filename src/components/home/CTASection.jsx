@@ -70,7 +70,7 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       <ParticleCloud />
 
       {/* Extra gradient orbs */}

@@ -100,14 +100,14 @@ export default function ProcessSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 md:py-48 px-4 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-28 px-4 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-20" />
       <div className="gradient-orb w-[600px] h-[600px] bg-purple/5 top-[30%] right-[-15%]" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-14">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
             Our Process
           </span>

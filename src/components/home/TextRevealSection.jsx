@@ -36,7 +36,7 @@ export default function TextRevealSection() {
   }, [words.length]);
 
   return (
-    <section ref={sectionRef} className="relative py-48 md:py-64 px-4 overflow-hidden">
+    <section ref={sectionRef} className="relative py-24 md:py-32 px-4 overflow-hidden">
       {/* Centered gradient orb */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-cyan/5 blur-[120px] pointer-events-none" />
 

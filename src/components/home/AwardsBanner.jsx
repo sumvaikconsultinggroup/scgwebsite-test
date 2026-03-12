@@ -12,7 +12,7 @@ const awards = [
 
 export default function AwardsBanner() {
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
+    <section className="relative py-16 md:py-20 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-surface/50 to-background" />
 
@@ -22,7 +22,7 @@ export default function AwardsBanner() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}

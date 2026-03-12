@@ -96,7 +96,7 @@ export default function WhyChooseUs() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 md:py-48 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden">
       {/* Background grid */}
       <div className="absolute inset-0 grid-bg" />
 
@@ -106,7 +106,7 @@ export default function WhyChooseUs() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4">
         {/* Header — stacked massive text */}
-        <div ref={headingRef} className="mb-20 md:mb-28">
+        <div ref={headingRef} className="mb-14 md:mb-20">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
             Why Sumvaik
           </span>

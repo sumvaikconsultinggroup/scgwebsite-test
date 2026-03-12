@@ -62,14 +62,14 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 md:py-48 px-4 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-28 px-4 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="gradient-orb w-[600px] h-[600px] bg-cyan/5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Scaling text */}
-        <div className="mb-24 text-center">
+        <div className="mb-16 text-center">
           <h2
             ref={textRef}
             className="text-5xl md:text-7xl lg:text-[8rem] font-bold font-[family-name:var(--font-heading)] leading-[0.85] tracking-tight"

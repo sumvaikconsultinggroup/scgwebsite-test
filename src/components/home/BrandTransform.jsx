@@ -62,14 +62,14 @@ export default function BrandTransform() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-32 md:py-48 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="gradient-orb w-[800px] h-[800px] bg-purple/5 top-[20%] left-1/2 -translate-x-1/2" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4">
         {/* Heading */}
-        <div ref={headingRef} className="text-center mb-24 opacity-0">
+        <div ref={headingRef} className="text-center mb-14 opacity-0">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
             Before & After
           </span>

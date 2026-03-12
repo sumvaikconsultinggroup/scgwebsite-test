@@ -50,7 +50,7 @@ function LogoRow({ brands, direction = 'left', duration = 30 }) {
 
 export default function ClientLogos() {
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
+    <section className="relative py-12 md:py-16 overflow-hidden">
       {/* Section divider top */}
       <div className="absolute top-0 left-0 right-0 section-divider" />
 
