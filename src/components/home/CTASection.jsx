@@ -9,6 +9,36 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ParticleCloud = dynamic(() => import('@/components/three/ParticleCloud'), { ssr: false });
 
+const benefits = [
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>
+    ),
+    text: 'Free Consultation',
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>
+    ),
+    text: 'No Long-Term Contracts',
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>
+    ),
+    text: 'Results in 30 Days',
+  },
+];
+
 export default function CTASection() {
   const sectionRef = useRef(null);
   const textRef = useRef(null);
@@ -97,6 +127,21 @@ export default function CTASection() {
             Start a Project
           </span>
         </MagneticButton>
+
+        {/* Benefits row */}
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-10">
+          {benefits.map((benefit) => (
+            <div key={benefit.text} className="flex items-center gap-2 text-gray-400">
+              <span className="text-cyan">{benefit.icon}</span>
+              <span className="text-sm">{benefit.text}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Trust indicator */}
+        <p className="mt-8 text-xs text-gray-500 tracking-wide">
+          Join 500+ brands who chose SCG Digital
+        </p>
       </div>
     </section>
   );

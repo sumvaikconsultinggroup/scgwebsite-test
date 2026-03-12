@@ -38,9 +38,9 @@ export default function DashboardPage() {
   };
 
   const statusColors = {
-    pending: 'text-yellow-400 bg-yellow-400/10',
-    accepted: 'text-neon-green bg-neon-green/10',
-    declined: 'text-pink bg-pink/10',
+    pending: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
+    accepted: 'text-neon-green bg-neon-green/10 border-neon-green/20',
+    declined: 'text-pink bg-pink/10 border-pink/20',
   };
 
   const statusIcons = {
@@ -68,6 +68,13 @@ export default function DashboardPage() {
     );
   }
 
+  const statCards = [
+    { label: 'Influencer Profiles', value: userInfluencers.length, color: 'text-cyan', border: 'border-cyan/20', gradient: 'from-cyan/10 to-transparent' },
+    { label: 'Campaigns', value: userCampaigns.length, color: 'text-purple', border: 'border-purple/20', gradient: 'from-purple/10 to-transparent' },
+    { label: 'Applications', value: applications.length, color: 'text-pink', border: 'border-pink/20', gradient: 'from-pink/10 to-transparent' },
+    { label: 'Accepted', value: applications.filter((a) => a.status === 'accepted').length, color: 'text-neon-green', border: 'border-neon-green/20', gradient: 'from-neon-green/10 to-transparent' },
+  ];
+
   return (
     <div className="pt-24 pb-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,25 +85,34 @@ export default function DashboardPage() {
           className="mb-8"
         >
           <h1 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-foreground mb-2">
-            <span className="gradient-text">Dashboard</span>
+            <span className="bg-gradient-to-r from-cyan via-purple to-pink bg-clip-text text-transparent">Dashboard</span>
           </h1>
           <p className="text-gray-400 text-sm">Manage your listings and applications</p>
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          {[
-            { label: 'Influencer Profiles', value: userInfluencers.length, color: 'text-cyan' },
-            { label: 'Campaigns', value: userCampaigns.length, color: 'text-purple' },
-            { label: 'Applications', value: applications.length, color: 'text-pink' },
-            { label: 'Accepted', value: applications.filter((a) => a.status === 'accepted').length, color: 'text-neon-green' },
-          ].map((s) => (
-            <div key={s.label} className="glass rounded-xl p-4 text-center">
-              <div className={`text-2xl font-bold font-[family-name:var(--font-heading)] ${s.color}`}>{s.value}</div>
-              <div className="text-xs text-gray-500">{s.label}</div>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+        >
+          {statCards.map((s, i) => (
+            <motion.div
+              key={s.label}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.05 }}
+              className={`relative rounded-xl p-5 text-center border ${s.border} bg-surface/30 overflow-hidden`}
+            >
+              <div className={`absolute inset-0 bg-gradient-to-b ${s.gradient} pointer-events-none`} />
+              <div className="relative">
+                <div className={`text-3xl font-bold font-[family-name:var(--font-heading)] ${s.color}`}>{s.value}</div>
+                <div className="text-xs text-gray-500 mt-1">{s.label}</div>
+              </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Tabs */}
         <div className="flex gap-1 mb-6 border-b border-gray-800 pb-px">
@@ -119,7 +135,7 @@ export default function DashboardPage() {
               {tab === t.id && (
                 <motion.div
                   layoutId="dashTab"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan to-purple"
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
@@ -143,7 +159,7 @@ export default function DashboardPage() {
                   <h3 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wider">Influencer Profiles</h3>
                   <div className="space-y-3">
                     {userInfluencers.map((inf) => (
-                      <div key={inf.id} className="glass rounded-xl p-4 flex items-center justify-between gap-4">
+                      <div key={inf.id} className="rounded-xl p-4 flex items-center justify-between gap-4 border border-gray-800 bg-surface/30 hover:border-gray-700 transition-all">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink to-purple flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                             {inf.name?.split(' ').map(n => n[0]).join('') || '?'}
@@ -155,7 +171,7 @@ export default function DashboardPage() {
                         </div>
                         <button
                           onClick={() => deleteInfluencer(inf.id)}
-                          className="p-2 text-gray-500 hover:text-pink transition-colors flex-shrink-0"
+                          className="p-2 text-gray-500 hover:text-pink transition-colors flex-shrink-0 rounded-lg hover:bg-pink/5"
                         >
                           <HiTrash size={16} />
                         </button>
@@ -171,7 +187,7 @@ export default function DashboardPage() {
                   <h3 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wider">Campaigns</h3>
                   <div className="space-y-3">
                     {userCampaigns.map((camp) => (
-                      <div key={camp.id} className="glass rounded-xl p-4 flex items-center justify-between gap-4">
+                      <div key={camp.id} className="rounded-xl p-4 flex items-center justify-between gap-4 border border-gray-800 bg-surface/30 hover:border-gray-700 transition-all">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan to-purple flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                             {camp.brandName?.charAt(0) || 'B'}
@@ -182,12 +198,12 @@ export default function DashboardPage() {
                           </div>
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
-                          <span className="px-2 py-0.5 text-[10px] text-neon-green bg-neon-green/10 rounded-full">
+                          <span className="px-2 py-0.5 text-[10px] text-neon-green bg-neon-green/10 border border-neon-green/20 rounded-full">
                             {camp.status || 'active'}
                           </span>
                           <button
                             onClick={() => deleteCampaign(camp.id)}
-                            className="p-2 text-gray-500 hover:text-pink transition-colors"
+                            className="p-2 text-gray-500 hover:text-pink transition-colors rounded-lg hover:bg-pink/5"
                           >
                             <HiTrash size={16} />
                           </button>
@@ -199,7 +215,7 @@ export default function DashboardPage() {
               )}
 
               {userInfluencers.length === 0 && userCampaigns.length === 0 && (
-                <div className="text-center py-16 glass rounded-2xl">
+                <div className="text-center py-16 rounded-2xl border border-gray-800 bg-surface/30">
                   <p className="text-gray-500 mb-2">No listings yet</p>
                   <p className="text-sm text-gray-600">
                     Create an influencer profile or post a campaign to get started
@@ -220,11 +236,11 @@ export default function DashboardPage() {
               {applications.length > 0 ? applications.map((app) => {
                 const StatusIcon = statusIcons[app.status] || HiClock;
                 return (
-                  <div key={app.id} className="glass rounded-xl p-4">
+                  <div key={app.id} className="rounded-xl p-5 border border-gray-800 bg-surface/30 hover:border-gray-700 transition-all">
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] rounded-full font-medium ${statusColors[app.status]}`}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-[10px] rounded-full font-medium border ${statusColors[app.status]}`}>
                             <StatusIcon size={10} />
                             {app.status}
                           </span>
@@ -244,14 +260,14 @@ export default function DashboardPage() {
                           <>
                             <button
                               onClick={() => updateApplicationStatus(app.id, 'accepted')}
-                              className="p-2 text-gray-500 hover:text-neon-green transition-colors"
+                              className="p-2 text-gray-500 hover:text-neon-green transition-colors rounded-lg hover:bg-neon-green/5"
                               title="Accept"
                             >
                               <HiCheck size={16} />
                             </button>
                             <button
                               onClick={() => updateApplicationStatus(app.id, 'declined')}
-                              className="p-2 text-gray-500 hover:text-pink transition-colors"
+                              className="p-2 text-gray-500 hover:text-pink transition-colors rounded-lg hover:bg-pink/5"
                               title="Decline"
                             >
                               <HiX size={16} />
@@ -260,7 +276,7 @@ export default function DashboardPage() {
                         )}
                         <button
                           onClick={() => deleteApplication(app.id)}
-                          className="p-2 text-gray-500 hover:text-pink transition-colors"
+                          className="p-2 text-gray-500 hover:text-pink transition-colors rounded-lg hover:bg-pink/5"
                           title="Delete"
                         >
                           <HiTrash size={16} />
@@ -270,7 +286,7 @@ export default function DashboardPage() {
                   </div>
                 );
               }) : (
-                <div className="text-center py-16 glass rounded-2xl">
+                <div className="text-center py-16 rounded-2xl border border-gray-800 bg-surface/30">
                   <p className="text-gray-500 mb-2">No applications yet</p>
                   <p className="text-sm text-gray-600">
                     Applications will appear here when someone applies to your campaigns or connects with your profile

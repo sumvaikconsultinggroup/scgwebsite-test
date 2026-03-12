@@ -1,8 +1,8 @@
 'use client';
 import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import GradientButton from '@/components/ui/GradientButton';
-import { HiArrowRight, HiArrowLeft, HiDownload, HiRefresh, HiPencil, HiTrash, HiPlus } from 'react-icons/hi';
+import MagneticButton from '@/components/ui/MagneticButton';
+import { HiArrowRight, HiArrowLeft, HiDownload, HiRefresh, HiPencil, HiTrash, HiPlus, HiCheck } from 'react-icons/hi';
 import { FaInstagram, FaTiktok, FaTwitter, FaLinkedinIn, FaFacebook, FaYoutube } from 'react-icons/fa';
 
 const platforms = [
@@ -83,6 +83,8 @@ function getDaysInMonth(month, year) {
 function getFirstDayOfMonth(month, year) {
   return new Date(year, month, 1).getDay();
 }
+
+const stepLabels = ['Brand Setup', 'Content Config', 'Review', 'Calendar'];
 
 export default function ContentCalendarPage() {
   const [step, setStep] = useState(1);
@@ -216,7 +218,10 @@ export default function ContentCalendarPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold font-[family-name:var(--font-heading)] mb-4"
           >
-            Content <span className="gradient-text">Calendar Generator</span>
+            Content{' '}
+            <span className="bg-gradient-to-r from-cyan via-purple to-pink bg-clip-text text-transparent">
+              Calendar Generator
+            </span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -228,17 +233,33 @@ export default function ContentCalendarPage() {
           </motion.p>
         </div>
 
-        {/* Progress Steps */}
-        <div className="flex items-center justify-center gap-2 mb-12">
-          {['Brand Setup', 'Content Config', 'Generate', 'Customize & Export'].map((s, i) => (
-            <div key={s} className="flex items-center gap-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                step > i + 1 ? 'bg-cyan text-background' : step === i + 1 ? 'bg-cyan/20 text-cyan border border-cyan/50' : 'bg-surface text-gray-500 border border-gray-700'
-              }`}>
-                {step > i + 1 ? '✓' : i + 1}
+        {/* Step Indicator - numbered circles with connecting lines */}
+        <div className="flex items-center justify-center mb-14 max-w-lg mx-auto">
+          {stepLabels.map((s, i) => (
+            <div key={s} className="flex items-center flex-1 last:flex-none">
+              <div className="flex flex-col items-center">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                  step > i + 1
+                    ? 'bg-gradient-to-br from-cyan to-purple text-background shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                    : step === i + 1
+                    ? 'bg-cyan/10 text-cyan border-2 border-cyan shadow-[0_0_15px_rgba(0,240,255,0.15)]'
+                    : 'bg-surface text-gray-500 border border-gray-800'
+                }`}>
+                  {step > i + 1 ? <HiCheck /> : i + 1}
+                </div>
+                <span className={`text-[11px] mt-2 font-medium whitespace-nowrap ${
+                  step === i + 1 ? 'text-cyan' : step > i + 1 ? 'text-foreground' : 'text-gray-500'
+                }`}>
+                  {s}
+                </span>
               </div>
-              <span className={`text-xs hidden sm:inline ${step === i + 1 ? 'text-cyan' : 'text-gray-500'}`}>{s}</span>
-              {i < 3 && <div className="w-8 h-px bg-gray-700" />}
+              {i < 3 && (
+                <div className="flex-1 mx-2 mt-[-18px]">
+                  <div className={`h-0.5 rounded-full transition-all duration-500 ${
+                    step > i + 1 ? 'bg-gradient-to-r from-cyan to-purple' : 'bg-gray-800'
+                  }`} />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -251,7 +272,7 @@ export default function ContentCalendarPage() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              className="max-w-2xl mx-auto glass rounded-2xl p-8"
+              className="max-w-2xl mx-auto rounded-2xl p-8 border border-gray-800 bg-surface/30"
             >
               <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)] text-foreground mb-6">Brand Setup</h2>
 
@@ -263,7 +284,7 @@ export default function ContentCalendarPage() {
                     value={brandName}
                     onChange={(e) => setBrandName(e.target.value)}
                     placeholder="Your Brand Name"
-                    className="w-full px-4 py-3 bg-surface border border-gray-700 rounded-xl text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 focus:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all"
+                    className="w-full px-4 py-3 bg-surface border border-gray-800 rounded-xl text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 focus:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all"
                   />
                 </div>
 
@@ -274,7 +295,7 @@ export default function ContentCalendarPage() {
                     value={logoText}
                     onChange={(e) => setLogoText(e.target.value)}
                     placeholder={brandName || 'Logo Text'}
-                    className="w-full px-4 py-3 bg-surface border border-gray-700 rounded-xl text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 focus:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all"
+                    className="w-full px-4 py-3 bg-surface border border-gray-800 rounded-xl text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 focus:shadow-[0_0_15px_rgba(0,240,255,0.1)] transition-all"
                   />
                 </div>
 
@@ -292,7 +313,7 @@ export default function ContentCalendarPage() {
                         type="text"
                         value={brandColor}
                         onChange={(e) => setBrandColor(e.target.value)}
-                        className="flex-1 px-3 py-2 bg-surface border border-gray-700 rounded-lg text-foreground text-sm focus:outline-none focus:border-cyan/50"
+                        className="flex-1 px-3 py-2 bg-surface border border-gray-800 rounded-lg text-foreground text-sm focus:outline-none focus:border-cyan/50"
                       />
                     </div>
                   </div>
@@ -309,14 +330,14 @@ export default function ContentCalendarPage() {
                         type="text"
                         value={brandColor2}
                         onChange={(e) => setBrandColor2(e.target.value)}
-                        className="flex-1 px-3 py-2 bg-surface border border-gray-700 rounded-lg text-foreground text-sm focus:outline-none focus:border-cyan/50"
+                        className="flex-1 px-3 py-2 bg-surface border border-gray-800 rounded-lg text-foreground text-sm focus:outline-none focus:border-cyan/50"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Preview */}
-                <div className="p-4 rounded-xl border border-gray-700 bg-surface">
+                <div className="p-4 rounded-xl border border-gray-800 bg-surface">
                   <p className="text-xs text-gray-500 mb-2">Preview</p>
                   <div className="flex items-center gap-3">
                     <div
@@ -333,9 +354,12 @@ export default function ContentCalendarPage() {
               </div>
 
               <div className="flex justify-end mt-8">
-                <GradientButton onClick={() => brandName && setStep(2)} className={!brandName ? 'opacity-50 cursor-not-allowed' : ''}>
+                <button
+                  onClick={() => brandName && setStep(2)}
+                  className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-xl hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all ${!brandName ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
                   Next Step <HiArrowRight />
-                </GradientButton>
+                </button>
               </div>
             </motion.div>
           )}
@@ -346,7 +370,7 @@ export default function ContentCalendarPage() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              className="max-w-2xl mx-auto glass rounded-2xl p-8"
+              className="max-w-2xl mx-auto rounded-2xl p-8 border border-gray-800 bg-surface/30"
             >
               <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)] text-foreground mb-6">Content Configuration</h2>
 
@@ -358,7 +382,7 @@ export default function ContentCalendarPage() {
                     <select
                       value={selectedMonth}
                       onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                      className="w-full px-4 py-3 bg-surface border border-gray-700 rounded-xl text-foreground focus:outline-none focus:border-cyan/50"
+                      className="w-full px-4 py-3 bg-surface border border-gray-800 rounded-xl text-foreground focus:outline-none focus:border-cyan/50 transition-all"
                     >
                       {months.map((m, i) => (
                         <option key={m} value={i}>{m}</option>
@@ -370,7 +394,7 @@ export default function ContentCalendarPage() {
                     <select
                       value={selectedYear}
                       onChange={(e) => setSelectedYear(Number(e.target.value))}
-                      className="w-full px-4 py-3 bg-surface border border-gray-700 rounded-xl text-foreground focus:outline-none focus:border-cyan/50"
+                      className="w-full px-4 py-3 bg-surface border border-gray-800 rounded-xl text-foreground focus:outline-none focus:border-cyan/50 transition-all"
                     >
                       {[2025, 2026, 2027].map((y) => (
                         <option key={y} value={y}>{y}</option>
@@ -389,8 +413,8 @@ export default function ContentCalendarPage() {
                         onClick={() => togglePlatform(p.id)}
                         className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                           selectedPlatforms.includes(p.id)
-                            ? 'border-cyan/50 bg-cyan/10 text-cyan'
-                            : 'border-gray-700 text-gray-400 hover:border-gray-600'
+                            ? 'border-cyan/50 bg-cyan/10 text-cyan shadow-[0_0_10px_rgba(0,240,255,0.1)]'
+                            : 'border-gray-800 text-gray-400 hover:border-gray-600'
                         }`}
                       >
                         <p.icon style={{ color: selectedPlatforms.includes(p.id) ? p.color : undefined }} />
@@ -410,8 +434,8 @@ export default function ContentCalendarPage() {
                         onClick={() => toggleTheme(t.id)}
                         className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
                           selectedThemes.includes(t.id)
-                            ? 'border-purple/50 bg-purple/10 text-purple'
-                            : 'border-gray-700 text-gray-400 hover:border-gray-600'
+                            ? 'border-purple/50 bg-purple/10 text-purple shadow-[0_0_10px_rgba(139,92,246,0.1)]'
+                            : 'border-gray-800 text-gray-400 hover:border-gray-600'
                         }`}
                       >
                         <span>{t.emoji}</span>
@@ -426,12 +450,12 @@ export default function ContentCalendarPage() {
                 <button onClick={() => setStep(1)} className="flex items-center gap-2 text-gray-400 hover:text-foreground transition-colors">
                   <HiArrowLeft /> Back
                 </button>
-                <GradientButton
+                <button
                   onClick={() => selectedPlatforms.length > 0 && selectedThemes.length > 0 && setStep(3)}
-                  className={selectedPlatforms.length === 0 || selectedThemes.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}
+                  className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-xl hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all ${selectedPlatforms.length === 0 || selectedThemes.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   Next Step <HiArrowRight />
-                </GradientButton>
+                </button>
               </div>
             </motion.div>
           )}
@@ -442,7 +466,7 @@ export default function ContentCalendarPage() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              className="max-w-2xl mx-auto glass rounded-2xl p-8 text-center"
+              className="max-w-2xl mx-auto rounded-2xl p-8 border border-gray-800 bg-surface/30 text-center"
             >
               <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)] text-foreground mb-4">Ready to Generate!</h2>
               <p className="text-gray-400 mb-8">
@@ -452,7 +476,7 @@ export default function ContentCalendarPage() {
                 <span className="text-neon-green font-medium">{selectedThemes.length} content themes</span>.
               </p>
 
-              <div className="glass rounded-xl p-6 mb-8 text-left">
+              <div className="rounded-xl p-6 mb-8 text-left border border-gray-800 bg-surface/50">
                 <h3 className="text-sm font-bold text-foreground mb-3">Summary</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between text-gray-400">
@@ -478,9 +502,12 @@ export default function ContentCalendarPage() {
                 <button onClick={() => setStep(2)} className="flex items-center gap-2 text-gray-400 hover:text-foreground transition-colors">
                   <HiArrowLeft /> Back
                 </button>
-                <GradientButton onClick={generateCalendar}>
+                <button
+                  onClick={generateCalendar}
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-xl hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"
+                >
                   Generate Calendar <HiArrowRight />
-                </GradientButton>
+                </button>
               </div>
             </motion.div>
           )}
@@ -497,20 +524,20 @@ export default function ContentCalendarPage() {
                   <button onClick={() => { setStep(2); setCalendarEntries({}); }} className="flex items-center gap-2 text-sm text-gray-400 hover:text-foreground transition-colors">
                     <HiArrowLeft /> Reconfigure
                   </button>
-                  <button onClick={generateCalendar} className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-700 rounded-lg text-gray-400 hover:text-cyan hover:border-cyan/30 transition-all">
+                  <button onClick={generateCalendar} className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-800 rounded-xl text-gray-400 hover:text-cyan hover:border-cyan/30 transition-all">
                     <HiRefresh /> Regenerate
                   </button>
                 </div>
                 <button
                   onClick={exportCalendar}
-                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"
+                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-cyan to-purple text-background rounded-xl hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all"
                 >
                   <HiDownload /> Download as PNG
                 </button>
               </div>
 
               {/* Calendar */}
-              <div ref={calendarRef} className="glass rounded-2xl overflow-hidden" style={{ padding: '24px' }}>
+              <div ref={calendarRef} className="rounded-2xl overflow-hidden border border-gray-800 bg-surface/30" style={{ padding: '24px' }}>
                 {/* Calendar Header */}
                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-800">
                   <div className="flex items-center gap-3">
@@ -555,7 +582,7 @@ export default function ContentCalendarPage() {
                     return (
                       <div
                         key={day}
-                        className="min-h-[100px] rounded-lg bg-surface/50 border border-gray-800/50 p-1.5 group relative"
+                        className="min-h-[100px] rounded-lg bg-surface/50 border border-gray-800/50 p-1.5 group relative hover:border-gray-700 transition-colors"
                       >
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-xs font-bold text-gray-500">{day}</span>
@@ -586,7 +613,7 @@ export default function ContentCalendarPage() {
                                     <input
                                       value={entry.caption}
                                       onChange={(e) => updateEntry(day, entry.id, 'caption', e.target.value)}
-                                      className="w-full text-[9px] px-1 py-0.5 bg-background border border-gray-700 rounded text-foreground focus:outline-none"
+                                      className="w-full text-[9px] px-1 py-0.5 bg-background border border-gray-800 rounded text-foreground focus:outline-none"
                                       onClick={(e) => e.stopPropagation()}
                                     />
                                     <button

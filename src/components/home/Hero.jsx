@@ -7,6 +7,8 @@ import TextScramble from '@/components/ui/TextScramble';
 
 const HeroScene = dynamic(() => import('@/components/three/HeroScene'), { ssr: false });
 
+const trustBrands = ['Nike', 'Spotify', 'Airbnb', 'Stripe', 'Netflix'];
+
 export default function Hero() {
   const heroRef = useRef(null);
   const line1Ref = useRef(null);
@@ -14,6 +16,7 @@ export default function Hero() {
   const subtitleRef = useRef(null);
   const ctaRef = useRef(null);
   const scrollRef = useRef(null);
+  const logosRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -41,6 +44,12 @@ export default function Hero() {
           { y: 30, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8 },
           '-=0.4'
+        )
+        .fromTo(
+          logosRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          '-=0.3'
         )
         .fromTo(
           scrollRef.current,
@@ -99,6 +108,24 @@ export default function Hero() {
               Start a Project
             </span>
           </MagneticButton>
+        </div>
+
+        {/* Trust indicators */}
+        <div ref={logosRef} className="mt-16 opacity-0">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mb-6">
+            Trusted by industry leaders
+          </p>
+          <div className="flex items-center justify-center gap-8 md:gap-12 flex-wrap">
+            {trustBrands.map((brand, i) => (
+              <span
+                key={brand}
+                className="text-lg md:text-xl font-[family-name:var(--font-heading)] text-gray-500 opacity-60 hover:opacity-100 hover:text-gray-300 transition-all duration-300 select-none"
+                style={{ fontWeight: i % 2 === 0 ? 700 : 600 }}
+              >
+                {brand}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 

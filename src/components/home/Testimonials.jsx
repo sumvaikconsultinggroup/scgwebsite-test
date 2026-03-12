@@ -10,21 +10,33 @@ const testimonials = [
     quote: 'SCG Digital transformed our brand from invisible to unforgettable. Their strategy tripled our engagement in 3 months.',
     name: 'Sarah Chen',
     role: 'CEO, Luxe Beauty',
+    company: 'Luxe Beauty',
+    metric: '3x Revenue Growth',
+    metricColor: '#00f0ff',
   },
   {
     quote: 'The influencer campaign exceeded all expectations. 400% ROI and 50K new organic followers.',
     name: 'Marcus Johnson',
     role: 'CMO, FitLife',
+    company: 'FitLife',
+    metric: '400% ROI',
+    metricColor: '#8b5cf6',
   },
   {
     quote: 'Their branding work gave us a new identity that truly resonates. Revenue increased 200% after the rebrand.',
     name: 'Priya Patel',
     role: 'Founder, EcoWear',
+    company: 'EcoWear',
+    metric: '200% Revenue Increase',
+    metricColor: '#ff006e',
   },
   {
     quote: 'Working with SCG is like having a growth cheat code. Their data-driven approach is unmatched.',
     name: 'David Kim',
     role: 'VP Marketing, TechStart',
+    company: 'TechStart',
+    metric: '5x Lead Generation',
+    metricColor: '#39ff14',
   },
 ];
 
@@ -79,21 +91,46 @@ export default function Testimonials() {
                 transform: i === 0 ? 'none' : undefined,
               }}
             >
+              {/* Top row: stars + metric */}
+              <div className="flex items-center justify-between mb-6">
+                {/* Star rating */}
+                <div className="text-cyan text-lg tracking-wider">
+                  &#9733;&#9733;&#9733;&#9733;&#9733;
+                </div>
+                {/* Result metric */}
+                <span
+                  className="text-xs md:text-sm font-bold uppercase tracking-[0.1em] px-4 py-1.5 rounded-full border"
+                  style={{
+                    color: t.metricColor,
+                    borderColor: `${t.metricColor}33`,
+                    background: `${t.metricColor}0a`,
+                  }}
+                >
+                  {t.metric}
+                </span>
+              </div>
+
               {/* Quote mark */}
               <div className="text-6xl md:text-8xl font-serif text-cyan/10 leading-none mb-4 select-none">&ldquo;</div>
 
-              <p className="text-lg md:text-2xl text-gray-300 leading-relaxed mb-8 font-light">
+              <p className="text-xl md:text-3xl text-gray-200 leading-relaxed mb-10 font-light">
                 {t.quote}
               </p>
 
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan to-purple flex items-center justify-center text-background font-bold">
-                  {t.name.charAt(0)}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan to-purple flex items-center justify-center text-background font-bold">
+                    {t.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground text-sm">{t.name}</h4>
+                    <p className="text-xs text-gray-500">{t.role}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-foreground text-sm">{t.name}</h4>
-                  <p className="text-xs text-gray-500">{t.role}</p>
-                </div>
+                {/* Company logo text */}
+                <span className="text-lg md:text-xl font-[family-name:var(--font-heading)] font-bold text-gray-600 select-none">
+                  {t.company}
+                </span>
               </div>
             </div>
           ))}
