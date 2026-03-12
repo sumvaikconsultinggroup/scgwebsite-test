@@ -8,7 +8,7 @@ import { HiLightningBolt, HiEye, HiHeart, HiCube } from 'react-icons/hi';
 import { FaInstagram, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 
 const timeline = [
-  { year: '2018', title: 'Founded', description: 'SCG Digital was born with a mission to revolutionize digital marketing for ambitious brands.' },
+  { year: '2018', title: 'Founded', description: 'Sumvaik Consulting Group was born with a mission to revolutionize digital marketing for ambitious brands.' },
   { year: '2019', title: 'First 50 Clients', description: 'Expanded our branding services and launched our social media management division.' },
   { year: '2020', title: 'Influencer Network', description: 'Built partnerships with 500+ creators across Instagram, TikTok, and YouTube.' },
   { year: '2021', title: 'Award-Winning', description: 'Recognized as a top 10 digital marketing agency with multiple industry awards.' },
@@ -76,7 +76,7 @@ export default function AboutPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold font-[family-name:var(--font-heading)] mb-6"
           >
-            We Are <span className="gradient-text">SCG Digital</span>
+            We Are <span className="gradient-text">Sumvaik</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -129,7 +129,7 @@ export default function AboutPage() {
         </div>
 
         {/* Timeline */}
-        <SectionHeading label="Our Journey" title="The SCG Story" />
+        <SectionHeading label="Our Journey" title="The Sumvaik Story" />
         <div className="relative mb-24">
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-cyan/30 via-purple/30 to-pink/30" />
           <div className="space-y-12">

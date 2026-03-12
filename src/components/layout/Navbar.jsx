@@ -58,7 +58,7 @@ export default function Navbar() {
                 S
               </div>
               <span className="text-lg font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight hidden sm:block">
-                SCG Digital
+                Sumvaik
               </span>
             </Link>
 
@@ -133,7 +133,7 @@ export default function Navbar() {
                 className="mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-gray-800 pt-8"
               >
                 <div className="text-sm text-gray-500">
-                  <p>hello@scgdigital.com</p>
+                  <p>hello@sumvaik.com</p>
                   <p>+1 (555) 123-4567</p>
                 </div>
                 <div className="flex gap-6 text-sm text-gray-500">

@@ -37,8 +37,8 @@ const contactInfo = [
       </svg>
     ),
     label: 'Email',
-    value: 'hello@scgdigital.com',
-    href: 'mailto:hello@scgdigital.com',
+    value: 'hello@sumvaik.com',
+    href: 'mailto:hello@sumvaik.com',
   },
   {
     icon: (

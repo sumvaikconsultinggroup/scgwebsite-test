@@ -146,7 +146,7 @@ export default function CTASection() {
 
         {/* Trust indicator */}
         <p className="mt-8 text-xs text-gray-600 tracking-wide">
-          Join 500+ brands who chose SCG Digital
+          Join 500+ brands who chose Sumvaik
         </p>
       </div>
     </section>

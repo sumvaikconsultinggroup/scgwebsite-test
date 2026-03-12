@@ -5,7 +5,7 @@ import SmoothScroll from "@/components/providers/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
 
 export const metadata = {
-  title: "SCG Digital | Futuristic Digital Marketing Agency",
+  title: "Sumvaik Consulting Group | Futuristic Digital Marketing Agency",
   description: "Empowering brands with cutting-edge branding, social media marketing, and influencer marketing. Generate content calendars and connect with influencers.",
   keywords: "digital marketing, branding, social media marketing, influencer marketing, content calendar, influencer platform",
 };

@@ -108,7 +108,7 @@ export default function WhyChooseUs() {
         {/* Header — stacked massive text */}
         <div ref={headingRef} className="mb-20 md:mb-28">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
-            Why SCG Digital
+            Why Sumvaik
           </span>
           <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold font-[family-name:var(--font-heading)] leading-[0.85] tracking-tight">
             <span className="text-foreground">Built</span>

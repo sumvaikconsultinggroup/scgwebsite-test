@@ -38,7 +38,7 @@ export default function Footer() {
         {/* Large brand heading */}
         <div className="py-16 md:py-24 text-center">
           <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-bold font-[family-name:var(--font-heading)] gradient-text leading-none tracking-tighter select-none">
-            SCG Digital
+            Sumvaik
           </h2>
         </div>
 
@@ -111,7 +111,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-600">
-            &copy; 2024 SCG Digital. All rights reserved.
+            &copy; 2024 Sumvaik. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm text-gray-600 hover:text-gray-400 transition-colors">

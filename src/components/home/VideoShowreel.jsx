@@ -88,9 +88,9 @@ export default function VideoShowreel() {
 
           {/* Centered content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-            {/* Large SCG text */}
+            {/* Large SUMVAIK text */}
             <div className="text-[20vw] font-bold font-[family-name:var(--font-heading)] stroke-text-thick leading-none select-none mb-8">
-              SCG
+              SUMVAIK
             </div>
 
             {/* Play button */}

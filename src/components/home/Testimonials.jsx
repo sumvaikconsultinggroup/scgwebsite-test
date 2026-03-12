@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
   {
-    quote: 'SCG Digital transformed our brand from invisible to unforgettable. Their strategy tripled our engagement in 3 months.',
+    quote: 'Sumvaik transformed our brand from invisible to unforgettable. Their strategy tripled our engagement in 3 months.',
     name: 'Sarah Chen',
     role: 'CEO, Luxe Beauty',
     company: 'Luxe Beauty',
@@ -31,7 +31,7 @@ const testimonials = [
     metricColor: '#ff006e',
   },
   {
-    quote: 'Working with SCG is like having a growth cheat code. Their data-driven approach is unmatched.',
+    quote: 'Working with Sumvaik is like having a growth cheat code. Their data-driven approach is unmatched.',
     name: 'David Kim',
     role: 'VP Marketing, TechStart',
     company: 'TechStart',
