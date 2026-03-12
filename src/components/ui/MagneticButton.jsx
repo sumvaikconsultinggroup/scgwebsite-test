@@ -19,21 +19,30 @@ export default function MagneticButton({ children, href, onClick, className = ''
     setPosition({ x: 0, y: 0 });
   };
 
-  const Component = href ? motion(Link) : motion.button;
+  const motionProps = {
+    ref,
+    onClick,
+    onMouseMove: handleMouse,
+    onMouseLeave: handleLeave,
+    animate: { x: position.x, y: position.y },
+    transition: { type: 'spring', stiffness: 150, damping: 15, mass: 0.1 },
+    className: `relative inline-flex items-center justify-center ${className}`,
+    'data-cursor-hover': true,
+  };
+
+  if (href) {
+    return (
+      <motion.div {...motionProps}>
+        <Link href={href} className="inline-flex items-center justify-center w-full h-full">
+          {children}
+        </Link>
+      </motion.div>
+    );
+  }
 
   return (
-    <Component
-      ref={ref}
-      href={href}
-      onClick={onClick}
-      onMouseMove={handleMouse}
-      onMouseLeave={handleLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
-      className={`relative inline-flex items-center justify-center ${className}`}
-      data-cursor-hover
-    >
+    <motion.button {...motionProps}>
       {children}
-    </Component>
+    </motion.button>
   );
 }

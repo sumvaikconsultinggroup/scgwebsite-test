@@ -26,20 +26,37 @@ export default function GradientButton({
 
   const combined = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
 
-  const MotionComponent = href ? motion(Link) : motion.button;
+  const inner = (
+    <>
+      <span className="relative z-10 flex items-center gap-2">{children}</span>
+      {variant === 'primary' && (
+        <div className="absolute inset-0 bg-gradient-to-r from-purple to-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      )}
+    </>
+  );
+
+  if (href) {
+    return (
+      <motion.div
+        className={combined}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+      >
+        <Link href={href} className="inline-flex items-center justify-center w-full h-full">
+          {inner}
+        </Link>
+      </motion.div>
+    );
+  }
 
   return (
-    <MotionComponent
-      href={href}
+    <motion.button
       onClick={onClick}
       className={combined}
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
     >
-      <span className="relative z-10 flex items-center gap-2">{children}</span>
-      {variant === 'primary' && (
-        <div className="absolute inset-0 bg-gradient-to-r from-purple to-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      )}
-    </MotionComponent>
+      {inner}
+    </motion.button>
   );
 }
