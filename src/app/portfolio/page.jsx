@@ -1,94 +1,169 @@
 'use client';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import SectionHeading from '@/components/ui/SectionHeading';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import Image from 'next/image';
 
 const categories = ['All', 'Branding', 'Social Media', 'Influencer'];
 
 const projects = [
   {
     title: 'Luxe Beauty Brand Launch',
+    client: 'Luxe Beauty',
     category: 'Branding',
-    description: 'Complete brand identity for a premium beauty brand, from logo to packaging to social presence.',
+    image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
     metrics: { reach: '2.5M', engagement: '+340%', roi: '5.2x' },
-    gradient: 'from-pink via-purple to-cyan',
-    tags: ['Logo', 'Packaging', 'Social Templates'],
+    tall: true,
   },
   {
     title: 'FitLife Social Takeover',
+    client: 'FitLife',
     category: 'Social Media',
-    description: 'Full social media management across 5 platforms with daily content and community engagement.',
+    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
     metrics: { reach: '8M', engagement: '+180%', roi: '3.8x' },
-    gradient: 'from-cyan via-neon-green to-purple',
-    tags: ['Instagram', 'TikTok', 'YouTube'],
+    tall: false,
   },
   {
     title: 'TechStart Product Launch',
+    client: 'TechStart',
     category: 'Influencer',
-    description: 'Coordinated influencer campaign with 50+ tech creators for a SaaS product launch.',
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80',
     metrics: { reach: '15M', engagement: '+520%', roi: '7.1x' },
-    gradient: 'from-purple via-pink to-cyan',
-    tags: ['YouTube', 'Tech Influencers', 'Product Review'],
+    tall: false,
   },
   {
     title: 'EcoWear Digital Rebrand',
+    client: 'EcoWear',
     category: 'Branding',
-    description: 'Sustainable fashion brand repositioning with new visual identity and market strategy.',
+    image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80',
     metrics: { reach: '1.2M', engagement: '+200%', roi: '4.5x' },
-    gradient: 'from-neon-green via-cyan to-purple',
-    tags: ['Rebrand', 'Sustainability', 'Fashion'],
+    tall: true,
   },
   {
     title: 'FoodieBox Viral Campaign',
+    client: 'FoodieBox',
     category: 'Social Media',
-    description: 'Created a viral TikTok challenge that generated 50M+ views and 100K new subscribers.',
+    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
     metrics: { reach: '50M', engagement: '+1200%', roi: '9.3x' },
-    gradient: 'from-pink via-cyan to-neon-green',
-    tags: ['TikTok', 'Viral', 'UGC'],
+    tall: true,
   },
   {
     title: 'GameZone Creator Program',
+    client: 'GameZone',
     category: 'Influencer',
-    description: 'Built an ongoing creator partnership program with 100+ gaming influencers worldwide.',
+    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80',
     metrics: { reach: '25M', engagement: '+300%', roi: '6.2x' },
-    gradient: 'from-purple via-neon-green to-cyan',
-    tags: ['Twitch', 'YouTube', 'Gaming'],
+    tall: false,
   },
   {
     title: 'Bloom Wellness Launch',
+    client: 'Bloom Wellness',
     category: 'Branding',
-    description: 'Holistic wellness brand creation including name, identity, and digital presence strategy.',
+    image: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&q=80',
     metrics: { reach: '3.5M', engagement: '+280%', roi: '4.8x' },
-    gradient: 'from-cyan via-pink to-purple',
-    tags: ['Health', 'Identity', 'Naming'],
+    tall: false,
   },
   {
     title: 'StyleBox Influencer Drop',
+    client: 'StyleBox',
     category: 'Influencer',
-    description: 'Fashion brand collab with 30 fashion influencers for a seasonal collection launch.',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
     metrics: { reach: '12M', engagement: '+450%', roi: '8.1x' },
-    gradient: 'from-pink via-purple to-neon-green',
-    tags: ['Fashion', 'Instagram', 'Collabs'],
+    tall: true,
   },
 ];
 
-export default function PortfolioPage() {
-  const [filter, setFilter] = useState('All');
-  const [expanded, setExpanded] = useState(null);
+const stats = [
+  { value: '500+', label: 'Brands Served' },
+  { value: '50M+', label: 'Total Reach' },
+  { value: '98%', label: 'Client Satisfaction' },
+];
 
-  const filtered = filter === 'All'
-    ? projects
-    : projects.filter((p) => p.category === filter);
+function ProjectCard({ project, index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   return (
-    <div className="pt-24 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero */}
-        <div className="text-center mb-16">
+    <motion.div
+      ref={ref}
+      layout
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className={`group relative cursor-pointer rounded-2xl overflow-hidden ${
+        project.tall ? 'row-span-2 min-h-[520px]' : 'min-h-[320px]'
+      }`}
+    >
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      </div>
+
+      {/* Dark gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050510] via-[#050510]/70 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
+
+      {/* Category badge */}
+      <div className="absolute top-4 left-4 z-10">
+        <span className="px-3 py-1.5 text-xs font-semibold tracking-wider uppercase text-cyan bg-[#050510]/70 backdrop-blur-sm border border-cyan/20 rounded-full">
+          {project.category}
+        </span>
+      </div>
+
+      {/* Hover: View Case Study */}
+      <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <span className="px-6 py-3 text-sm font-semibold tracking-wide uppercase text-white bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
+          View Case Study
+        </span>
+      </div>
+
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+        <p className="text-sm text-gray-400 mb-1">{project.client}</p>
+        <h3 className="text-xl md:text-2xl font-bold font-[family-name:var(--font-heading)] text-white mb-4">
+          {project.title}
+        </h3>
+
+        {/* Metrics */}
+        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10">
+          <div>
+            <div className="text-base font-bold text-cyan">{project.metrics.reach}</div>
+            <div className="text-[10px] text-gray-400 uppercase tracking-wider">Reach</div>
+          </div>
+          <div>
+            <div className="text-base font-bold text-purple">{project.metrics.engagement}</div>
+            <div className="text-[10px] text-gray-400 uppercase tracking-wider">Engagement</div>
+          </div>
+          <div>
+            <div className="text-base font-bold text-pink">{project.metrics.roi}</div>
+            <div className="text-[10px] text-gray-400 uppercase tracking-wider">ROI</div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+export default function PortfolioPage() {
+  const [filter, setFilter] = useState('All');
+
+  const filtered =
+    filter === 'All' ? projects : projects.filter((p) => p.category === filter);
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero */}
+      <section className="pt-32 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1.5 mb-4 text-sm font-medium text-cyan border border-cyan/20 rounded-full bg-cyan/5"
+            className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-cyan border border-cyan/20 rounded-full bg-cyan/5"
           >
             Portfolio
           </motion.span>
@@ -96,116 +171,84 @@ export default function PortfolioPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold font-[family-name:var(--font-heading)] mb-6"
+            className="text-5xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] mb-6 text-foreground"
           >
-            Our <span className="gradient-text">Best Work</span>
+            Our{' '}
+            <span className="gradient-text">Work</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-gray-400 text-lg max-w-2xl mx-auto"
+            className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto"
           >
-            Real results for real brands. Explore our case studies and see the impact of strategic digital marketing.
+            Proven results that speak for themselves. Explore our case studies and discover the impact of strategic, data-driven digital marketing.
           </motion.p>
         </div>
+      </section>
 
-        {/* Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex items-center justify-center gap-2 mb-12 flex-wrap"
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-5 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-                filter === cat
-                  ? 'bg-cyan/10 text-cyan border border-cyan/30'
-                  : 'text-gray-500 hover:text-foreground border border-transparent hover:border-gray-700'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Grid */}
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                whileHover={{ y: -5 }}
-                className="group cursor-pointer"
-                onClick={() => setExpanded(expanded === project.title ? null : project.title)}
-              >
-                <div className="glass rounded-2xl overflow-hidden">
-                  {/* Image placeholder */}
-                  <div className={`aspect-[16/10] bg-gradient-to-br ${project.gradient} relative opacity-20`}>
-                    <div className="absolute inset-0 grid-bg opacity-50" />
-                  </div>
-
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="px-3 py-1 text-xs font-medium text-cyan bg-cyan/10 border border-cyan/20 rounded-full">
-                        {project.category}
-                      </span>
-                      <div className="flex gap-1">
-                        {project.tags.map((tag) => (
-                          <span key={tag} className="px-2 py-0.5 text-[10px] text-gray-500 bg-surface rounded-md">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <h3 className="text-lg font-bold font-[family-name:var(--font-heading)] text-foreground mb-2">
-                      {project.title}
-                    </h3>
-
-                    <AnimatePresence>
-                      {expanded === project.title && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <p className="text-sm text-gray-400 mb-4">{project.description}</p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    {/* Metrics */}
-                    <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-800">
-                      <div>
-                        <div className="text-sm font-bold text-cyan">{project.metrics.reach}</div>
-                        <div className="text-[10px] text-gray-500 uppercase">Reach</div>
-                      </div>
-                      <div>
-                        <div className="text-sm font-bold text-purple">{project.metrics.engagement}</div>
-                        <div className="text-[10px] text-gray-500 uppercase">Engagement</div>
-                      </div>
-                      <div>
-                        <div className="text-sm font-bold text-pink">{project.metrics.roi}</div>
-                        <div className="text-[10px] text-gray-500 uppercase">ROI</div>
-                      </div>
-                    </div>
-                  </div>
+      {/* Stats strip */}
+      <section className="pb-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="grid grid-cols-3 gap-6"
+          >
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] gradient-text">
+                  {stat.value}
                 </div>
-              </motion.div>
+                <div className="text-sm text-gray-500 mt-1">{stat.label}</div>
+              </div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Filter bar */}
+      <div className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-gray-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center justify-center gap-2 flex-wrap"
+          >
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-6 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                  filter === cat
+                    ? 'bg-cyan text-background shadow-[0_0_20px_rgba(0,240,255,0.3)]'
+                    : 'text-gray-400 hover:text-foreground bg-surface hover:bg-surface-light border border-gray-800 hover:border-gray-700'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </motion.div>
+        </div>
       </div>
+
+      {/* Project Grid */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 auto-rows-[minmax(280px,auto)]"
+          >
+            <AnimatePresence mode="popLayout">
+              {filtered.map((project, i) => (
+                <ProjectCard key={project.title} project={project} index={i} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
