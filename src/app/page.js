@@ -1,4 +1,5 @@
 import Hero from '@/components/home/Hero';
+import Marquee from '@/components/ui/Marquee';
 import ServicesPreview from '@/components/home/ServicesPreview';
 import StatsSection from '@/components/home/StatsSection';
 import FeaturedWork from '@/components/home/FeaturedWork';
@@ -9,6 +10,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <Marquee />
       <ServicesPreview />
       <StatsSection />
       <FeaturedWork />

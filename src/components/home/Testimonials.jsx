@@ -1,103 +1,102 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import SectionHeading from '@/components/ui/SectionHeading';
-import { HiStar } from 'react-icons/hi';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
   {
-    quote: "SCG Digital transformed our brand from invisible to unforgettable. Their social media strategy tripled our engagement in just 3 months.",
+    quote: 'SCG Digital transformed our brand from invisible to unforgettable. Their strategy tripled our engagement in 3 months.',
     name: 'Sarah Chen',
     role: 'CEO, Luxe Beauty',
-    rating: 5,
   },
   {
-    quote: "The influencer marketing campaign they ran exceeded all expectations. We saw a 400% ROI and gained 50K new followers organically.",
+    quote: 'The influencer campaign exceeded all expectations. 400% ROI and 50K new organic followers.',
     name: 'Marcus Johnson',
     role: 'CMO, FitLife',
-    rating: 5,
   },
   {
-    quote: "Their branding work gave us a completely new identity that resonates with our target market. Revenue increased by 200% after the rebrand.",
+    quote: 'Their branding work gave us a new identity that truly resonates. Revenue increased 200% after the rebrand.',
     name: 'Priya Patel',
     role: 'Founder, EcoWear',
-    rating: 5,
   },
   {
-    quote: "Working with SCG Digital is like having a growth cheat code. Their data-driven approach to content strategy is unmatched in the industry.",
+    quote: 'Working with SCG is like having a growth cheat code. Their data-driven approach is unmatched.',
     name: 'David Kim',
     role: 'VP Marketing, TechStart',
-    rating: 5,
   },
 ];
 
 export default function Testimonials() {
-  const [current, setCurrent] = useState(0);
+  const sectionRef = useRef(null);
+  const cardsRef = useRef([]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(timer);
+    const cards = cardsRef.current.filter(Boolean);
+    if (cards.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      cards.forEach((card, i) => {
+        if (i === 0) return; // First card is visible by default
+
+        gsap.fromTo(
+          card,
+          { yPercent: 100, opacity: 0.5 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: `${(i * 25)}% center`,
+              end: `${(i * 25) + 20}% center`,
+              scrub: 1,
+            },
+          }
+        );
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} className="relative py-32 md:py-48 px-4">
       <div className="max-w-4xl mx-auto">
-        <SectionHeading
-          label="Testimonials"
-          title="What Our Clients Say"
-          description="Don't just take our word for it — hear from the brands we've helped grow."
-        />
+        <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-3 text-center">Testimonials</span>
+        <h2 className="text-3xl md:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-center tracking-tight mb-16">
+          What <span className="gradient-text">Clients Say</span>
+        </h2>
 
-        <div className="glass rounded-2xl p-8 md:p-12 relative min-h-[250px]">
-          {/* Large quote mark */}
-          <div className="absolute top-6 left-8 text-6xl text-cyan/10 font-serif">&ldquo;</div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="text-center"
+        <div className="relative" style={{ minHeight: '400px' }}>
+          {testimonials.map((t, i) => (
+            <div
+              key={t.name}
+              ref={(el) => (cardsRef.current[i] = el)}
+              className="relative bg-surface-light rounded-2xl p-8 md:p-12 mb-6 border border-gray-800"
+              style={{
+                transform: i === 0 ? 'none' : undefined,
+              }}
             >
-              {/* Stars */}
-              <div className="flex items-center justify-center gap-1 mb-6">
-                {Array.from({ length: testimonials[current].rating }).map((_, i) => (
-                  <HiStar key={i} className="text-cyan text-lg" />
-                ))}
-              </div>
+              {/* Quote mark */}
+              <div className="text-6xl md:text-8xl font-serif text-cyan/10 leading-none mb-4 select-none">&ldquo;</div>
 
-              {/* Quote */}
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 italic">
-                &ldquo;{testimonials[current].quote}&rdquo;
+              <p className="text-lg md:text-2xl text-gray-300 leading-relaxed mb-8 font-light">
+                {t.quote}
               </p>
 
-              {/* Author */}
-              <div>
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan to-purple mx-auto mb-3 flex items-center justify-center text-background font-bold">
-                  {testimonials[current].name.charAt(0)}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan to-purple flex items-center justify-center text-background font-bold">
+                  {t.name.charAt(0)}
                 </div>
-                <h4 className="font-semibold text-foreground">{testimonials[current].name}</h4>
-                <p className="text-sm text-gray-500">{testimonials[current].role}</p>
+                <div>
+                  <h4 className="font-bold text-foreground text-sm">{t.name}</h4>
+                  <p className="text-xs text-gray-500">{t.role}</p>
+                </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Dots */}
-          <div className="flex items-center justify-center gap-2 mt-8">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                  i === current ? 'bg-cyan w-8' : 'bg-gray-600 hover:bg-gray-500'
-                }`}
-              />
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,7 +1,8 @@
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import GridBackground from "@/components/ui/GridBackground";
+import SmoothScroll from "@/components/providers/SmoothScroll";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 export const metadata = {
   title: "SCG Digital | Futuristic Digital Marketing Agency",
@@ -12,15 +13,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
-      <body
-        className="antialiased bg-background text-foreground"
-      >
-        <GridBackground />
-        <Navbar />
-        <main className="relative z-10 min-h-screen">
-          {children}
-        </main>
-        <Footer />
+      <body className="antialiased bg-background text-foreground">
+        <SmoothScroll>
+          <CustomCursor />
+          <Navbar />
+          <main className="relative z-10 min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );

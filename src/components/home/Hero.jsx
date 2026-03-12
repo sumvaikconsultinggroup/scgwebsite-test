@@ -1,83 +1,111 @@
 'use client';
-import { motion } from 'framer-motion';
-import GradientButton from '@/components/ui/GradientButton';
-import FloatingShapes from '@/components/ui/FloatingShapes';
-import ParticleField from '@/components/ui/ParticleField';
-import { HiArrowRight, HiSparkles } from 'react-icons/hi';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import dynamic from 'next/dynamic';
+import MagneticButton from '@/components/ui/MagneticButton';
+import TextScramble from '@/components/ui/TextScramble';
+
+const HeroScene = dynamic(() => import('@/components/three/HeroScene'), { ssr: false });
 
 export default function Hero() {
+  const heroRef = useRef(null);
+  const line1Ref = useRef(null);
+  const line2Ref = useRef(null);
+  const subtitleRef = useRef(null);
+  const ctaRef = useRef(null);
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+      tl.fromTo(
+        line1Ref.current,
+        { clipPath: 'inset(0 100% 0 0)', opacity: 0 },
+        { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 1.2, delay: 0.3 }
+      )
+        .fromTo(
+          line2Ref.current,
+          { clipPath: 'inset(0 100% 0 0)', opacity: 0 },
+          { clipPath: 'inset(0 0% 0 0)', opacity: 1, duration: 1.2 },
+          '-=0.7'
+        )
+        .fromTo(
+          subtitleRef.current,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          '-=0.4'
+        )
+        .fromTo(
+          ctaRef.current,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          '-=0.4'
+        )
+        .fromTo(
+          scrollRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.6 },
+          '-=0.2'
+        );
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      <FloatingShapes />
-      <ParticleField count={40} />
+    <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <HeroScene />
 
-      {/* Radial gradient spotlight */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-radial from-cyan/10 via-transparent to-transparent rounded-full blur-3xl" />
+      {/* Gradient overlay for readability */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-background/30 via-transparent to-background/80 pointer-events-none" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-cyan/20 bg-cyan/5 text-cyan text-sm font-medium"
-        >
-          <HiSparkles className="text-cyan" />
-          Next-Gen Digital Marketing
-        </motion.div>
+      <div className="relative z-10 max-w-[90vw] mx-auto text-center px-4">
+        {/* Main headline — oversized */}
+        <h1 className="font-[family-name:var(--font-heading)] font-bold leading-[0.9] tracking-tighter">
+          <span
+            ref={line1Ref}
+            className="block text-[12vw] md:text-[10vw] text-foreground opacity-0"
+          >
+            WE CREATE
+          </span>
+          <span
+            ref={line2Ref}
+            className="block text-[12vw] md:text-[10vw] gradient-text opacity-0"
+          >
+            DIGITAL EMPIRES
+          </span>
+        </h1>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] leading-tight mb-6"
-        >
-          <span className="block text-foreground">We Build Brands</span>
-          <span className="block gradient-text">That Break The Internet</span>
-        </motion.h1>
-
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-          className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          Strategic branding, viral social media campaigns, and powerful influencer
-          partnerships — all powered by data and creativity.
-        </motion.p>
+        {/* Subtitle with scramble */}
+        <div ref={subtitleRef} className="mt-8 mb-12 opacity-0">
+          <TextScramble
+            text="Strategic Branding • Viral Social Media • Influencer Partnerships"
+            className="text-sm md:text-base text-gray-400 tracking-[0.2em] uppercase"
+            delay={1500}
+            speed={25}
+          />
+        </div>
 
         {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <GradientButton href="/services" size="lg">
-            Explore Services <HiArrowRight />
-          </GradientButton>
-          <GradientButton href="/influencer-platform" variant="secondary" size="lg">
-            Launch Campaign
-          </GradientButton>
-        </motion.div>
+        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0">
+          <MagneticButton href="/portfolio" className="group">
+            <span className="px-8 py-4 text-sm font-bold uppercase tracking-[0.15em] bg-foreground text-background rounded-full group-hover:bg-cyan group-hover:text-background transition-colors duration-300">
+              Our Work
+            </span>
+          </MagneticButton>
+          <MagneticButton href="/contact" className="group">
+            <span className="px-8 py-4 text-sm font-bold uppercase tracking-[0.15em] border border-foreground/30 text-foreground rounded-full group-hover:border-cyan group-hover:text-cyan transition-colors duration-300">
+              Start a Project
+            </span>
+          </MagneticButton>
+        </div>
+      </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 rounded-full border-2 border-cyan/30 flex items-start justify-center p-1.5"
-          >
-            <motion.div className="w-1.5 h-1.5 rounded-full bg-cyan" />
-          </motion.div>
-        </motion.div>
+      {/* Scroll indicator */}
+      <div ref={scrollRef} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 opacity-0 flex flex-col items-center gap-2">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-cyan/50 to-transparent scroll-line" />
       </div>
     </section>
   );

@@ -1,85 +1,131 @@
 'use client';
-import GlowCard from '@/components/ui/GlowCard';
-import SectionHeading from '@/components/ui/SectionHeading';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
-import { HiPaintBrush, HiSpeakerWave, HiUsers } from 'react-icons/hi2';
-import { HiArrowRight } from 'react-icons/hi';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
-    icon: HiPaintBrush,
+    number: '01',
     title: 'Branding',
-    description: 'Craft a powerful brand identity that resonates with your audience and stands out in the digital landscape.',
-    color: 'cyan',
-    features: ['Logo Design', 'Brand Strategy', 'Visual Identity', 'Brand Guidelines'],
+    description: 'We build brands that are impossible to ignore. From visual identity to brand strategy, we create systems that resonate and endure.',
+    color: '#00f0ff',
+    features: ['Visual Identity', 'Brand Strategy', 'Guidelines'],
   },
   {
-    icon: HiSpeakerWave,
-    title: 'Social Media Marketing',
-    description: 'Dominate social platforms with data-driven strategies and content that sparks engagement and drives conversions.',
-    color: 'purple',
-    features: ['Content Creation', 'Community Management', 'Paid Advertising', 'Analytics'],
+    number: '02',
+    title: 'Social Media',
+    description: 'Content that stops the scroll. Strategies that drive engagement. We turn your social presence into a growth engine.',
+    color: '#8b5cf6',
+    features: ['Content Creation', 'Community', 'Paid Ads'],
   },
   {
-    icon: HiUsers,
-    title: 'Influencer Marketing',
-    description: 'Connect with the right voices to amplify your brand message and reach millions of potential customers.',
-    color: 'pink',
-    features: ['Influencer Matching', 'Campaign Strategy', 'ROI Tracking', 'Creator Partnerships'],
+    number: '03',
+    title: 'Influencer',
+    description: 'Connect with the right voices. We match brands with creators who authentically amplify your message to millions.',
+    color: '#ff006e',
+    features: ['Creator Matching', 'Campaigns', 'ROI Tracking'],
   },
 ];
 
-const colorMap = {
-  cyan: 'text-cyan',
-  purple: 'text-purple',
-  pink: 'text-pink',
-};
-
-const bgMap = {
-  cyan: 'bg-cyan/10',
-  purple: 'bg-purple/10',
-  pink: 'bg-pink/10',
-};
-
 export default function ServicesPreview() {
-  return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <SectionHeading
-          label="What We Do"
-          title="Services That Drive Results"
-          description="From brand creation to viral campaigns, we deliver full-spectrum digital marketing solutions."
-        />
+  const sectionRef = useRef(null);
+  const containerRef = useRef(null);
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {services.map((service, i) => (
-            <GlowCard key={service.title} glowColor={service.color} delay={i * 0.15}>
-              <div className={`w-12 h-12 rounded-xl ${bgMap[service.color]} flex items-center justify-center mb-5`}>
-                <service.icon className={`text-2xl ${colorMap[service.color]}`} />
+  useEffect(() => {
+    const section = sectionRef.current;
+    const container = containerRef.current;
+    if (!section || !container) return;
+
+    const totalWidth = container.scrollWidth - window.innerWidth;
+
+    const ctx = gsap.context(() => {
+      gsap.to(container, {
+        x: -totalWidth,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${totalWidth}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="relative overflow-hidden">
+      <div ref={containerRef} className="flex h-screen">
+        {services.map((service, i) => (
+          <div
+            key={service.title}
+            className="flex-shrink-0 w-screen h-screen flex items-center justify-center px-8 md:px-16 lg:px-24 relative"
+          >
+            {/* Background number */}
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[30vw] md:text-[25vw] font-bold font-[family-name:var(--font-heading)] leading-none select-none pointer-events-none"
+              style={{ color: service.color, opacity: 0.03 }}
+            >
+              {service.number}
+            </div>
+
+            <div className="relative z-10 max-w-3xl">
+              {/* Number */}
+              <div
+                className="text-7xl md:text-9xl font-bold font-[family-name:var(--font-heading)] leading-none mb-4"
+                style={{ color: service.color, opacity: 0.3 }}
+              >
+                {service.number}
               </div>
-              <h3 className="text-xl font-bold font-[family-name:var(--font-heading)] text-foreground mb-3">
+
+              {/* Title */}
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] text-foreground leading-[0.9] tracking-tight mb-6">
                 {service.title}
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-5">
+              </h2>
+
+              {/* Description */}
+              <p className="text-lg md:text-xl text-gray-400 max-w-lg leading-relaxed mb-8">
                 {service.description}
               </p>
-              <ul className="space-y-2 mb-6">
+
+              {/* Features */}
+              <div className="flex flex-wrap gap-3 mb-8">
                 {service.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-gray-500">
-                    <span className={`w-1.5 h-1.5 rounded-full ${bgMap[service.color].replace('/10', '')}`} />
+                  <span
+                    key={f}
+                    className="px-4 py-2 text-xs uppercase tracking-[0.15em] font-medium rounded-full border"
+                    style={{ borderColor: `${service.color}33`, color: service.color }}
+                  >
                     {f}
-                  </li>
+                  </span>
                 ))}
-              </ul>
+              </div>
+
               <Link
                 href="/services"
-                className={`inline-flex items-center gap-1 text-sm font-medium ${colorMap[service.color]} hover:gap-2 transition-all duration-300`}
+                className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.15em] font-medium transition-all duration-300 hover:gap-4"
+                style={{ color: service.color }}
+                data-cursor-hover
               >
-                Learn More <HiArrowRight />
+                Learn More
+                <svg width="20" height="12" viewBox="0 0 20 12" fill="none">
+                  <path d="M14 1L19 6M19 6L14 11M19 6H1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </Link>
-            </GlowCard>
-          ))}
-        </div>
+            </div>
+
+            {/* Divider line */}
+            {i < services.length - 1 && (
+              <div className="absolute right-0 top-1/4 bottom-1/4 w-px bg-gradient-to-b from-transparent via-gray-800 to-transparent" />
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );
