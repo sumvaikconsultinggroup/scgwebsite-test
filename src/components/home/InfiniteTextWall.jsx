@@ -2,9 +2,9 @@
 import { motion } from 'framer-motion';
 
 const rows = [
-  { text: 'BRANDING · STRATEGY · SOCIAL MEDIA · INFLUENCER · CONTENT · GROWTH · DIGITAL · CREATIVE · ', speed: 25, direction: 'left' },
-  { text: 'VIRAL · ENGAGEMENT · ANALYTICS · ROI · CAMPAIGNS · STORYTELLING · DESIGN · IMPACT · ', speed: 30, direction: 'right' },
-  { text: 'INNOVATION · SCALE · AUDIENCE · CONVERSION · COMMUNITY · PRESENCE · IDENTITY · REACH · ', speed: 20, direction: 'left' },
+  { text: 'BRANDING · REELS · PAID MEDIA · INFLUENCER · UGC · PERFORMANCE · D2C · META ADS · ', speed: 25, direction: 'left' },
+  { text: 'ROAS · CREATORS · LINKEDIN · INSTAGRAM · TIKTOK · YOUTUBE · GOOGLE ADS · CONVERSION · ', speed: 30, direction: 'right' },
+  { text: 'STRATEGY · CONTENT · COMMUNITY · GROWTH · ANALYTICS · BRAND IDENTITY · PAID SOCIAL · ', speed: 20, direction: 'left' },
 ];
 
 export default function InfiniteTextWall() {

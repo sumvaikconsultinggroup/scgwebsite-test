@@ -7,10 +7,10 @@ import { motion } from 'framer-motion';
 gsap.registerPlugin(ScrollTrigger);
 
 const transformations = [
-  { before: 'Local Gym', after: 'Global Fitness Brand', metric: '2.5M followers', color: '#00f0ff' },
-  { before: 'Startup', after: 'Market Leader', metric: '$50M valuation', color: '#8b5cf6' },
-  { before: 'Unknown Chef', after: 'Food Empire', metric: '50M+ views', color: '#ff006e' },
-  { before: 'Small Shop', after: 'Household Name', metric: '340% growth', color: '#39ff14' },
+  { before: 'Zero Online Presence', after: '85M Organic Impressions', metric: 'QSR Chain', color: '#00f0ff' },
+  { before: '₹38 CAC', after: '₹20 CAC', metric: 'EdTech Startup', color: '#8b5cf6' },
+  { before: 'No Brand Identity', after: 'Category-Defining Brand', metric: 'D2C Fashion', color: '#ff006e' },
+  { before: '800 Followers', after: '340K Followers in 8 Months', metric: 'Fitness Brand', color: '#39ff14' },
 ];
 
 export default function BrandTransform() {
@@ -71,7 +71,7 @@ export default function BrandTransform() {
         {/* Heading */}
         <div ref={headingRef} className="text-center mb-24 opacity-0">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
-            Transformations
+            Before & After
           </span>
           <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold font-[family-name:var(--font-heading)] leading-[0.85] tracking-tight">
             <span className="text-gray-600">From</span>{' '}

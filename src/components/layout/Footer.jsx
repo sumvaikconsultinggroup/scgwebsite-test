@@ -73,7 +73,7 @@ export default function Footer() {
               Newsletter
             </h4>
             <p className="text-sm text-gray-500 mb-4">
-              Get the latest digital marketing insights delivered weekly.
+              Weekly breakdown of what is working in digital marketing right now. No spam, just signal.
             </p>
             <form action="#" className="flex gap-2">
               <input
@@ -111,7 +111,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-600">
-            &copy; 2024 Sumvaik. All rights reserved.
+            &copy; 2025 Sumvaik Consulting Group. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-sm text-gray-600 hover:text-gray-400 transition-colors">

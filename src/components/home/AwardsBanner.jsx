@@ -2,12 +2,12 @@
 import { motion } from 'framer-motion';
 
 const awards = [
-  { year: '2024', title: 'Agency of the Year', org: 'Digital Awards' },
-  { year: '2024', title: 'Best Social Campaign', org: 'Webby Awards' },
-  { year: '2023', title: 'Top 10 Agency', org: 'Forbes' },
-  { year: '2023', title: 'Innovation Award', org: 'Cannes Lions' },
-  { year: '2023', title: 'Best Rebrand', org: 'Brand New Awards' },
-  { year: '2022', title: 'Fastest Growing', org: 'Inc. 5000' },
+  { year: '2024', title: 'Top 50 Agencies', org: 'Agency Reporter' },
+  { year: '2024', title: 'Best Influencer Campaign', org: 'Social Samosa' },
+  { year: '2023', title: 'Rising Star Agency', org: 'Campaign India' },
+  { year: '2023', title: 'Best Use of UGC', org: 'Afaqs' },
+  { year: '2023', title: 'D2C Marketing Award', org: 'YourStory' },
+  { year: '2022', title: 'Digital Agency to Watch', org: 'Exchange4Media' },
 ];
 
 export default function AwardsBanner() {
@@ -29,7 +29,7 @@ export default function AwardsBanner() {
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4"
           >
-            Recognition
+            Press & Features
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -38,8 +38,8 @@ export default function AwardsBanner() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] tracking-tight"
           >
-            <span className="stroke-text">Award</span>{' '}
-            <span className="gradient-text">Winning</span>
+            <span className="stroke-text">Featured</span>{' '}
+            <span className="gradient-text">In</span>
           </motion.h2>
         </div>
 

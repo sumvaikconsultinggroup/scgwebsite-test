@@ -7,38 +7,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
   {
-    quote: 'Sumvaik transformed our brand from invisible to unforgettable. Their strategy tripled our engagement in 3 months.',
-    name: 'Sarah Chen',
-    role: 'CEO, Luxe Beauty',
-    company: 'Luxe Beauty',
-    metric: '3x Revenue Growth',
+    quote: 'We had tried three agencies before Sumvaik. Within the first month, they restructured our entire funnel and our cost-per-lead dropped by 40%. They don\'t just execute — they think.',
+    name: 'Rohit Mehta',
+    role: 'Founder, Glow & Co.',
+    company: 'Glow & Co.',
+    metric: '40% Lower CPL',
     metricColor: '#00f0ff',
     bgGradient: 'from-cyan/5 to-transparent',
   },
   {
-    quote: 'The influencer campaign exceeded all expectations. 400% ROI and 50K new organic followers.',
-    name: 'Marcus Johnson',
-    role: 'CMO, FitLife',
-    company: 'FitLife',
-    metric: '400% ROI',
+    quote: 'They managed 42 outlet pages, created 200+ reels in a single quarter, and got us 85 million impressions without spending a rupee on ads. I still don\'t fully understand how they did it.',
+    name: 'Ananya Sharma',
+    role: 'Head of Marketing, BiteBox',
+    company: 'BiteBox',
+    metric: '85M Organic Reach',
     metricColor: '#8b5cf6',
     bgGradient: 'from-purple/5 to-transparent',
   },
   {
-    quote: 'Their branding work gave us a new identity that truly resonates. Revenue increased 200% after the rebrand.',
-    name: 'Priya Patel',
-    role: 'Founder, EcoWear',
-    company: 'EcoWear',
-    metric: '200% Revenue Increase',
+    quote: 'Sumvaik didn\'t just redesign our brand — they repositioned us in the market. Six months later, we are the brand people compare others to. That shift in perception is priceless.',
+    name: 'Vikram Singh',
+    role: 'CEO, ThreadCulture',
+    company: 'ThreadCulture',
+    metric: 'Category Leader',
     metricColor: '#ff006e',
     bgGradient: 'from-pink/5 to-transparent',
   },
   {
-    quote: 'Working with Sumvaik is like having a growth cheat code. Their data-driven approach is unmatched.',
-    name: 'David Kim',
-    role: 'VP Marketing, TechStart',
-    company: 'TechStart',
-    metric: '5x Lead Generation',
+    quote: 'Their influencer team is genuinely different. They brought us creators who actually used our product, not just people who would post and ghost. Our UGC library went from 0 to 500+ assets.',
+    name: 'Priya Nair',
+    role: 'Brand Manager, MealPrep India',
+    company: 'MealPrep India',
+    metric: '500+ UGC Assets',
     metricColor: '#39ff14',
     bgGradient: 'from-neon-green/5 to-transparent',
   },
@@ -123,7 +123,7 @@ export default function Testimonials() {
             Testimonials
           </span>
           <h2 className="text-4xl md:text-6xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
-            Voices That <span className="gradient-text">Matter</span>
+            What Our Clients <span className="gradient-text">Say</span>
           </h2>
         </div>
 

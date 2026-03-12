@@ -6,49 +6,49 @@ import Image from 'next/image';
 
 const projects = [
   {
-    title: 'Luxe Beauty',
-    category: 'Branding',
-    metric: '+340% Awareness',
+    title: 'Glow & Co.',
+    category: 'Branding + Social',
+    metric: '₹2.8Cr Revenue',
     gradient: 'from-pink/30 via-purple/20 to-cyan/10',
     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
     color: '#ff006e',
   },
   {
-    title: 'FitLife',
-    category: 'Social Media',
-    metric: '2.5M Impressions',
+    title: 'BiteBox',
+    category: 'Influencer + Paid',
+    metric: '85M Impressions',
     gradient: 'from-cyan/30 via-neon-green/20 to-purple/10',
     image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
     color: '#00f0ff',
   },
   {
-    title: 'TechStart',
-    category: 'Influencer',
-    metric: '50+ Creators',
+    title: 'CodeCraft',
+    category: 'Full-Stack Growth',
+    metric: '47% Lower CAC',
     gradient: 'from-purple/30 via-pink/20 to-cyan/10',
     image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80',
     color: '#8b5cf6',
   },
   {
-    title: 'EcoWear',
-    category: 'Rebrand',
-    metric: '+180% Engagement',
+    title: 'ThreadCulture',
+    category: 'Brand Overhaul',
+    metric: '340K Followers',
     gradient: 'from-neon-green/30 via-cyan/20 to-purple/10',
     image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80',
     color: '#39ff14',
   },
   {
-    title: 'FoodieBox',
-    category: 'Viral Campaign',
-    metric: '50M+ Views',
+    title: 'MealPrep India',
+    category: 'Social + UGC',
+    metric: '11x ROAS',
     gradient: 'from-pink/30 via-cyan/20 to-neon-green/10',
     image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
     color: '#ff006e',
   },
   {
-    title: 'GameZone',
-    category: 'Creator Program',
-    metric: '100+ Partners',
+    title: 'LevelUp Academy',
+    category: 'Paid Media + CRO',
+    metric: '₹18 CAC',
     gradient: 'from-purple/30 via-neon-green/20 to-cyan/10',
     image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80',
     color: '#8b5cf6',
@@ -66,10 +66,10 @@ export default function FeaturedWork() {
       {/* Header */}
       <div className="max-w-[90vw] mx-auto px-4 mb-16 flex items-end justify-between relative z-10">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-3">Selected Work</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-3">Our Work</span>
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
-            Featured{' '}
-            <span className="gradient-text">Projects</span>
+            Real Results,{' '}
+            <span className="gradient-text">Real Brands</span>
           </h2>
         </div>
         <Link

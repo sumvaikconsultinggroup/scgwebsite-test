@@ -9,8 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 const reasons = [
   {
     number: '01',
-    title: 'Data-Driven\nCreativity',
-    description: 'Every campaign starts with data. We analyze, strategize, then create content that resonates with your specific audience segments.',
+    title: 'Full-Stack\nMarketing',
+    description: 'You don\'t need five vendors. We handle branding, social, influencer, paid media, and content production under one roof. One team, one strategy, no gaps.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0022 16z" />
@@ -19,13 +19,13 @@ const reasons = [
       </svg>
     ),
     color: '#00f0ff',
-    stat: '98%',
-    statLabel: 'Data accuracy',
+    stat: '6+',
+    statLabel: 'Services in-house',
   },
   {
     number: '02',
-    title: 'Obsessive\nCraft',
-    description: 'We don\'t do mediocre. Every pixel, every word, every strategy is obsessively refined until it\'s extraordinary.',
+    title: 'Obsessed With\nROI',
+    description: 'Pretty content means nothing if it doesn\'t convert. Every campaign we run ties back to revenue. We track cost-per-lead, ROAS, and customer acquisition cost \u2014 not just likes.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -34,26 +34,26 @@ const reasons = [
       </svg>
     ),
     color: '#8b5cf6',
-    stat: '3x',
-    statLabel: 'Industry average',
+    stat: '4.2x',
+    statLabel: 'Avg. client ROAS',
   },
   {
     number: '03',
-    title: 'Speed to\nMarket',
-    description: 'While others are still planning, you\'re already launching. We move fast without sacrificing quality.',
+    title: 'Built for\nSpeed',
+    description: 'We don\'t do month-long kickoff phases. Brief on Monday, first draft by Wednesday, live by Friday. Our operating speed is our unfair advantage.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
       </svg>
     ),
     color: '#ff006e',
-    stat: '2wk',
-    statLabel: 'Avg. launch time',
+    stat: '72hr',
+    statLabel: 'Brief to first draft',
   },
   {
     number: '04',
-    title: 'Network\nEffect',
-    description: '500+ vetted creators across every niche. We don\'t just find influencers — we match you with the perfect voices for your brand.',
+    title: '10,000+\nCreators',
+    description: 'Our proprietary creator database spans every niche and city in India. Nano to mega, we have relationships \u2014 not just contacts. That is how we get better rates and better content.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
@@ -63,8 +63,8 @@ const reasons = [
       </svg>
     ),
     color: '#39ff14',
-    stat: '500+',
-    statLabel: 'Creator network',
+    stat: '10K+',
+    statLabel: 'Vetted creators',
   },
 ];
 
@@ -111,9 +111,9 @@ export default function WhyChooseUs() {
             Why Sumvaik
           </span>
           <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold font-[family-name:var(--font-heading)] leading-[0.85] tracking-tight">
-            <span className="text-foreground">Built</span>
+            <span className="text-foreground">Not Your Typical</span>
             <br />
-            <span className="text-foreground">Different</span>
+            <span className="text-foreground">Agency</span>
             <span className="gradient-text">.</span>
           </h2>
         </div>

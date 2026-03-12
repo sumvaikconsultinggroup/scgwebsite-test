@@ -9,7 +9,7 @@ export default function TextRevealSection() {
   const sectionRef = useRef(null);
   const wordsRef = useRef([]);
 
-  const text = 'We don\'t just market brands. We transform them into cultural forces that people can\'t stop talking about.';
+  const text = 'Most agencies sell you impressions. We build you an audience that actually cares \u2014 one that shares, buys, and comes back for more.';
   const words = text.split(' ');
 
   useEffect(() => {

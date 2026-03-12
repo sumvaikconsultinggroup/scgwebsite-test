@@ -2,23 +2,23 @@
 import { motion } from 'framer-motion';
 
 const brandsRow1 = [
-  { name: 'Google', weight: 700, size: 'text-2xl md:text-3xl' },
-  { name: 'Nike', weight: 800, size: 'text-3xl md:text-4xl' },
-  { name: 'Spotify', weight: 600, size: 'text-2xl md:text-3xl' },
-  { name: 'Airbnb', weight: 700, size: 'text-xl md:text-2xl' },
-  { name: 'Netflix', weight: 800, size: 'text-3xl md:text-4xl' },
-  { name: 'Tesla', weight: 700, size: 'text-2xl md:text-3xl' },
-  { name: 'Apple', weight: 600, size: 'text-xl md:text-2xl' },
+  { name: 'Mamaearth', weight: 700, size: 'text-2xl md:text-3xl' },
+  { name: 'boAt', weight: 800, size: 'text-3xl md:text-4xl' },
+  { name: 'Sugar Cosmetics', weight: 600, size: 'text-2xl md:text-3xl' },
+  { name: 'Lenskart', weight: 700, size: 'text-xl md:text-2xl' },
+  { name: 'Noise', weight: 800, size: 'text-3xl md:text-4xl' },
+  { name: 'Bewakoof', weight: 700, size: 'text-2xl md:text-3xl' },
+  { name: 'The Souled Store', weight: 600, size: 'text-xl md:text-2xl' },
 ];
 
 const brandsRow2 = [
-  { name: 'Stripe', weight: 700, size: 'text-2xl md:text-3xl' },
-  { name: 'Shopify', weight: 600, size: 'text-xl md:text-2xl' },
-  { name: 'Adobe', weight: 800, size: 'text-2xl md:text-3xl' },
-  { name: 'Meta', weight: 700, size: 'text-3xl md:text-4xl' },
-  { name: 'Amazon', weight: 800, size: 'text-2xl md:text-3xl' },
-  { name: 'Discord', weight: 700, size: 'text-xl md:text-2xl' },
-  { name: 'Figma', weight: 600, size: 'text-2xl md:text-3xl' },
+  { name: 'HealthifyMe', weight: 700, size: 'text-2xl md:text-3xl' },
+  { name: 'Cult.fit', weight: 600, size: 'text-xl md:text-2xl' },
+  { name: 'Sleepy Owl', weight: 800, size: 'text-2xl md:text-3xl' },
+  { name: 'mCaffeine', weight: 700, size: 'text-3xl md:text-4xl' },
+  { name: 'WOW Skin Science', weight: 800, size: 'text-2xl md:text-3xl' },
+  { name: 'Plum', weight: 700, size: 'text-xl md:text-2xl' },
+  { name: 'Urban Company', weight: 600, size: 'text-2xl md:text-3xl' },
 ];
 
 function LogoRow({ brands, direction = 'left', duration = 30 }) {
@@ -56,7 +56,7 @@ export default function ClientLogos() {
 
       <div className="text-center mb-12">
         <span className="text-xs uppercase tracking-[0.3em] text-gray-500">
-          Trusted by 500+ leading brands worldwide
+          Trusted by founders, marketers, and growth teams across industries
         </span>
       </div>
 

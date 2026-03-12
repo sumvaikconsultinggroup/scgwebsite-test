@@ -9,7 +9,7 @@ const steps = [
   {
     number: '01',
     title: 'Discovery',
-    description: 'We dive deep into your brand, market, and audience through comprehensive research and stakeholder interviews.',
+    description: 'We audit your current brand, social channels, ad accounts, and competitors. No fluff — just a sharp diagnosis of where you are, what is working, and where the gaps are.',
     color: '#00f0ff',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -21,7 +21,7 @@ const steps = [
   {
     number: '02',
     title: 'Strategy',
-    description: 'Armed with data, we craft a tailored roadmap with clear KPIs and milestones defined upfront.',
+    description: 'Based on the audit, we build a 90-day roadmap. Every deliverable, every deadline, every KPI defined upfront. You know exactly what you are paying for before we start.',
     color: '#8b5cf6',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +33,7 @@ const steps = [
   {
     number: '03',
     title: 'Execute',
-    description: 'Our creative team brings strategy to life with precision and creative excellence.',
+    description: 'Our in-house team of designers, copywriters, video editors, and media buyers gets to work. You get a dedicated account manager and weekly performance updates.',
     color: '#ff006e',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -44,7 +44,7 @@ const steps = [
   {
     number: '04',
     title: 'Scale',
-    description: 'We analyze, optimize, and amplify what works. Continuous iteration ensures compounding growth.',
+    description: 'Once we find what converts, we double down. We scale budgets on winning creatives, expand to new channels, and continuously test new angles to compound your growth.',
     color: '#39ff14',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -109,7 +109,7 @@ export default function ProcessSection() {
         {/* Header */}
         <div className="text-center mb-24">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
-            How We Work
+            Our Process
           </span>
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
             Our <span className="gradient-text">Process</span>

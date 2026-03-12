@@ -17,7 +17,7 @@ const benefits = [
         <polyline points="22 4 12 14.01 9 11.01" />
       </svg>
     ),
-    text: 'Free Consultation',
+    text: 'Free 30-Min Strategy Call',
   },
   {
     icon: (
@@ -26,7 +26,7 @@ const benefits = [
         <polyline points="22 4 12 14.01 9 11.01" />
       </svg>
     ),
-    text: 'No Long-Term Contracts',
+    text: 'Month-to-Month Contracts',
   },
   {
     icon: (
@@ -35,7 +35,7 @@ const benefits = [
         <polyline points="22 4 12 14.01 9 11.01" />
       </svg>
     ),
-    text: 'Results in 30 Days',
+    text: 'First Results in 2 Weeks',
   },
 ];
 
@@ -95,7 +95,7 @@ export default function CTASection() {
                 backgroundPosition: '0 0',
               }}
             >
-              LET&apos;S BUILD
+              READY TO
             </span>
             <span
               className="stroke-fill block"
@@ -109,7 +109,7 @@ export default function CTASection() {
                 backgroundPosition: '0 0',
               }}
             >
-              SOMETHING
+              GROW
             </span>
             <span
               className="stroke-fill block"
@@ -123,14 +123,14 @@ export default function CTASection() {
                 backgroundPosition: '0 0',
               }}
             >
-              EXTRAORDINARY
+              FASTER?
             </span>
           </h2>
         </div>
 
         <MagneticButton href="/contact" className="group" strength={0.4}>
           <span className="px-12 py-6 text-sm font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-cyan via-purple to-cyan bg-[length:200%_100%] text-background rounded-full group-hover:bg-right group-hover:shadow-[0_0_60px_rgba(0,240,255,0.4)] transition-all duration-700">
-            Start a Project
+            Book Your Free Call
           </span>
         </MagneticButton>
 
@@ -146,7 +146,7 @@ export default function CTASection() {
 
         {/* Trust indicator */}
         <p className="mt-8 text-xs text-gray-600 tracking-wide">
-          Join 500+ brands who chose Sumvaik
+          Trusted by 120+ brands across India and beyond
         </p>
       </div>
     </section>

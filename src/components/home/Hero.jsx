@@ -96,7 +96,7 @@ export default function Hero() {
       >
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-cyan/30 to-transparent" />
         <span className="text-[10px] uppercase tracking-[0.3em] text-gray-600 [writing-mode:vertical-lr] rotate-180">
-          Est. 2018
+          Mumbai, India
         </span>
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-cyan/30 to-transparent" />
       </div>
@@ -107,7 +107,7 @@ export default function Hero() {
       >
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-purple/30 to-transparent" />
         <span className="text-[10px] uppercase tracking-[0.3em] text-gray-600 [writing-mode:vertical-lr]">
-          500+ Brands
+          Clients Worldwide
         </span>
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-purple/30 to-transparent" />
       </div>
@@ -117,7 +117,7 @@ export default function Hero() {
         <div ref={badgeRef} className="mb-8 opacity-0">
           <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-cyan border border-cyan/20 rounded-full bg-cyan/5 backdrop-blur-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
-            Award-Winning Digital Agency
+            Digital Growth Partner for Ambitious Brands
           </span>
         </div>
 
@@ -127,26 +127,26 @@ export default function Hero() {
             ref={line1Ref}
             className="block text-[13vw] md:text-[11vw] text-foreground opacity-0"
           >
-            WE CREATE
+            BRANDS THAT
           </span>
           <span
             ref={line2Ref}
             className="block text-[13vw] md:text-[11vw] gradient-text opacity-0"
           >
-            DIGITAL
+            OWN THE
           </span>
           <span
             ref={line3Ref}
             className="block text-[13vw] md:text-[11vw] stroke-text-thick opacity-0"
           >
-            EMPIRES
+            INTERNET
           </span>
         </h1>
 
         {/* Subtitle with scramble */}
         <div ref={subtitleRef} className="mt-8 mb-12 opacity-0">
           <TextScramble
-            text="Strategic Branding · Viral Social Media · Influencer Partnerships"
+            text="Branding · Social Media · Influencer Marketing · Paid Media · Content Strategy"
             className="text-sm md:text-base text-gray-400 tracking-[0.2em] uppercase"
             delay={1800}
             speed={25}
@@ -157,12 +157,12 @@ export default function Hero() {
         <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0">
           <MagneticButton href="/portfolio" className="group">
             <span className="px-10 py-5 text-sm font-bold uppercase tracking-[0.15em] bg-gradient-to-r from-cyan via-purple to-cyan bg-[length:200%_100%] text-background rounded-full group-hover:bg-right transition-all duration-700 group-hover:shadow-[0_0_40px_rgba(0,240,255,0.4)]">
-              View Our Work
+              See Case Studies
             </span>
           </MagneticButton>
           <MagneticButton href="/contact" className="group">
             <span className="px-10 py-5 text-sm font-bold uppercase tracking-[0.15em] border border-foreground/20 text-foreground rounded-full group-hover:border-cyan group-hover:text-cyan group-hover:shadow-[0_0_30px_rgba(0,240,255,0.15)] transition-all duration-500">
-              Start a Project
+              Book a Call
             </span>
           </MagneticButton>
         </div>

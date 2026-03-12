@@ -8,32 +8,32 @@ gsap.registerPlugin(ScrollTrigger);
 
 const results = [
   {
-    metric: '340%',
-    label: 'Brand Awareness Increase',
-    brand: 'Luxe Beauty',
-    color: '#00f0ff',
-    description: 'Complete brand overhaul that transformed market perception and tripled social following.',
-  },
-  {
-    metric: '50M+',
-    label: 'Campaign Impressions',
-    brand: 'FoodieBox',
-    color: '#8b5cf6',
-    description: 'Viral TikTok campaign that broke the internet and generated 50 million organic views.',
-  },
-  {
-    metric: '400%',
+    metric: '11x',
     label: 'Return on Ad Spend',
-    brand: 'TechStart',
-    color: '#ff006e',
-    description: 'Strategic influencer partnerships that delivered 4x return on every dollar invested.',
+    brand: 'D2C Skincare Brand',
+    color: '#00f0ff',
+    description: 'Took over their entire paid media — Meta, Google, and influencer whitelisting. Went from burning cash on boosted posts to ₹11 back on every ₹1 spent within 90 days.',
   },
   {
-    metric: '2.5M',
-    label: 'Monthly Impressions',
-    brand: 'FitLife',
+    metric: '85M',
+    label: 'Organic Impressions',
+    brand: 'QSR Chain (42 Outlets)',
+    color: '#8b5cf6',
+    description: 'Managed their Instagram, launched a TikTok-first content strategy, and ran a micro-influencer seeding campaign across 12 cities. Zero paid media — pure organic reach.',
+  },
+  {
+    metric: '₹2.8Cr',
+    label: 'Revenue from Social',
+    brand: 'Fashion Label',
+    color: '#ff006e',
+    description: 'Complete brand overhaul — new identity, new social presence, new influencer partnerships. Drove ₹2.8 crore in tracked revenue through Instagram and influencer campaigns in 6 months.',
+  },
+  {
+    metric: '47%',
+    label: 'Lower CAC',
+    brand: 'EdTech Startup',
     color: '#39ff14',
-    description: 'Content strategy that turned a local gym into a global fitness brand.',
+    description: 'Replaced their agency-of-record with our full-stack team. Rebuilt their funnel, optimized creatives weekly, and cut customer acquisition cost by 47% in the first quarter.',
   },
 ];
 
@@ -84,7 +84,7 @@ export default function ResultsShowcase() {
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4"
           >
-            Proven Results
+            Client Impact
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
