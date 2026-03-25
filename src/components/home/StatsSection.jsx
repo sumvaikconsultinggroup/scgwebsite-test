@@ -8,10 +8,10 @@ import { useCountUp } from '@/hooks/useCountUp';
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { value: 120, suffix: '+', label: 'Brands Built', color: '#00f0ff' },
-  { value: 300, suffix: '+', label: 'Campaigns Delivered', color: '#8b5cf6' },
-  { value: 85, suffix: 'M+', label: 'Impressions Generated', color: '#ff006e' },
-  { value: 10, suffix: 'K+', label: 'Creator Network', color: '#39ff14' },
+  { value: 120, suffix: '+', label: 'Brands Brought to Life', color: '#00f0ff' },
+  { value: 300, suffix: '+', label: 'Campaigns That Converted', color: '#8b5cf6' },
+  { value: 85, suffix: 'M+', label: 'Impressions That Mattered', color: '#ff006e' },
+  { value: 10, suffix: 'K+', label: 'Creator Relationships', color: '#39ff14' },
 ];
 
 function StatCounter({ stat, inView }) {
@@ -76,7 +76,7 @@ export default function StatsSection() {
           >
             <span className="stroke-text">The Numbers</span>
             <br />
-            <span className="gradient-text">Don't Lie</span>
+            <span className="gradient-text">Behind the Narrative</span>
           </h2>
         </div>
 

@@ -9,7 +9,7 @@ const steps = [
   {
     number: '01',
     title: 'Discovery',
-    description: 'We audit your current brand, social channels, ad accounts, and competitors. No fluff — just a sharp diagnosis of where you are, what is working, and where the gaps are.',
+    description: 'We immerse ourselves in your world — your brand, your audience, your competitors, your ambitions. No assumptions. Just sharp, honest analysis of where you are and where the opportunity lives.',
     color: '#00f0ff',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -109,10 +109,10 @@ export default function ProcessSection() {
         {/* Header */}
         <div className="text-center mb-14">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
-            Our Process
+            How We Work
           </span>
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
-            Our <span className="gradient-text">Process</span>
+            From Brief to <span className="gradient-text">Breakthrough</span>
           </h2>
         </div>
 

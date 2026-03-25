@@ -7,48 +7,48 @@ import Image from 'next/image';
 const projects = [
   {
     title: 'Glow & Co.',
-    category: 'Branding + Social',
-    metric: '₹2.8Cr Revenue',
+    category: 'Brand Rebirth + Digital Growth',
+    metric: '₹2.8Cr in Year One',
     gradient: 'from-pink/30 via-purple/20 to-cyan/10',
     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
     color: '#ff006e',
   },
   {
     title: 'BiteBox',
-    category: 'Influencer + Paid',
-    metric: '85M Impressions',
+    category: 'Organic Virality Engine',
+    metric: '85M People Reached, Zero Ad Spend',
     gradient: 'from-cyan/30 via-neon-green/20 to-purple/10',
     image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80',
     color: '#00f0ff',
   },
   {
     title: 'CodeCraft',
-    category: 'Full-Stack Growth',
-    metric: '47% Lower CAC',
+    category: 'Performance Marketing Overhaul',
+    metric: 'Acquisition Cost Cut in Half',
     gradient: 'from-purple/30 via-pink/20 to-cyan/10',
     image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80',
     color: '#8b5cf6',
   },
   {
     title: 'ThreadCulture',
-    category: 'Brand Overhaul',
-    metric: '340K Followers',
+    category: 'From Invisible to Category Leader',
+    metric: '340K Community in 8 Months',
     gradient: 'from-neon-green/30 via-cyan/20 to-purple/10',
     image: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80',
     color: '#39ff14',
   },
   {
     title: 'MealPrep India',
-    category: 'Social + UGC',
-    metric: '11x ROAS',
+    category: 'Creator-Led Growth Machine',
+    metric: '11x Return on Every Rupee',
     gradient: 'from-pink/30 via-cyan/20 to-neon-green/10',
     image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80',
     color: '#ff006e',
   },
   {
     title: 'LevelUp Academy',
-    category: 'Paid Media + CRO',
-    metric: '₹18 CAC',
+    category: 'Full-Funnel Revenue Engine',
+    metric: '₹18 Per Student Acquired',
     gradient: 'from-purple/30 via-neon-green/20 to-cyan/10',
     image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80',
     color: '#8b5cf6',
@@ -66,10 +66,10 @@ export default function FeaturedWork() {
       {/* Header */}
       <div className="max-w-[90vw] mx-auto px-4 mb-16 flex items-end justify-between relative z-10">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-3">Our Work</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-3">Selected Work</span>
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
-            Real Results,{' '}
-            <span className="gradient-text">Real Brands</span>
+            Stories We've{' '}
+            <span className="gradient-text">Helped Write</span>
           </h2>
         </div>
         <Link

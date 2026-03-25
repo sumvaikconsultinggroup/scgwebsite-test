@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
   {
-    quote: 'We had tried three agencies before Sumvaik. Within the first month, they restructured our entire funnel and our cost-per-lead dropped by 40%. They don\'t just execute — they think.',
+    quote: 'Three agencies in two years, and none of them understood what we needed — until Sumvaik. Within the first month, they didn\'t just optimize our funnel, they reimagined it. Our cost-per-lead dropped 40%, and for the first time, marketing felt like an investment, not an expense.',
     name: 'Rohit Mehta',
     role: 'Founder, Glow & Co.',
     company: 'Glow & Co.',
@@ -16,7 +16,7 @@ const testimonials = [
     bgGradient: 'from-cyan/5 to-transparent',
   },
   {
-    quote: 'They managed 42 outlet pages, created 200+ reels in a single quarter, and got us 85 million impressions without spending a rupee on ads. I still don\'t fully understand how they did it.',
+    quote: 'Eighty-five million impressions. Zero ad spend. When I tell other founders what Sumvaik achieved with organic content alone, they don\'t believe me. Two hundred reels in one quarter, forty-two outlet pages managed simultaneously — and somehow, every piece of content felt personal.',
     name: 'Ananya Sharma',
     role: 'Head of Marketing, BiteBox',
     company: 'BiteBox',
@@ -25,7 +25,7 @@ const testimonials = [
     bgGradient: 'from-purple/5 to-transparent',
   },
   {
-    quote: 'Sumvaik didn\'t just redesign our brand — they repositioned us in the market. Six months later, we are the brand people compare others to. That shift in perception is priceless.',
+    quote: 'Sumvaik didn\'t just redesign our brand — they changed how the market sees us. Six months after the rebrand, competitors started copying our visual language. That\'s when I knew we\'d won. We went from being one of many to being the one others measure themselves against.',
     name: 'Vikram Singh',
     role: 'CEO, ThreadCulture',
     company: 'ThreadCulture',
@@ -34,7 +34,7 @@ const testimonials = [
     bgGradient: 'from-pink/5 to-transparent',
   },
   {
-    quote: 'Their influencer team is genuinely different. They brought us creators who actually used our product, not just people who would post and ghost. Our UGC library went from 0 to 500+ assets.',
+    quote: 'Most agencies treat influencer marketing like a checkbox — find creators, send product, hope for the best. Sumvaik\'s approach is completely different. They found creators who genuinely loved our product, built real relationships with them, and delivered 500+ pieces of content that actually converted. This isn\'t influencer marketing — it\'s community building.',
     name: 'Priya Nair',
     role: 'Brand Manager, MealPrep India',
     company: 'MealPrep India',
@@ -120,10 +120,10 @@ export default function Testimonials() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-3">
-            Testimonials
+            Client Stories
           </span>
           <h2 className="text-4xl md:text-6xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] text-foreground tracking-tight">
-            What Our Clients <span className="gradient-text">Say</span>
+            Brands That <span className="gradient-text">Trust Us</span>
           </h2>
         </div>
 

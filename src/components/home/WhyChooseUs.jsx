@@ -9,8 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 const reasons = [
   {
     number: '01',
-    title: 'Full-Stack\nMarketing',
-    description: 'You don\'t need five vendors. We handle branding, social, influencer, paid media, and content production under one roof. One team, one strategy, no gaps.',
+    title: 'One Vision,\nOne Team',
+    description: 'Most agencies fragment your brand across five vendors. We integrate strategy, design, content, media, and influence under one creative roof. The result: consistency that compounds.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0022 16z" />
@@ -20,12 +20,12 @@ const reasons = [
     ),
     color: '#00f0ff',
     stat: '6+',
-    statLabel: 'Services in-house',
+    statLabel: 'disciplines, one team',
   },
   {
     number: '02',
-    title: 'Obsessed With\nROI',
-    description: 'Pretty content means nothing if it doesn\'t convert. Every campaign we run ties back to revenue. We track cost-per-lead, ROAS, and customer acquisition cost \u2014 not just likes.',
+    title: 'Revenue Is\nthe Religion',
+    description: 'Beautiful work that doesn\'t convert is art, not marketing. Every campaign we build traces back to revenue. We measure what matters \u2014 customer acquisition cost, lifetime value, and return on every rupee spent.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -35,12 +35,12 @@ const reasons = [
     ),
     color: '#8b5cf6',
     stat: '4.2x',
-    statLabel: 'Avg. client ROAS',
+    statLabel: 'average client ROAS',
   },
   {
     number: '03',
-    title: 'Built for\nSpeed',
-    description: 'We don\'t do month-long kickoff phases. Brief on Monday, first draft by Wednesday, live by Friday. Our operating speed is our unfair advantage.',
+    title: 'Velocity as\nAdvantage',
+    description: 'While other agencies are scheduling kickoff meetings, we\'re shipping first drafts. Brief on Monday, creative by Wednesday, live by Friday. Speed isn\'t recklessness \u2014 it\'s preparation meeting opportunity.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
@@ -52,8 +52,8 @@ const reasons = [
   },
   {
     number: '04',
-    title: '10,000+\nCreators',
-    description: 'Our proprietary creator database spans every niche and city in India. Nano to mega, we have relationships \u2014 not just contacts. That is how we get better rates and better content.',
+    title: '10,000+\nReal Voices',
+    description: 'Our creator network spans every niche and city in India. These aren\'t contacts in a spreadsheet \u2014 they\'re relationships built on trust, fair rates, and creative freedom. That\'s why their content converts.',
     icon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
@@ -64,7 +64,7 @@ const reasons = [
     ),
     color: '#39ff14',
     stat: '10K+',
-    statLabel: 'Vetted creators',
+    statLabel: 'creator relationships',
   },
 ];
 
@@ -108,13 +108,12 @@ export default function WhyChooseUs() {
         {/* Header — stacked massive text */}
         <div ref={headingRef} className="mb-14 md:mb-20">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
-            Why Sumvaik
+            The Difference
           </span>
           <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold font-[family-name:var(--font-heading)] leading-[0.85] tracking-tight">
-            <span className="text-foreground">Not Your Typical</span>
+            <span className="text-foreground">Built Different.</span>
             <br />
-            <span className="text-foreground">Agency</span>
-            <span className="gradient-text">.</span>
+            <span className="text-foreground">By Design</span>
           </h2>
         </div>
 
