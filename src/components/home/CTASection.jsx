@@ -146,7 +146,7 @@ export default function CTASection() {
 
         {/* Trust indicator */}
         <p className="mt-8 text-xs text-gray-600 tracking-wide">
-          Trusted by 120+ brands across India and beyond
+          Join 120+ brands who chose to be unforgettable
         </p>
       </div>
     </section>
