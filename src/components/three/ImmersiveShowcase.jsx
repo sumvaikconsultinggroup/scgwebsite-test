@@ -324,14 +324,14 @@ export default function ImmersiveShowcase() {
       <div className="relative z-10 text-center mb-4 px-4">
         <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-cyan border border-cyan/20 rounded-full bg-cyan/5 backdrop-blur-sm mb-6">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
-          Powered by Intelligence
+          The Architecture of Growth
         </span>
         <h2 className="font-[family-name:var(--font-heading)] text-5xl md:text-7xl font-bold tracking-tighter mb-4">
           <span className="gradient-text">Neural</span>{' '}
-          <span className="stroke-text-thick">Architecture</span>
+          <span className="stroke-text-thick">Precision</span>
         </h2>
         <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto tracking-wide">
-          Our AI-driven strategies create interconnected growth networks that amplify your brand across every digital touchpoint.
+          Every strategy we build is an interconnected system — where brand identity feeds content, content drives engagement, engagement generates data, and data refines everything. This is growth by design, not by accident.
         </p>
       </div>
 
@@ -364,9 +364,9 @@ export default function ImmersiveShowcase() {
       {/* Bottom stats */}
       <div className="relative z-10 max-w-4xl mx-auto grid grid-cols-3 gap-8 px-4 -mt-16">
         {[
-          { value: '10x', label: 'Growth Multiplier' },
-          { value: '360°', label: 'Brand Coverage' },
-          { value: '∞', label: 'Possibilities' },
+          { value: '10x', label: 'Growth Velocity' },
+          { value: '360°', label: 'Brand Ecosystem' },
+          { value: '∞', label: 'Compounding Returns' },
         ].map((stat, i) => (
           <div key={i} className="text-center glass rounded-2xl p-6 glass-hover">
             <div className={`text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] ${i === 0 ? 'text-cyan' : i === 1 ? 'text-purple' : 'text-pink'}`}>

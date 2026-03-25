@@ -29,7 +29,7 @@ export default function AwardsBanner() {
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4"
           >
-            Press & Features
+            Recognition
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -39,7 +39,7 @@ export default function AwardsBanner() {
             className="text-4xl md:text-6xl lg:text-7xl font-bold font-[family-name:var(--font-heading)] tracking-tight"
           >
             <span className="stroke-text">Featured</span>{' '}
-            <span className="gradient-text">In</span>
+            <span className="gradient-text">& Recognized</span>
           </motion.h2>
         </div>
 

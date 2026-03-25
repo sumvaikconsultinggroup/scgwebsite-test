@@ -8,9 +8,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const deliverables = [
   {
-    title: 'Brand Reels',
+    title: 'Brand Films',
     count: '2,400+',
-    description: 'Scroll-stopping short-form content',
+    description: 'Cinematic stories that capture your brand\'s essence in seconds',
     gradient: 'from-cyan/20 via-cyan/5 to-transparent',
     color: '#00f0ff',
     span: 'col-span-2 row-span-2',
@@ -22,9 +22,9 @@ const deliverables = [
     ),
   },
   {
-    title: 'Ad Creatives',
+    title: 'Performance Creatives',
     count: '5,000+',
-    description: 'Thumb-stopping performance creatives',
+    description: 'Thumb-stopping visuals engineered for conversion',
     gradient: 'from-purple/20 via-purple/5 to-transparent',
     color: '#8b5cf6',
     span: 'col-span-1 row-span-1',
@@ -37,9 +37,9 @@ const deliverables = [
     ),
   },
   {
-    title: 'Brand Identities',
+    title: 'Identity Systems',
     count: '120+',
-    description: 'Complete visual systems',
+    description: 'Complete visual languages that scale across every touchpoint',
     gradient: 'from-pink/20 via-pink/5 to-transparent',
     color: '#ff006e',
     span: 'col-span-1 row-span-1',
@@ -52,9 +52,9 @@ const deliverables = [
     ),
   },
   {
-    title: 'Influencer Campaigns',
+    title: 'Creator Partnerships',
     count: '300+',
-    description: 'End-to-end creator collaborations',
+    description: 'Authentic collaborations that audiences actually trust',
     gradient: 'from-neon-green/20 via-neon-green/5 to-transparent',
     color: '#39ff14',
     span: 'col-span-1 row-span-2',
@@ -68,9 +68,9 @@ const deliverables = [
     ),
   },
   {
-    title: 'Performance Ads',
+    title: 'Paid Media Engines',
     count: '₹12Cr+',
-    description: 'Ad spend managed profitably',
+    description: 'Data-driven campaigns that turn spend into revenue',
     gradient: 'from-cyan/15 via-purple/10 to-transparent',
     color: '#00f0ff',
     span: 'col-span-1 row-span-1',
@@ -81,9 +81,9 @@ const deliverables = [
     ),
   },
   {
-    title: 'UGC Library',
+    title: 'Content Libraries',
     count: '8,000+',
-    description: 'Authentic user-generated assets',
+    description: 'Living archives of brand content ready to deploy anywhere',
     gradient: 'from-pink/15 via-cyan/10 to-transparent',
     color: '#ff006e',
     span: 'col-span-1 row-span-1',
@@ -143,7 +143,7 @@ export default function VideoShowreel() {
             viewport={{ once: true }}
             className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4"
           >
-            What We Create
+            What We Craft
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -152,7 +152,7 @@ export default function VideoShowreel() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl lg:text-8xl font-bold font-[family-name:var(--font-heading)] tracking-tight"
           >
-            Our <span className="gradient-text">Output</span>
+            Every Brand Deserves a <span className="gradient-text">Visual Language</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 10 }}

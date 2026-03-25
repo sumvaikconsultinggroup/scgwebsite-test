@@ -8,9 +8,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const transformations = [
   { before: 'Zero Online Presence', after: '85M Organic Impressions', metric: 'QSR Chain', color: '#00f0ff' },
-  { before: '₹38 CAC', after: '₹20 CAC', metric: 'EdTech Startup', color: '#8b5cf6' },
-  { before: 'No Brand Identity', after: 'Category-Defining Brand', metric: 'D2C Fashion', color: '#ff006e' },
-  { before: '800 Followers', after: '340K Followers in 8 Months', metric: 'Fitness Brand', color: '#39ff14' },
+  { before: 'Scattered Brand Identity', after: 'Category-Defining Visual Language', metric: 'EdTech Startup', color: '#8b5cf6' },
+  { before: 'Burning Cash on Ads That Don\'t Convert', after: '4.2x Return on Every Rupee Spent', metric: 'D2C Fashion', color: '#ff006e' },
+  { before: 'Random Influencer Spray-and-Pray', after: '500+ Authentic UGC Assets in 90 Days', metric: 'Fitness Brand', color: '#39ff14' },
 ];
 
 export default function BrandTransform() {
@@ -71,14 +71,14 @@ export default function BrandTransform() {
         {/* Heading */}
         <div ref={headingRef} className="text-center mb-14 opacity-0">
           <span className="text-xs uppercase tracking-[0.3em] text-gray-500 block mb-4">
-            Before & After
+            Transformations
           </span>
           <h2 className="text-5xl md:text-7xl lg:text-9xl font-bold font-[family-name:var(--font-heading)] leading-[0.85] tracking-tight">
-            <span className="text-gray-600">From</span>{' '}
-            <span className="text-foreground">Zero</span>
+            <span className="text-gray-600">Before</span>{' '}
+            <span className="text-foreground">Us</span>
             <br />
-            <span className="text-gray-600">to</span>{' '}
-            <span className="gradient-text">Hero</span>
+            <span className="text-gray-600">vs.</span>{' '}
+            <span className="gradient-text">After Us</span>
           </h2>
         </div>
 

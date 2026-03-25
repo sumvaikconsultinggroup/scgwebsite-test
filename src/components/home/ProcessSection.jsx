@@ -21,7 +21,7 @@ const steps = [
   {
     number: '02',
     title: 'Strategy',
-    description: 'Based on the audit, we build a 90-day roadmap. Every deliverable, every deadline, every KPI defined upfront. You know exactly what you are paying for before we start.',
+    description: 'From the audit emerges a 90-day roadmap. Every deliverable, every milestone, every metric defined before we begin. No surprises, no scope creep — just clarity.',
     color: '#8b5cf6',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +33,7 @@ const steps = [
   {
     number: '03',
     title: 'Execute',
-    description: 'Our in-house team of designers, copywriters, video editors, and media buyers gets to work. You get a dedicated account manager and weekly performance updates.',
+    description: 'Our in-house team of designers, writers, filmmakers, and media strategists brings the plan to life. You get a dedicated partner and weekly performance updates.',
     color: '#ff006e',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -44,7 +44,7 @@ const steps = [
   {
     number: '04',
     title: 'Scale',
-    description: 'Once we find what converts, we double down. We scale budgets on winning creatives, expand to new channels, and continuously test new angles to compound your growth.',
+    description: 'Once we find what converts, we amplify. We scale budgets on winning creative, expand to new channels, and continuously test new angles to compound your growth.',
     color: '#39ff14',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
