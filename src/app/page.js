@@ -1,3 +1,5 @@
+'use client';
+import dynamic from 'next/dynamic';
 import Hero from '@/components/home/Hero';
 import ClientLogos from '@/components/home/ClientLogos';
 import Marquee from '@/components/ui/Marquee';
@@ -15,6 +17,8 @@ import Testimonials from '@/components/home/Testimonials';
 import ProcessSection from '@/components/home/ProcessSection';
 import CTASection from '@/components/home/CTASection';
 
+const ImmersiveShowcase = dynamic(() => import('@/components/three/ImmersiveShowcase'), { ssr: false });
+
 export default function Home() {
   return (
     <>
@@ -22,6 +26,7 @@ export default function Home() {
       <ClientLogos />
       <Marquee variant="gradient" />
       <TextRevealSection />
+      <ImmersiveShowcase />
       <ServicesPreview />
       <Marquee variant="outline" text="RESULTS • IMPACT • GROWTH • INNOVATION • STRATEGY • CREATIVE • " speed={25} />
       <VideoShowreel />

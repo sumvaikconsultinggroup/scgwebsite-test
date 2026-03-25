@@ -355,3 +355,78 @@ body::before {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* ===== 3D HOLOGRAPHIC EFFECTS ===== */
+.holographic-border {
+  position: relative;
+}
+
+.holographic-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    #00f0ff,
+    #8b5cf6,
+    #ff006e,
+    #39ff14,
+    #00f0ff
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 2px;
+  animation: holoSpin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes holoSpin {
+  to { filter: hue-rotate(360deg); }
+}
+
+/* Data stream text effect */
+@keyframes dataStream {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.data-stream-text {
+  background: linear-gradient(
+    90deg,
+    #00f0ff 0%,
+    #8b5cf6 25%,
+    #ff006e 50%,
+    #39ff14 75%,
+    #00f0ff 100%
+  );
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: dataStream 6s ease-in-out infinite;
+}
+
+/* Holographic shimmer overlay */
+@keyframes holoShimmer {
+  0% { transform: translateX(-100%) rotate(15deg); }
+  100% { transform: translateX(200%) rotate(15deg); }
+}
+
+.holo-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(0, 240, 255, 0.06) 45%,
+    rgba(139, 92, 246, 0.06) 50%,
+    rgba(255, 0, 110, 0.06) 55%,
+    transparent 60%
+  );
+  animation: holoShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
