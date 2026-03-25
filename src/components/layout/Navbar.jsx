@@ -66,6 +66,8 @@ export default function Navbar() {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="relative z-[60] flex items-center gap-3 group"
+              aria-expanded={menuOpen}
+              aria-label="Toggle navigation menu"
               data-cursor-hover
             >
               <span className="text-xs uppercase tracking-[0.2em] text-gray-400 group-hover:text-foreground transition-colors hidden sm:block">

@@ -187,7 +187,7 @@ function NeuralNetwork({ nodeCount = 40 }) {
       </points>
 
       {/* Pulsing signal orbs traveling along connections */}
-      {connections.slice(0, 15).map((conn, i) => (
+      {connections.slice(0, 8).map((conn, i) => (
         <SignalOrb key={i} from={nodes[conn[0]]} to={nodes[conn[1]]} speed={0.5 + i * 0.1} delay={i * 0.3} />
       ))}
     </group>
@@ -341,6 +341,7 @@ export default function ImmersiveShowcase() {
           <Canvas
             camera={{ position: [0, 0, 8], fov: 50 }}
             dpr={[1, 1.5]}
+            performance={{ min: 0.5 }}
             gl={{ antialias: true, alpha: true }}
             style={{ background: 'transparent' }}
           >

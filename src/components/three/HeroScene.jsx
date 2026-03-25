@@ -550,7 +550,7 @@ function Scene() {
       <DataHelix count={120} />
 
       {/* Particle galaxy */}
-      <ParticleGalaxy count={1500} />
+      <ParticleGalaxy count={1000} />
 
       {/* Light beams from center */}
       <LightBeams count={8} />
@@ -571,10 +571,11 @@ function Scene() {
    ================================================================ */
 export default function HeroScene() {
   return (
-    <div className="absolute inset-0 z-0">
+    <div className="absolute inset-0 z-0" role="img" aria-label="Interactive 3D holographic crystal portal visualization">
       <Canvas
         camera={{ position: [0, 0, 8], fov: 55 }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
+        performance={{ min: 0.5 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: 'transparent' }}
       >

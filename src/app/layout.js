@@ -12,6 +12,24 @@ export const metadata = {
   title: "Sumvaik Consulting Group | Futuristic Digital Marketing Agency",
   description: "Empowering brands with cutting-edge branding, social media marketing, and influencer marketing. Generate content calendars and connect with influencers.",
   keywords: "digital marketing, branding, social media marketing, influencer marketing, content calendar, influencer platform",
+  openGraph: {
+    title: "Sumvaik Consulting Group | Futuristic Digital Marketing Agency",
+    description: "Empowering brands with cutting-edge branding, social media marketing, and influencer marketing. Generate content calendars and connect with influencers.",
+    url: "https://www.sumvaik.com",
+    siteName: "Sumvaik Consulting Group",
+    image: "/og-image.png",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sumvaik Consulting Group | Futuristic Digital Marketing Agency",
+    description: "Empowering brands with cutting-edge branding, social media marketing, and influencer marketing. Generate content calendars and connect with influencers.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }) {

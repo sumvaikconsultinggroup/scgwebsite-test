@@ -79,6 +79,7 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="your@email.com"
+                aria-label="Email address for newsletter subscription"
                 className="flex-1 px-4 py-2.5 bg-surface border border-gray-800 rounded-lg text-sm text-foreground placeholder-gray-600 focus:outline-none focus:border-cyan/50 transition-colors"
               />
               <button
